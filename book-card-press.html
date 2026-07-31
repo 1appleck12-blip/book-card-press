@@ -400,25 +400,49 @@ let state = { books: [], settings: { ...DEFAULTS } };
 let memoryOnly = false;
 
 /* ---------- 保存 ---------- */
+/* Claudeの画面内の保存機能をまず試し、使えない・失敗した場合は
+   必ずブラウザのlocalStorageに切り替える。GitHub Pagesなど普通の
+   Webサイトとして開いたときはlocalStorageだけが使われる。
+   両方だめなときだけ memoryOnly（閉じると消える）にする。 */
 async function load(){
-  try{
-    const r = await window.storage.get(KEY);
-    if(r && r.value){
-      const d = JSON.parse(r.value);
-      state.books = Array.isArray(d.books) ? d.books : [];
-      state.settings = { ...DEFAULTS, ...(d.settings||{}) };
-    }
-  }catch(e){
-    // 初回か、保存領域が使えないだけ。どちらでも続行できる。
-    if(typeof window.storage === "undefined") memoryOnly = true;
+  let loaded = false;
+  if(typeof window.storage !== "undefined"){
+    try{
+      const r = await window.storage.get(KEY);
+      if(r && r.value){
+        const d = JSON.parse(r.value);
+        state.books = Array.isArray(d.books) ? d.books : [];
+        state.settings = { ...DEFAULTS, ...(d.settings||{}) };
+      }
+      loaded = true; // 呼び出し自体が成功したので、この経路は使える
+    }catch(e){ /* 使えなかったのでlocalStorageを試す */ }
+  }
+  if(!loaded){
+    try{
+      const raw = localStorage.getItem(KEY);
+      if(raw){
+        const d = JSON.parse(raw);
+        state.books = Array.isArray(d.books) ? d.books : [];
+        state.settings = { ...DEFAULTS, ...(d.settings||{}) };
+      }
+    }catch(e){ memoryOnly = true; }
   }
 }
 let saveTimer = null;
 function save(){
   clearTimeout(saveTimer);
   saveTimer = setTimeout(async ()=>{
-    try{ await window.storage.set(KEY, JSON.stringify(state)); }
-    catch(e){ memoryOnly = true; }
+    let ok = false;
+    if(typeof window.storage !== "undefined"){
+      try{
+        const r = await window.storage.set(KEY, JSON.stringify(state));
+        ok = !!r;
+      }catch(e){ /* 使えなかったのでlocalStorageを試す */ }
+    }
+    if(!ok){
+      try{ localStorage.setItem(KEY, JSON.stringify(state)); ok = true; }
+      catch(e){ memoryOnly = true; }
+    }
   }, 250);
 }
 
