@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>あらすじふせん</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Shippori+Mincho+B1:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Jost:wght@400;500;600&family=Playfair+Display:wght@500;600;700&family=Bebas+Neue&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#18222c;
+  --ink-soft:#5b6874;
+  --paper:#eef0ec;
+  --surface:#ffffff;
+  --rule:#ccd1cb;
+  --fs-body:'Zen Kaku Gothic New',system-ui,sans-serif;
+  --fs-disp:'Zen Kaku Gothic New',system-ui,sans-serif;
+  --fs-lat:'Jost',system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--fs-body);
+  font-size:15px;
+  line-height:1.7;
+  -webkit-text-size-adjust:100%;
+}
+button,input,textarea,select{font-family:inherit;font-size:15px;color:inherit}
+button{cursor:pointer}
+
+/* ---------- header ---------- */
+.bar{
+  display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+  padding:18px 20px 14px;
+  border-bottom:1px solid var(--rule);
+  background:var(--paper);
+  position:sticky;top:0;z-index:20;
+}
+.bar h1{
+  margin:0;font-family:var(--fs-disp);font-weight:700;
+  font-size:20px;letter-spacing:.06em;
+}
+.bar .sub{font-size:12px;color:var(--ink-soft);letter-spacing:.04em}
+.bar .spacer{flex:1}
+
+.btn{
+  border:1px solid var(--ink);background:transparent;color:var(--ink);
+  border-radius:2px;padding:7px 14px;font-size:13px;letter-spacing:.04em;
+  transition:background .15s,color .15s;
+}
+.btn:hover{background:var(--ink);color:var(--paper)}
+.btn.primary{background:var(--ink);color:#fff}
+.btn.primary:hover{background:#000}
+.btn.ghost{border-color:var(--rule);color:var(--ink-soft)}
+.btn.ghost:hover{background:var(--rule);color:var(--ink)}
+.btn.tiny{padding:3px 8px;font-size:12px}
+.btn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+
+/* ---------- layout ---------- */
+.layout{display:grid;grid-template-columns:minmax(340px,420px) 1fr;align-items:start}
+@media (max-width:900px){.layout{grid-template-columns:1fr}}
+
+.panel{
+  border-right:1px solid var(--rule);
+  padding:0 0 120px;
+  min-height:60vh;
+  background:var(--paper);
+}
+@media (max-width:900px){.panel{border-right:0;border-bottom:1px solid var(--rule);padding-bottom:24px}}
+
+.tabs{display:flex;border-bottom:1px solid var(--rule)}
+.tab{
+  flex:1;padding:11px 4px;background:none;border:0;border-bottom:2px solid transparent;
+  font-size:13px;letter-spacing:.04em;color:var(--ink-soft);
+}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--ink);font-weight:700}
+.pane{padding:18px 20px;display:none}
+.pane.on{display:block}
+
+.field{margin-bottom:12px}
+.field label{display:block;font-size:12px;letter-spacing:.08em;color:var(--ink-soft);margin-bottom:4px}
+.field input[type=text],.field textarea,.field select{
+  width:100%;padding:8px 10px;border:1px solid var(--rule);background:var(--surface);
+  border-radius:2px;
+}
+.field input[type=color]{width:100%;height:36px;padding:2px;border:1px solid var(--rule);border-radius:2px;background:var(--surface)}
+.field textarea{resize:vertical;line-height:1.6}
+.field:focus-within label{color:var(--ink)}
+.row{display:flex;gap:10px}
+.row>*{flex:1}
+.row[hidden]{display:none}
+.count{font-size:11px;color:var(--ink-soft);text-align:right;margin-top:2px}
+.count.over{color:var(--ink);font-weight:700;text-decoration:underline}
+.hint{font-size:12px;color:var(--ink-soft);line-height:1.6;margin:0 0 14px}
+
+/* ---------- library ---------- */
+.lib{padding:0 20px}
+.lib h2,.pane h2{
+  font-family:var(--fs-disp);font-size:14px;letter-spacing:.1em;font-weight:700;
+  margin:22px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--rule);
+}
+.item{
+  display:flex;gap:10px;align-items:flex-start;
+  padding:10px 0;border-bottom:1px dotted var(--rule);
+}
+.item.sel{background:var(--surface)}
+.item input[type=checkbox]{margin-top:5px;width:17px;height:17px;accent-color:var(--ink)}
+.item .txt{flex:1;min-width:0}
+.item .t{font-family:var(--fs-lat);font-size:16px;font-weight:600;line-height:1.3}
+.item .s{font-size:11px;color:var(--ink-soft);letter-spacing:.03em}
+.item .acts{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+.slotno{
+  font-family:var(--fs-lat);font-size:12px;color:var(--ink);font-weight:600;
+  min-width:16px;text-align:right;padding-top:4px;
+}
+.empty{color:var(--ink-soft);font-size:13px;padding:18px 0;line-height:1.8}
+
+/* ---------- preview side ---------- */
+.stage{padding:20px;overflow-x:auto}
+.stage-head{
+  display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:12px;
+}
+.stage-head .lab{font-family:var(--fs-disp);font-size:14px;letter-spacing:.1em;font-weight:700}
+.stage-head .meta{font-size:12px;color:var(--ink-soft)}
+.warnbox{
+  border-left:3px solid var(--ink);background:var(--surface);color:var(--ink);
+  padding:8px 12px;font-size:12px;line-height:1.6;margin-bottom:12px;font-weight:700;
+}
+.scaler{transform-origin:top left}
+.sheet{
+  width:210mm;height:297mm;background:#fff;position:relative;
+  box-shadow:0 1px 0 var(--rule),0 8px 30px rgba(24,34,44,.13);
+  margin-bottom:14mm;
+  --fs:7pt;
+}
+.grid{
+  display:grid;height:100%;width:100%;
+  justify-content:center;align-content:center;
+}
+.card{position:relative;overflow:hidden;border-color:var(--card-border,#14181c);background:var(--card-bg,transparent)}
+.card .inner{
+  position:relative;z-index:1;width:100%;height:100%;
+  padding:3.2mm 3.4mm;overflow:hidden;
+  color:var(--card-text,#161b20);
+}
+.card.solid{border-width:.3mm;border-style:solid}
+.card.dash{border-width:.3mm;border-style:dashed}
+.card.none{border:0}
+.eyebrow{
+  font-size:var(--fs);letter-spacing:.02em;color:inherit;opacity:.72;
+  display:flex;gap:.6em;align-items:baseline;line-height:1.3;
+  border-bottom:.2mm solid var(--rule);padding-bottom:.6mm;margin-bottom:1.2mm;
+}
+.eyebrow .vol{white-space:nowrap}
+.eyebrow .ser{font-family:var(--fs-lat);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card h3{
+  margin:0 0 1mm;font-family:var(--fs-lat);font-weight:600;
+  font-size:calc(var(--fs) * 1.55);line-height:1.15;text-align:center;
+  color:inherit;
+}
+.card h3 .ja{display:block;font-family:var(--fs-disp);font-size:var(--fs);
+  font-weight:500;margin-top:.6mm;letter-spacing:.02em}
+.lbl{
+  font-size:var(--fs);font-weight:700;color:inherit;opacity:.85;
+  letter-spacing:.1em;margin-bottom:.4mm;
+}
+.syn{
+  margin:0 0 1mm;font-size:var(--fs);line-height:1.52;text-align:justify;color:inherit;
+}
+.foot{margin-top:1.2mm;border-top:.2mm solid currentColor;opacity:.9;padding-top:.8mm}
+.foot div{font-size:var(--fs);line-height:1.45;color:inherit;opacity:.85}
+.foot .cred{font-style:italic}
+.card.bad{outline:.6mm dashed var(--ink);outline-offset:-.6mm}
+.sheetfoot{
+  position:absolute;left:0;right:0;bottom:6mm;text-align:center;
+  font-size:6.5pt;color:#98a09a;letter-spacing:.08em;
+}
+
+/* ---------- dialogs / misc ---------- */
+.stickybar{
+  position:fixed;left:0;right:0;bottom:0;z-index:30;
+  display:flex;gap:10px;justify-content:center;
+  padding:10px 14px;background:rgba(238,240,236,.95);
+  border-top:1px solid var(--rule);backdrop-filter:blur(6px);
+}
+@media (min-width:901px){.stickybar{display:none}}
+.toast{
+  position:fixed;left:50%;bottom:76px;transform:translateX(-50%);
+  background:var(--ink);color:var(--paper);padding:9px 18px;border-radius:2px;
+  font-size:13px;z-index:50;opacity:0;pointer-events:none;transition:opacity .25s;
+}
+.toast.on{opacity:1}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ---------- print ---------- */
+@page{size:A4;margin:0}
+@media print{
+  body{background:#fff}
+  .no-print{display:none!important}
+  .layout{display:block}
+  .stage{padding:0;overflow:visible}
+  .scaler{transform:none!important}
+  .sheet{
+    box-shadow:none;margin:0;
+    page-break-after:always;break-after:page;
+  }
+  .sheet:last-child{page-break-after:auto;break-after:auto}
+  .card.bad{outline:0}
+}
+</style>
+</head>
+<body>
+
+<header class="bar no-print">
+  <h1>あらすじふせん</h1>
+  <span class="sub">A4に6枚／71mm角／付箋に貼る前提</span>
+  <span class="spacer"></span>
+  <button class="btn ghost" id="sampleBtn">見本を6冊入れる</button>
+  <button class="btn ghost" id="exportBtn">書き出し</button>
+  <button class="btn ghost" id="importBtn">読み込み</button>
+  <input type="file" id="importFile" accept="application/json" hidden>
+  <button class="btn primary" id="printBtn">印刷する</button>
+</header>
+
+<div class="layout">
+  <!-- ============ 左：入力 ============ -->
+  <section class="panel no-print">
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" aria-selected="true" data-pane="p-add">1冊ずつ入れる</button>
+      <button class="tab" role="tab" aria-selected="false" data-pane="p-paste">まとめて貼る</button>
+      <button class="tab" role="tab" aria-selected="false" data-pane="p-set">用紙の設定</button>
+    </div>
+
+    <!-- 1冊ずつ -->
+    <div class="pane on" id="p-add">
+      <div class="field">
+        <label for="f-series">シリーズ名（なければ空欄）</label>
+        <input type="text" id="f-series" placeholder="The Atlas trilogy">
+      </div>
+      <div class="field">
+        <label for="f-vol">巻の表記</label>
+        <input type="text" id="f-vol" placeholder="本編全3巻・第2巻">
+      </div>
+      <div class="field">
+        <label for="f-title">タイトル（原題）</label>
+        <input type="text" id="f-title" placeholder="The Atlas Paradox">
+      </div>
+      <div class="field">
+        <label for="f-titleja">邦題・副題（任意）</label>
+        <input type="text" id="f-titleja" placeholder="">
+      </div>
+      <div class="field">
+        <label for="f-syn">あらすじ</label>
+        <textarea id="f-syn" rows="6"></textarea>
+        <div class="count" id="synCount">0字</div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="f-author">作者</label>
+          <input type="text" id="f-author" placeholder="Olivie Blake">
+        </div>
+        <div class="field">
+          <label for="f-nat">国籍</label>
+          <input type="text" id="f-nat" placeholder="アメリカ">
+        </div>
+      </div>
+      <div class="field">
+        <label for="f-cred">実績（受賞・ベストセラーなど）</label>
+        <input type="text" id="f-cred" placeholder="NYTベストセラー『The Atlas Six』に続く三部作">
+      </div>
+      <div class="row">
+        <button class="btn primary" id="saveBook">この本を登録</button>
+        <button class="btn ghost" id="clearForm">入力を消す</button>
+      </div>
+      <input type="hidden" id="editId">
+    </div>
+
+    <!-- まとめて貼る -->
+    <div class="pane" id="p-paste">
+      <p class="hint">
+        私（Claude）に本の情報をまとめてもらうときは、まず「依頼文をコピー」を押して、そのままチャットに貼ってください。
+        返ってきた文章をこの欄に貼って「読み取って追加」で、何冊でも一度に入ります。
+      </p>
+      <button class="btn ghost" id="copyPrompt" style="margin-bottom:12px">依頼文をコピー</button>
+      <div class="field">
+        <label for="pasteBox">受け取った文章を貼る</label>
+        <textarea id="pasteBox" rows="12" placeholder="シリーズ: …&#10;巻: …&#10;タイトル: …&#10;あらすじ: …&#10;作者: …&#10;国籍: …&#10;実績: …&#10;---&#10;（2冊目）"></textarea>
+      </div>
+      <button class="btn primary" id="parseBtn">読み取って追加</button>
+    </div>
+
+    <!-- 設定 -->
+    <div class="pane" id="p-set">
+      <div class="row">
+        <div class="field"><label for="s-w">枠の横幅 mm</label><input type="text" id="s-w" inputmode="decimal"></div>
+        <div class="field"><label for="s-h">枠の高さ mm</label><input type="text" id="s-h" inputmode="decimal"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="s-cols">横に並べる数</label><input type="text" id="s-cols" inputmode="numeric"></div>
+        <div class="field"><label for="s-rows">縦に並べる数</label><input type="text" id="s-rows" inputmode="numeric"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="s-gx">枠の左右の間隔 mm</label><input type="text" id="s-gx" inputmode="decimal"></div>
+        <div class="field"><label for="s-gy">枠の上下の間隔 mm</label><input type="text" id="s-gy" inputmode="decimal"></div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="s-fs">文字の大きさ</label>
+          <select id="s-fs">
+            <option value="auto">自動（文字量に合わせて目一杯に・既定）</option>
+            <option value="6">固定：小さい 6pt</option>
+            <option value="7">固定：ふつう 7pt</option>
+            <option value="8">固定：大きい 8pt</option>
+            <option value="9">固定：とても大きい 9pt</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="s-border">切り取り線</label>
+          <select id="s-border">
+            <option value="solid">実線</option>
+            <option value="dash">破線</option>
+            <option value="none">なし</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="s-font">字体（既定はフラット・ゴシック）</label>
+        <select id="s-font">
+          <option value="flat">フラット・ゴシック（既定）</option>
+          <option value="elegant">上品セリフ（英字タイトル映え）</option>
+          <option value="condensed">モダン・コンデンス（英字タイトル映え）</option>
+          <option value="pop">ポップ・サンセリフ（英字タイトル映え）</option>
+          <option value="classic">クラシック文芸（和文明朝×英字セリフ）</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label><input type="checkbox" id="s-coloron"> 色を使う（既定はオフ＝黒枠・白地・黒字）</label>
+      </div>
+      <div id="colorFields" hidden>
+        <div class="row">
+          <div class="field"><label for="s-textcolor">文字の色</label><input type="color" id="s-textcolor"></div>
+          <div class="field"><label for="s-bordercolor">枠の色</label><input type="color" id="s-bordercolor"></div>
+        </div>
+        <div class="field" style="max-width:calc(50% - 5px)">
+          <label for="s-bg">背景全面の色</label>
+          <input type="color" id="s-bg">
+        </div>
+      </div>
+      <p class="hint">
+        印刷するときは <strong>A4／倍率100％（実際のサイズ）／余白なし</strong> にしてください。
+        「用紙に合わせる」になっていると寸法がずれます。
+      </p>
+      <button class="btn ghost" id="resetSet">最初の設定に戻す</button>
+    </div>
+
+    <!-- 蔵書一覧 -->
+    <div class="lib">
+      <h2>登録した本（<span id="libCount">0</span>冊）</h2>
+      <div id="libList"></div>
+    </div>
+  </section>
+
+  <!-- ============ 右：刷り上がり ============ -->
+  <section class="stage" id="stage">
+    <div class="stage-head no-print">
+      <span class="lab">刷り上がり</span>
+      <span class="meta" id="stageMeta"></span>
+    </div>
+    <div id="warnSlot"></div>
+    <div class="scaler" id="scaler"></div>
+  </section>
+</div>
+
+<div class="stickybar no-print">
+  <button class="btn ghost" id="printBtn2">印刷する</button>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+
+const KEY = "bookcards:v2";
+const DEFAULTS = {
+  w:71, h:71, cols:2, rows:3, gx:14, gy:10, fs:"auto", border:"solid",
+  font:"flat", colorOn:false, textColor:"#161b20", borderColor:"#14181c", bgColor:"#ffffff"
+};
+const FONT_PRESETS = {
+  flat:      { disp:"'Zen Kaku Gothic New',system-ui,sans-serif", lat:"'Jost',system-ui,sans-serif" },
+  elegant:   { disp:"'Zen Kaku Gothic New',system-ui,sans-serif", lat:"'Playfair Display',Georgia,serif" },
+  condensed: { disp:"'Zen Kaku Gothic New',system-ui,sans-serif", lat:"'Bebas Neue',system-ui,sans-serif" },
+  pop:       { disp:"'Zen Kaku Gothic New',system-ui,sans-serif", lat:"'Poppins',system-ui,sans-serif" },
+  classic:   { disp:"'Shippori Mincho B1',serif", lat:"'EB Garamond',Georgia,serif" }
+};
+let state = { books: [], settings: { ...DEFAULTS } };
+let memoryOnly = false;
+
+/* ---------- 保存 ---------- */
+async function load(){
+  try{
+    const r = await window.storage.get(KEY);
+    if(r && r.value){
+      const d = JSON.parse(r.value);
+      state.books = Array.isArray(d.books) ? d.books : [];
+      state.settings = { ...DEFAULTS, ...(d.settings||{}) };
+    }
+  }catch(e){
+    // 初回か、保存領域が使えないだけ。どちらでも続行できる。
+    if(typeof window.storage === "undefined") memoryOnly = true;
+  }
+}
+let saveTimer = null;
+function save(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(async ()=>{
+    try{ await window.storage.set(KEY, JSON.stringify(state)); }
+    catch(e){ memoryOnly = true; }
+  }, 250);
+}
+
+/* ---------- 小道具 ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s==null?"":s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const num = (v,d) => { const n = parseFloat(v); return isFinite(n) && n>0 ? n : d; };
+function toast(msg){
+  const t = $("#toast"); t.textContent = msg; t.classList.add("on");
+  setTimeout(()=>t.classList.remove("on"), 2200);
+}
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+
+/* ---------- タブ ---------- */
+document.querySelectorAll(".tab").forEach(tab=>{
+  tab.addEventListener("click", ()=>{
+    document.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-selected", String(t===tab)));
+    document.querySelectorAll(".pane").forEach(p=>p.classList.toggle("on", p.id===tab.dataset.pane));
+  });
+});
+
+/* ---------- 入力フォーム ---------- */
+const F = {
+  series:"#f-series", vol:"#f-vol", title:"#f-title", titleja:"#f-titleja",
+  syn:"#f-syn", author:"#f-author", nat:"#f-nat", cred:"#f-cred"
+};
+function readForm(){
+  const o = {};
+  for(const k in F) o[k] = $(F[k]).value.trim();
+  return o;
+}
+function fillForm(b){
+  for(const k in F) $(F[k]).value = b && b[k] ? b[k] : "";
+  $("#editId").value = b ? b.id : "";
+  $("#saveBook").textContent = b ? "この本を更新" : "この本を登録";
+  updateCount();
+}
+function updateCount(){
+  const n = $("#f-syn").value.length;
+  $("#synCount").textContent = n + "字（自動で目一杯の大きさに調整されます／目安は1〜2文）";
+}
+$("#f-syn").addEventListener("input", updateCount);
+
+$("#saveBook").addEventListener("click", ()=>{
+  const o = readForm();
+  if(!o.title){ toast("タイトルを入れてください"); $("#f-title").focus(); return; }
+  const id = $("#editId").value;
+  if(id){
+    const b = state.books.find(x=>x.id===id);
+    if(b) Object.assign(b, o);
+    toast("更新しました");
+  }else{
+    state.books.push({ id:uid(), use:true, ...o });
+    toast("登録しました");
+  }
+  fillForm(null); save(); render();
+});
+$("#clearForm").addEventListener("click", ()=>fillForm(null));
+
+/* ---------- まとめて貼る ---------- */
+const PROMPT = `次の本のカード用データを、下の形式そのままで出してください。説明や前置きは書かないでください。
+
+シリーズ: （シリーズ名。単独作なら空欄）
+巻: （例：本編全3巻・第2巻。単独作なら空欄）
+タイトル: （原題）
+邦題: （邦訳があれば。なければ空欄）
+あらすじ: （日本語で、改行なしの1段落。ネタバレは結末の直前まで）
+作者: （原語表記）
+国籍: （日本語で。例：アメリカ）
+実績: （受賞歴やベストセラー実績。なければ空欄）
+
+2冊目からは、あいだに --- だけの行を入れて続けてください。
+
+対象の本：
+`;
+$("#copyPrompt").addEventListener("click", async ()=>{
+  try{ await navigator.clipboard.writeText(PROMPT); toast("依頼文をコピーしました"); }
+  catch(e){ $("#pasteBox").value = PROMPT; toast("コピーできないので下の欄に出しました"); }
+});
+
+const KEYMAP = {
+  "シリーズ":"series","シリーズ名":"series","series":"series",
+  "巻":"vol","巻数":"vol","巻表記":"vol",
+  "タイトル":"title","原題":"title","title":"title",
+  "邦題":"titleja","副題":"titleja",
+  "あらすじ":"syn","内容":"syn","概要":"syn",
+  "作者":"author","著者":"author","author":"author",
+  "国籍":"nat","作者の国籍":"nat",
+  "実績":"cred","受賞":"cred","受賞歴":"cred"
+};
+function parseBlocks(text){
+  const out = [];
+  text.split(/^\s*[-–—=]{3,}\s*$/m).forEach(block=>{
+    if(!block.trim()) return;
+    const o = {}; let last = null;
+    block.split(/\r?\n/).forEach(line=>{
+      const m = line.match(/^\s*[#*・\-]?\s*([^:：]{1,10})\s*[:：]\s*(.*)$/);
+      if(m && KEYMAP[m[1].trim()]){
+        last = KEYMAP[m[1].trim()];
+        o[last] = m[2].trim();
+      }else if(last && line.trim()){
+        o[last] += (last==="syn" ? "" : " ") + line.trim();
+      }
+    });
+    if(o.title) out.push(o);
+  });
+  return out;
+}
+$("#parseBtn").addEventListener("click", ()=>{
+  const found = parseBlocks($("#pasteBox").value);
+  if(!found.length){ toast("読み取れませんでした。「タイトル: 〜」の行があるか見てください"); return; }
+  found.forEach(o=>state.books.push({ id:uid(), use:true, series:"",vol:"",titleja:"",syn:"",author:"",nat:"",cred:"", ...o }));
+  $("#pasteBox").value = "";
+  save(); render();
+  toast(found.length + "冊を追加しました");
+});
+
+/* ---------- 設定 ---------- */
+const S = { w:"#s-w", h:"#s-h", cols:"#s-cols", rows:"#s-rows", gx:"#s-gx", gy:"#s-gy",
+            fs:"#s-fs", border:"#s-border", font:"#s-font" };
+function settingsToForm(){
+  for(const k in S) $(S[k]).value = state.settings[k];
+  $("#s-coloron").checked = !!state.settings.colorOn;
+  $("#s-textcolor").value = state.settings.textColor;
+  $("#s-bordercolor").value = state.settings.borderColor;
+  $("#s-bg").value = state.settings.bgColor;
+  $("#colorFields").hidden = !state.settings.colorOn;
+  applyFont();
+}
+function applyFont(){
+  const preset = FONT_PRESETS[state.settings.font] || FONT_PRESETS.flat;
+  document.documentElement.style.setProperty("--fs-disp", preset.disp);
+  document.documentElement.style.setProperty("--fs-lat", preset.lat);
+}
+function formToSettings(){
+  const s = state.settings;
+  s.w = num($("#s-w").value, DEFAULTS.w);
+  s.h = num($("#s-h").value, DEFAULTS.h);
+  s.cols = Math.max(1, Math.round(num($("#s-cols").value, DEFAULTS.cols)));
+  s.rows = Math.max(1, Math.round(num($("#s-rows").value, DEFAULTS.rows)));
+  s.gx = num($("#s-gx").value, 0.01) ; if($("#s-gx").value.trim()==="0") s.gx = 0;
+  s.gy = num($("#s-gy").value, 0.01) ; if($("#s-gy").value.trim()==="0") s.gy = 0;
+  s.fs = $("#s-fs").value; // "auto" もしくは pt 数の文字列
+  s.border = $("#s-border").value;
+  s.font = $("#s-font").value;
+  s.colorOn = $("#s-coloron").checked;
+  s.textColor = $("#s-textcolor").value;
+  s.borderColor = $("#s-bordercolor").value;
+  s.bgColor = $("#s-bg").value;
+  $("#colorFields").hidden = !s.colorOn;
+  applyFont();
+  save(); render(); updateCount();
+}
+Object.values(S).forEach(sel=>$(sel).addEventListener("change", formToSettings));
+$("#s-coloron").addEventListener("change", formToSettings);
+["#s-textcolor","#s-bordercolor","#s-bg"].forEach(sel=>$(sel).addEventListener("input", formToSettings));
+$("#resetSet").addEventListener("click", ()=>{
+  state.settings = { ...DEFAULTS };
+  settingsToForm(); applyFont(); save(); render(); updateCount();
+  toast("設定を戻しました");
+});
+
+/* ---------- 一覧 ---------- */
+function renderLib(){
+  const list = $("#libList");
+  $("#libCount").textContent = state.books.length;
+  if(!state.books.length){
+    list.innerHTML = '<p class="empty">まだ1冊も入っていません。<br>左上の「1冊ずつ入れる」か「まとめて貼る」から始めてください。</p>';
+    return;
+  }
+  let slot = 0;
+  list.innerHTML = state.books.map((b,i)=>{
+    const n = b.use ? ++slot : 0;
+    return `<div class="item ${b.use?"sel":""}">
+      <input type="checkbox" data-act="use" data-i="${i}" ${b.use?"checked":""} title="印刷する">
+      <span class="slotno">${n?n:"–"}</span>
+      <div class="txt">
+        <div class="t">${esc(b.title)}</div>
+        <div class="s">${esc([b.series,b.vol,b.author].filter(Boolean).join(" ／ ")) || "&nbsp;"}</div>
+      </div>
+      <div class="acts">
+        <button class="btn ghost tiny" data-act="up" data-i="${i}" title="上へ">↑</button>
+        <button class="btn ghost tiny" data-act="down" data-i="${i}" title="下へ">↓</button>
+        <button class="btn ghost tiny" data-act="edit" data-i="${i}">直す</button>
+        <button class="btn ghost tiny" data-act="del" data-i="${i}">消す</button>
+      </div>
+    </div>`;
+  }).join("");
+}
+$("#libList").addEventListener("click", e=>{
+  const el = e.target.closest("[data-act]"); if(!el) return;
+  const i = +el.dataset.i, a = el.dataset.act, bs = state.books;
+  if(a==="use"){ bs[i].use = el.checked; }
+  else if(a==="up" && i>0){ [bs[i-1],bs[i]] = [bs[i],bs[i-1]]; }
+  else if(a==="down" && i<bs.length-1){ [bs[i+1],bs[i]] = [bs[i],bs[i+1]]; }
+  else if(a==="edit"){
+    fillForm(bs[i]);
+    document.querySelector('.tab[data-pane="p-add"]').click();
+    window.scrollTo({top:0,behavior:"smooth"});
+    return;
+  }
+  else if(a==="del"){
+    if(!confirm(`「${bs[i].title}」を消します。よろしいですか？`)) return;
+    bs.splice(i,1);
+  }
+  save(); render();
+});
+
+/* ---------- 刷り上がり ---------- */
+function cardHTML(b, s){
+  const eyebrow = (b.series || b.vol)
+    ? `<div class="eyebrow"><span class="ser">${esc(b.series)}</span>${b.vol?`<span class="vol">${esc(b.vol)}</span>`:""}</div>` : "";
+  const who = [b.author, b.nat ? `（${b.nat}）` : ""].filter(Boolean).join("");
+  const foot = (who || b.cred) ? `<div class="foot">
+      ${who?`<div>作者・国籍：${esc(b.author)}${b.nat?`（${esc(b.nat)}）`:""}</div>`:""}
+      ${b.cred?`<div class="cred">実績：${esc(b.cred)}</div>`:""}
+    </div>` : "";
+  return `<div class="card ${s.border}" style="width:${s.w}mm;height:${s.h}mm">
+    <div class="inner">
+      ${eyebrow}
+      <h3>${esc(b.title)}${b.titleja?`<span class="ja">${esc(b.titleja)}</span>`:""}</h3>
+      ${b.syn?`<div class="lbl">あらすじ</div><p class="syn">${esc(b.syn)}</p>`:`<p class="syn"></p>`}
+      ${foot}
+    </div>
+  </div>`;
+}
+function render(){
+  renderLib();
+  const s = state.settings;
+  const per = s.cols * s.rows;
+  const picked = state.books.filter(b=>b.use);
+  const pages = Math.max(1, Math.ceil(picked.length / per));
+  const scaler = $("#scaler");
+  const isAuto = s.fs === "auto";
+  const baseFs = isAuto ? 7 : parseFloat(s.fs);
+
+  let html = "";
+  const border = s.colorOn ? s.borderColor : "#14181c";
+  const text = s.colorOn ? s.textColor : "#161b20";
+  const bg = s.colorOn ? s.bgColor : "transparent";
+  for(let p=0; p<pages; p++){
+    const slice = picked.slice(p*per, (p+1)*per);
+    html += `<div class="sheet" style="--fs:${baseFs}pt;--card-border:${border};--card-text:${text};--card-bg:${bg}">
+      <div class="grid" style="grid-template-columns:repeat(${s.cols},${s.w}mm);column-gap:${s.gx}mm;row-gap:${s.gy}mm">
+        ${slice.map(b=>cardHTML(b,s)).join("")}
+      </div>
+      <div class="sheetfoot">印刷設定：A4／実際のサイズ 100%　枠：${s.w}mm × ${s.h}mm</div>
+    </div>`;
+  }
+  scaler.innerHTML = html;
+
+  $("#stageMeta").textContent = `${picked.length}枚 ／ A4 ${pages}ページ ／ 1ページ ${s.cols}列 × ${s.rows}段`;
+  fit();
+  requestAnimationFrame(()=>{
+    if(isAuto) autoFitCards();
+    checkOverflow();
+  });
+}
+
+function autoFitCards(){
+  document.querySelectorAll("#scaler .card").forEach(card=>{
+    const inner = card.querySelector(".inner");
+    let lo = 5, hi = 13, best = lo;
+    for(let i=0;i<7;i++){
+      const mid = (lo+hi)/2;
+      card.style.setProperty("--fs", mid.toFixed(2)+"pt");
+      const fits = inner.scrollHeight <= inner.clientHeight + 0.5;
+      if(fits){ best = mid; lo = mid; } else { hi = mid; }
+    }
+    card.style.setProperty("--fs", best.toFixed(2)+"pt");
+  });
+}
+
+function fit(){
+  const stage = $("#stage");
+  const avail = stage.clientWidth - 40;
+  const sheetPx = 210 * (96/25.4);
+  const k = Math.min(1, avail / sheetPx);
+  const sc = $("#scaler");
+  sc.style.transform = `scale(${k})`;
+  const sheets = sc.querySelectorAll(".sheet").length;
+  sc.style.height = (297 * (96/25.4) + 14*(96/25.4)) * sheets * k + "px";
+}
+window.addEventListener("resize", fit);
+
+function checkOverflow(){
+  const bad = [];
+  document.querySelectorAll("#scaler .card").forEach(card=>{
+    const inner = card.querySelector(".inner");
+    const over = inner.scrollHeight > inner.clientHeight + 1;
+    card.classList.toggle("bad", over);
+    if(over){
+      const t = card.querySelector("h3");
+      bad.push(t ? t.childNodes[0].textContent : "無題");
+    }
+  });
+  const slot = $("#warnSlot");
+  slot.innerHTML = bad.length
+    ? `<div class="warnbox no-print">文字がはみ出しています：${esc(bad.join("／"))}<br>
+       あらすじを短くするか、「用紙の設定」で本文を小さくしてください。</div>`
+    : "";
+}
+
+/* ---------- 印刷・入出力 ---------- */
+function doPrint(){ window.print(); }
+$("#printBtn").addEventListener("click", doPrint);
+$("#printBtn2").addEventListener("click", doPrint);
+
+$("#exportBtn").addEventListener("click", ()=>{
+  const blob = new Blob([JSON.stringify(state,null,2)], {type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "あらすじカード.json";
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
+  toast("書き出しました");
+});
+const SAMPLE_BOOKS = [
+  { series:"The Glass Orchard", vol:"本編全2巻・第1巻", title:"The Glass Orchard", titleja:"硝子の果樹園",
+    syn:"火事で果樹園を失った庭師ノラは、燃え跡から一本だけ育つガラスの木を見つける。実をつけるたび、村の誰かの記憶が一つ消えていくことに気づいた彼女は、木を切るか育て続けるかの選択を迫られる。",
+    author:"Isla Vance", nat:"イギリス", cred:"デビュー作にして英国幻想文学賞候補" },
+  { series:"", vol:"", title:"Nine Winters in Reykjavik", titleja:"レイキャビクの九つの冬",
+    syn:"漁師の父を亡くした少年アルンは、毎年同じ日に届く差出人不明の手紙を頼りに、九年かけて父の過去をたどる。手紙の主が誰なのか、最後の一通で明かされる静かな家族小説。",
+    author:"Björn Eiríksson", nat:"アイスランド", cred:"現地紙で年間ベストブック選出" },
+  { series:"The Cartographer's Daughters", vol:"全3巻・第2巻", title:"The Salt Meridian", titleja:"塩の子午線",
+    syn:"地図製作者の姉妹は、父が遺した未完成の海図を完成させるため、それぞれ別の航路で同じ島を目指す。二人の描く地図が食い違うたび、姉妹の間の古い確執も浮かび上がる。",
+    author:"Rosalind Ferro", nat:"イタリア", cred:"シリーズ第1巻が15か国語に翻訳" },
+  { series:"", vol:"", title:"The Last Bookbinder of Prague", titleja:"プラハ最後の製本師",
+    syn:"戦後、焼け残った本を集めて製本し直す老職人のもとに、身元不明の少女が弟子入りする。少女が持ち込む本にはすべて同じページが破り取られていた。",
+    author:"Klára Nováková", nat:"チェコ", cred:"" },
+  { series:"Salt and Starlight", vol:"本編全2巻・第2巻", title:"Starlight, Withheld", titleja:"隠された星明かり",
+    syn:"灯台守を辞めた元船長が、消えた恋人を探して最後の航海に出る完結編。星を読む技術だけを頼りに進む海で、彼が本当に探していたものが少しずつ形を変えていく。",
+    author:"Maren Solberg", nat:"ノルウェー", cred:"北欧文学賞最終候補" },
+  { series:"", vol:"", title:"The Quiet Hour", titleja:"静かな時間",
+    syn:"図書館の閉館後、一時間だけ本と話せる司書見習いの物語。ある晩、誰にも借りられたことのない一冊の本が、彼女に助けを求めてくる。",
+    author:"Ingrid Aas", nat:"ノルウェー", cred:"" }
+];
+$("#sampleBtn").addEventListener("click", ()=>{
+  if(state.books.length && !confirm("いま登録している本はそのままに、見本6冊を追加します。よろしいですか？")) return;
+  SAMPLE_BOOKS.forEach(o=>state.books.push({ id:uid(), use:true, ...o }));
+  save(); render(); updateCount();
+  toast("見本6冊を追加しました");
+});
+$("#importBtn").addEventListener("click", ()=>$("#importFile").click());
+$("#importFile").addEventListener("change", e=>{
+  const f = e.target.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = ()=>{
+    try{
+      const d = JSON.parse(r.result);
+      if(!Array.isArray(d.books)) throw new Error("形式が違います");
+      state.books = d.books.map(b=>({ id:b.id||uid(), use:b.use!==false, ...b }));
+      state.settings = { ...DEFAULTS, ...(d.settings||{}) };
+      settingsToForm(); save(); render(); updateCount();
+      toast(state.books.length + "冊を読み込みました");
+    }catch(err){ toast("読み込めませんでした：" + err.message); }
+  };
+  r.readAsText(f);
+  e.target.value = "";
+});
+
+/* ---------- 起動 ---------- */
+(async ()=>{
+  await load();
+  settingsToForm();
+  render();
+  updateCount();
+  if(memoryOnly) toast("この画面では保存が効きません。書き出しでバックアップしてください");
+  // 字体（Webフォント）の読み込みが完了してから、自動文字サイズを計算し直す。
+  // 先に仮のフォントで計算してしまうと、本物のフォントに差し替わった瞬間に
+  // 行の高さがずれて文字が重なって見えることがあるため。
+  if(document.fonts && document.fonts.ready){
+    document.fonts.ready.then(()=>render());
+  }
+})();
+</script>
+</body>
+</html>
