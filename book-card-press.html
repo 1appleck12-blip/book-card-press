@@ -163,6 +163,10 @@ button{cursor:pointer}
 }
 .card h3 .ja{display:block;font-family:var(--fs-disp);font-size:var(--fs);
   font-weight:500;margin-top:.6mm;letter-spacing:.02em}
+.jatitle{
+  margin:0 0 1mm;font-family:var(--fs-disp);font-weight:600;
+  font-size:calc(var(--fs) * 1.35);line-height:1.2;text-align:center;color:inherit;
+}
 .lbl{
   font-size:var(--fs);font-weight:700;color:inherit;opacity:.85;
   letter-spacing:.1em;margin-bottom:.4mm;
@@ -533,27 +537,110 @@ const KEYMAP = {
   "国籍":"nat","作者の国籍":"nat",
   "実績":"cred","受賞":"cred","受賞歴":"cred"
 };
+// syn と cred は「見出しの無い続きの行」をそのまま連結してよい項目（長文が複数行に分かれることがあるため）。
+// それ以外（タイトルや作者など）は1行で完結する項目なので、続く見出しなし行は実績（cred）へ流す。
+const CONTINUABLE = new Set(["syn", "cred"]);
+// 行頭の絵文字・記号（📅🏆🎬など）を見出し判定の前に取り除く
+const EMOJI_STRIP_RE = /^[\s#*・\-]*[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2190}-\u{21FF}\u{2B00}-\u{2BFF}\uFE0F]*\s*/u;
+
 function parseBlocks(text){
   const out = [];
-  text.split(/^\s*[-–—=]{3,}\s*$/m).forEach(block=>{
-    if(!block.trim()) return;
-    const o = {}; let last = null;
-    block.split(/\r?\n/).forEach(line=>{
-      const m = line.match(/^\s*[#*・\-]?\s*([^:：]{1,10})\s*[:：]\s*(.*)$/);
+  text.split(/^\s*[-–—=]{3,}\s*$/m).forEach(raw=>{
+    if(!raw.trim()) return;
+    const o = {};
+    let last = null;
+    const looseLines = []; // まだどの項目にも属していない、見出しの無い行
+
+    raw.split(/\r?\n/).forEach(rawLine=>{
+      const line = rawLine.trim();
+      if(!line){ last = null; return; } // 空行をまたいだら「続きの行」扱いをやめる
+      const stripped = line.replace(EMOJI_STRIP_RE, "");
+      const m = stripped.match(/^([^:：]{1,12})[:：]\s*(.*)$/);
       if(m && KEYMAP[m[1].trim()]){
         last = KEYMAP[m[1].trim()];
-        o[last] = m[2].trim();
-      }else if(last && line.trim()){
-        o[last] += (last==="syn" ? "" : " ") + line.trim();
+        o[last] = (o[last] ? o[last] + " " : "") + m[2].trim();
+      }else if(last && CONTINUABLE.has(last)){
+        o[last] += " " + line;
+      }else if(last){
+        // タイトルや作者など、続きが来る想定のない項目の次の行は実績にまとめる
+        o.cred = (o.cred ? o.cred + " ／ " : "") + line;
+      }else{
+        looseLines.push(line);
       }
     });
+
+    // タイトルの見出しが無かった場合、見出しなしの最初の行をタイトルとして使う
+    if(!o.title && looseLines.length){
+      o.title = looseLines.shift();
+    }
+    // あらすじの見出しが無かった場合、残った見出しなし行のうち一番長いものをあらすじとして使う
+    if(!o.syn && looseLines.length){
+      let idx = 0;
+      looseLines.forEach((l, i) => { if(l.length > looseLines[idx].length) idx = i; });
+      if(looseLines[idx].length >= 15){
+        o.syn = looseLines[idx];
+        looseLines.splice(idx, 1);
+      }
+    }
+    // それでも余った見出しなし行は実績にまとめて詰め込む
+    if(looseLines.length){
+      o.cred = [o.cred, ...looseLines].filter(Boolean).join(" ／ ");
+    }
+
     if(o.title) out.push(o);
   });
   return out;
 }
+
+// 📅👤🇯🇵🎬🏆📝 の絵文字ラベル形式専用パーサー。
+// タイトルと項目の間に空行があっても、区切り線があってもなくても、絵文字を目印に正しく1冊ずつ分ける。
+const FIELD_EMOJIS = { "📅": "cred", "👤": "author", "🇯🇵": "titleja", "🎬": "cred", "🏆": "cred", "📝": "syn" };
+const stripLabel = (s) => {
+  const m = s.match(/^[^:：]{1,14}[:：]\s*(.*)$/);
+  return (m ? m[1] : s).trim();
+};
+function parseRichBlocks(text){
+  const out = [];
+  let cur = null, inFields = false;
+  const flush = () => { if(cur && cur.title) out.push(cur); cur = null; inFields = false; };
+  text.split(/\r?\n/).forEach(raw=>{
+    const line = raw.trim();
+    if(!line || /^[─\-—=]{3,}$/.test(line)) return;
+    const emoji = Object.keys(FIELD_EMOJIS).find(e => line.startsWith(e));
+    if(emoji){
+      if(!cur) cur = { title:"", series:"", vol:"", titleja:"", syn:"", author:"", nat:"", credParts:[] };
+      const key = FIELD_EMOJIS[emoji];
+      const val = stripLabel(line.slice(emoji.length));
+      if(key === "cred") cur.credParts.push(val);
+      else if(key === "author"){
+        const m = val.match(/^(.*?)[（(]([^）)]+)[）)]\s*$/);
+        if(m){ cur.author = m[1].trim(); cur.nat = m[2].trim(); }
+        else cur.author = val;
+      }else if(key === "titleja"){
+        cur.titleja = (val === "未邦訳") ? "" : val.replace(/[『』]/g,"");
+      }else{
+        cur[key] = (cur[key] ? cur[key] + " " : "") + val;
+      }
+      inFields = true;
+    }else if(!cur || inFields){
+      flush();
+      cur = { title: line, series:"", vol:"", titleja:"", syn:"", author:"", nat:"", credParts:[] };
+      inFields = false;
+    }else{
+      cur.title = (cur.title + " " + line).trim();
+    }
+  });
+  flush();
+  return out.map(b => ({
+    title: b.title, series: b.series, vol: b.vol, titleja: b.titleja, syn: b.syn,
+    author: b.author, nat: b.nat, cred: b.credParts.join(" ／ "),
+  }));
+}
 $("#parseBtn").addEventListener("click", ()=>{
-  const found = parseBlocks($("#pasteBox").value);
-  if(!found.length){ toast("読み取れませんでした。「タイトル: 〜」の行があるか見てください"); return; }
+  const raw = $("#pasteBox").value;
+  const hasEmoji = Object.keys(FIELD_EMOJIS).some(e => raw.includes(e));
+  const found = hasEmoji ? parseRichBlocks(raw) : parseBlocks(raw);
+  if(!found.length){ toast("読み取れませんでした。本の情報が入っているか確認してください"); return; }
   found.forEach(o=>state.books.push({ id:uid(), use:true, series:"",vol:"",titleja:"",syn:"",author:"",nat:"",cred:"", ...o }));
   $("#pasteBox").value = "";
   save(); render();
@@ -655,15 +742,18 @@ $("#libList").addEventListener("click", e=>{
 function cardHTML(b, s){
   const eyebrow = (b.series || b.vol)
     ? `<div class="eyebrow"><span class="ser">${esc(b.series)}</span>${b.vol?`<span class="vol">${esc(b.vol)}</span>`:""}</div>` : "";
+  const jatitle = b.titleja ? `<div class="jatitle">${esc(b.titleja)}</div>` : "";
+  const origtitle = `<div class="origtitle">${esc(b.title)}</div>`;
   const who = [b.author, b.nat ? `（${b.nat}）` : ""].filter(Boolean).join("");
   const foot = (who || b.cred) ? `<div class="foot">
       ${who?`<div>作者・国籍：${esc(b.author)}${b.nat?`（${esc(b.nat)}）`:""}</div>`:""}
       ${b.cred?`<div class="cred">実績：${esc(b.cred)}</div>`:""}
     </div>` : "";
-  return `<div class="card ${s.border}" style="width:${s.w}mm;height:${s.h}mm">
+  return `<div class="card ${s.border}" data-title="${esc(b.title)}" style="width:${s.w}mm;height:${s.h}mm">
     <div class="inner">
       ${eyebrow}
-      <h3>${esc(b.title)}${b.titleja?`<span class="ja">${esc(b.titleja)}</span>`:""}</h3>
+      ${jatitle}
+      ${origtitle}
       ${b.syn?`<div class="lbl">あらすじ</div><p class="syn">${esc(b.syn)}</p>`:`<p class="syn"></p>`}
       ${foot}
     </div>
@@ -705,6 +795,9 @@ function render(){
 function autoFitCards(){
   document.querySelectorAll("#scaler .card").forEach(card=>{
     const inner = card.querySelector(".inner");
+    const orig = card.querySelector(".origtitle");
+    // まず原題を隠し、あらすじ・実績など他の内容が目一杯収まる大きさを決める
+    if(orig) orig.style.display = "none";
     let lo = 5, hi = 13, best = lo;
     for(let i=0;i<7;i++){
       const mid = (lo+hi)/2;
@@ -713,6 +806,12 @@ function autoFitCards(){
       if(fits){ best = mid; lo = mid; } else { hi = mid; }
     }
     card.style.setProperty("--fs", best.toFixed(2)+"pt");
+    // そのサイズのまま原題を表示してみて、はみ出さなければ残す。はみ出すなら隠したままにする
+    if(orig){
+      orig.style.display = "";
+      const fitsWithTitle = inner.scrollHeight <= inner.clientHeight + 0.5;
+      if(!fitsWithTitle) orig.style.display = "none";
+    }
   });
 }
 
@@ -735,8 +834,7 @@ function checkOverflow(){
     const over = inner.scrollHeight > inner.clientHeight + 1;
     card.classList.toggle("bad", over);
     if(over){
-      const t = card.querySelector("h3");
-      bad.push(t ? t.childNodes[0].textContent : "無題");
+      bad.push(card.dataset.title || "無題");
     }
   });
   const slot = $("#warnSlot");
