@@ -652,10 +652,69 @@ function parseRichBlocks(text){
     author: b.author, nat: b.nat, cred: b.credParts.join(" ／ "),
   }));
 }
+
+// 「ジャンル」「賞」「ベストセラー」「邦訳」のような見出し＋箇条書き形式に対応するパーサー。
+// タイトルは、日本語を含まない短い行（英語の書名）を目印に判定する。
+const NOTES_SECTION_MAP = {
+  "あらすじ": "syn", "ジャンル": "genre", "賞": "cred", "受賞": "cred",
+  "ベストセラー": "cred", "映画化": "cred", "邦訳": "trans",
+  "知名度": "cred", "英語レベル": "cred",
+};
+const JP_CHAR_RE = /[\u3040-\u30FF\u4E00-\u9FFF]/;
+const NOTES_BULLET_RE = /^[\*•\-⭐★☆]+\s*/;
+const NOTES_EXCLUDE_RE = /^特に|^なし$|^大きな.*(受賞歴はありません|受賞していない)/;
+function looksLikeEnglishTitle(line){
+  if(JP_CHAR_RE.test(line)) return false;
+  if(NOTES_BULLET_RE.test(line)) return false;
+  if(!line.length || line.length > 90) return false;
+  return true;
+}
+function parseNotesBlocks(text){
+  const out = [];
+  let cur = null, section = null;
+  const flush = () => {
+    if(cur && cur.title){
+      const genreText = cur.genre.length ? cur.genre.join("・") + "。" : "";
+      out.push({
+        title: cur.title, titleja: cur.titleja,
+        syn: (genreText + cur.synParts.join("")).trim(),
+        cred: cur.credParts.filter(Boolean).join(" ／ "),
+      });
+    }
+    cur = null; section = null;
+  };
+  text.split(/\r?\n/).forEach(rawLine=>{
+    const line = rawLine.trim();
+    if(!line) return;
+    if(/^⸻+$/.test(line) || /^[─\-—=]{3,}$/.test(line)) return;
+    if(NOTES_SECTION_MAP[line]){ if(cur) section = NOTES_SECTION_MAP[line]; return; }
+    const bulletMatch = NOTES_BULLET_RE.test(line);
+    const content = bulletMatch ? line.replace(NOTES_BULLET_RE, "").trim() : line;
+    const cleaned = content.replace(EMOJI_STRIP_RE, "");
+    if(!bulletMatch && looksLikeEnglishTitle(line)){
+      if(cur) flush();
+      cur = { title: line, titleja:"", genre:[], synParts:[], credParts:[] };
+      section = null;
+      return;
+    }
+    if(!cur) return;
+    if(section === "syn" || section === null){ if(cleaned) cur.synParts.push(cleaned); }
+    else if(section === "genre"){ if(cleaned) cur.genre.push(cleaned); }
+    else if(section === "cred"){ if(cleaned && !NOTES_EXCLUDE_RE.test(cleaned)) cur.credParts.push(cleaned); }
+    else if(section === "trans"){
+      const m = cleaned.match(/『([^』]+)』(?:[（(]([^）)]+)[）)])?/);
+      if(m){ cur.titleja = m[1]; if(m[2]) cur.credParts.push(`${m[2]}より邦訳刊行`); }
+    }
+  });
+  flush();
+  return out;
+}
+
 $("#parseBtn").addEventListener("click", ()=>{
   const raw = $("#pasteBox").value;
   const hasEmoji = Object.keys(FIELD_EMOJIS).some(e => raw.includes(e));
-  const found = hasEmoji ? parseRichBlocks(raw) : parseBlocks(raw);
+  const hasNotesHeaders = Object.keys(NOTES_SECTION_MAP).some(h => new RegExp("^"+h+"\\s*$", "m").test(raw));
+  const found = hasEmoji ? parseRichBlocks(raw) : (hasNotesHeaders ? parseNotesBlocks(raw) : parseBlocks(raw));
   if(!found.length){ toast("読み取れませんでした。本の情報が入っているか確認してください"); return; }
   found.forEach(o=>state.books.push({ id:uid(), use:true, series:"",vol:"",titleja:"",syn:"",author:"",nat:"",cred:"", ...o }));
   $("#pasteBox").value = "";
