@@ -285,6 +285,10 @@ button{cursor:pointer}
         </div>
       </div>
       <div class="field">
+        <label for="f-year">出版年（任意）</label>
+        <input type="text" id="f-year" inputmode="numeric" placeholder="2022">
+      </div>
+      <div class="field">
         <label for="f-cred">実績（受賞・ベストセラーなど）</label>
         <input type="text" id="f-cred" placeholder="NYTベストセラー『The Atlas Six』に続く三部作">
       </div>
@@ -487,7 +491,7 @@ document.querySelectorAll(".tab").forEach(tab=>{
 /* ---------- 入力フォーム ---------- */
 const F = {
   series:"#f-series", vol:"#f-vol", title:"#f-title", titleja:"#f-titleja",
-  syn:"#f-syn", author:"#f-author", nat:"#f-nat", cred:"#f-cred"
+  syn:"#f-syn", author:"#f-author", nat:"#f-nat", year:"#f-year", cred:"#f-cred"
 };
 function readForm(){
   const o = {};
@@ -716,7 +720,7 @@ $("#parseBtn").addEventListener("click", ()=>{
   const hasNotesHeaders = Object.keys(NOTES_SECTION_MAP).some(h => new RegExp("^"+h+"\\s*$", "m").test(raw));
   const found = hasNotesHeaders ? parseNotesBlocks(raw) : (hasEmoji ? parseRichBlocks(raw) : parseBlocks(raw));
   if(!found.length){ toast("読み取れませんでした。本の情報が入っているか確認してください"); return; }
-  found.forEach(o=>state.books.push({ id:uid(), use:true, series:"",vol:"",titleja:"",syn:"",author:"",nat:"",cred:"", ...o }));
+  found.forEach(o=>state.books.push({ id:uid(), use:true, series:"",vol:"",titleja:"",syn:"",author:"",nat:"",year:"",cred:"", ...o }));
   $("#pasteBox").value = "";
   save(); render();
   toast(found.length + "冊を追加しました");
@@ -786,8 +790,9 @@ function renderLib(){
         ${b.titleja?`<div><b>邦題</b>　${esc(b.titleja)}</div>`:""}
         ${b.syn?`<div><b>あらすじ</b>　${esc(b.syn)}</div>`:""}
         ${(b.author||b.nat)?`<div><b>作者・国籍</b>　${esc(b.author)}${b.nat?`（${esc(b.nat)}）`:""}</div>`:""}
+        ${b.year?`<div><b>出版年</b>　${esc(b.year)}年</div>`:""}
         ${b.cred?`<div><b>実績</b>　${esc(b.cred)}</div>`:""}
-        ${!(b.titleja||b.syn||b.author||b.nat||b.cred)?`<div class="empty" style="padding:6px 0">まだ何も入っていません</div>`:""}
+        ${!(b.titleja||b.syn||b.author||b.nat||b.year||b.cred)?`<div class="empty" style="padding:6px 0">まだ何も入っていません</div>`:""}
         <button class="btn ghost tiny" data-act="edit" data-i="${i}" style="margin-top:6px">編集する</button>
       </div>` : "";
     return `<div class="item ${b.use?"sel":""}">
@@ -839,9 +844,10 @@ function cardHTML(b, s){
   const jatitle = `<div class="jatitle">${b.titleja ? `<span class="jalabel">邦題</span>${esc(b.titleja)}` : "&nbsp;"}</div>`;
   const origtitle = `<div class="origtitle">${esc(b.title)}</div>`;
   const who = [b.author, b.nat ? `（${b.nat}）` : ""].filter(Boolean).join("");
-  const foot = (who || b.cred) ? `<div class="foot">
+  const credLine = [b.year ? `${esc(b.year)}年` : "", esc(b.cred)].filter(Boolean).join(" ／ ");
+  const foot = (who || credLine) ? `<div class="foot">
       ${who?`<div>作者・国籍：${esc(b.author)}${b.nat?`（${esc(b.nat)}）`:""}</div>`:""}
-      ${b.cred?`<div class="cred">実績：${esc(b.cred)}</div>`:""}
+      ${credLine?`<div class="cred">実績：${credLine}</div>`:""}
     </div>` : "";
   return `<div class="card ${s.border}" data-title="${esc(b.title)}" style="width:${s.w}mm;height:${s.h}mm">
     <div class="inner">
