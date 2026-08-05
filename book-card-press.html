@@ -714,7 +714,7 @@ $("#parseBtn").addEventListener("click", ()=>{
   const raw = $("#pasteBox").value;
   const hasEmoji = Object.keys(FIELD_EMOJIS).some(e => raw.includes(e));
   const hasNotesHeaders = Object.keys(NOTES_SECTION_MAP).some(h => new RegExp("^"+h+"\\s*$", "m").test(raw));
-  const found = hasEmoji ? parseRichBlocks(raw) : (hasNotesHeaders ? parseNotesBlocks(raw) : parseBlocks(raw));
+  const found = hasNotesHeaders ? parseNotesBlocks(raw) : (hasEmoji ? parseRichBlocks(raw) : parseBlocks(raw));
   if(!found.length){ toast("読み取れませんでした。本の情報が入っているか確認してください"); return; }
   found.forEach(o=>state.books.push({ id:uid(), use:true, series:"",vol:"",titleja:"",syn:"",author:"",nat:"",cred:"", ...o }));
   $("#pasteBox").value = "";
