@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>あらすじふせん</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Shippori+Mincho+B1:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Jost:wght@400;500;600&family=Playfair+Display:wght@500;600;700&family=Bebas+Neue&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#18222c;
+  --ink-soft:#5b6874;
+  --paper:#eef0ec;
+  --surface:#ffffff;
+  --rule:#ccd1cb;
+  --fs-body:'Zen Kaku Gothic New',system-ui,sans-serif;
+  --fs-disp:'Zen Kaku Gothic New',system-ui,sans-serif;
+  --fs-lat:'Jost',system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--fs-body);
+  font-size:15px;
+  line-height:1.7;
+  -webkit-text-size-adjust:100%;
+}
+button,input,textarea,select{font-family:inherit;font-size:15px;color:inherit}
+button{cursor:pointer}
+
+/* ---------- header ---------- */
+.bar{
+  display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+  padding:18px 20px 14px;
+  border-bottom:1px solid var(--rule);
+  background:var(--paper);
+  position:sticky;top:0;z-index:20;
+}
+.bar h1{
+  margin:0;font-family:var(--fs-disp);font-weight:700;
+  font-size:20px;letter-spacing:.06em;
+}
+.bar .sub{font-size:12px;color:var(--ink-soft);letter-spacing:.04em}
+.bar .spacer{flex:1}
+
+.btn{
+  border:1px solid var(--ink);background:transparent;color:var(--ink);
+  border-radius:2px;padding:7px 14px;font-size:13px;letter-spacing:.04em;
+  transition:background .15s,color .15s;
+}
+.btn:hover{background:var(--ink);color:var(--paper)}
+.btn.primary{background:var(--ink);color:#fff}
+.btn.primary:hover{background:#000}
+.btn.ghost{border-color:var(--rule);color:var(--ink-soft)}
+.btn.ghost:hover{background:var(--rule);color:var(--ink)}
+.btn.tiny{padding:3px 8px;font-size:12px}
+.btn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+
+/* ---------- layout ---------- */
+.layout{display:grid;grid-template-columns:minmax(340px,420px) 1fr;align-items:start}
+@media (max-width:900px){.layout{grid-template-columns:1fr}}
+
+.panel{
+  border-right:1px solid var(--rule);
+  padding:0 0 120px;
+  min-height:60vh;
+  background:var(--paper);
+}
+@media (max-width:900px){.panel{border-right:0;border-bottom:1px solid var(--rule);padding-bottom:24px}}
+
+.tabs{display:flex;border-bottom:1px solid var(--rule)}
+.tab{
+  flex:1;padding:11px 4px;background:none;border:0;border-bottom:2px solid transparent;
+  font-size:13px;letter-spacing:.04em;color:var(--ink-soft);
+}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--ink);font-weight:700}
+.pane{padding:18px 20px;display:none}
+.pane.on{display:block}
+
+.field{margin-bottom:12px}
+.field label{display:block;font-size:12px;letter-spacing:.08em;color:var(--ink-soft);margin-bottom:4px}
+.field input[type=text],.field textarea,.field select{
+  width:100%;padding:8px 10px;border:1px solid var(--rule);background:var(--surface);
+  border-radius:2px;
+}
+.field input[type=color]{width:100%;height:36px;padding:2px;border:1px solid var(--rule);border-radius:2px;background:var(--surface)}
+.field textarea{resize:vertical;line-height:1.6}
+.field:focus-within label{color:var(--ink)}
+.row{display:flex;gap:10px}
+.row>*{flex:1}
+.row[hidden]{display:none}
+.count{font-size:11px;color:var(--ink-soft);text-align:right;margin-top:2px}
+.count.over{color:var(--ink);font-weight:700;text-decoration:underline}
+.hint{font-size:12px;color:var(--ink-soft);line-height:1.6;margin:0 0 14px}
+
+/* ---------- library ---------- */
+.lib{padding:0 20px}
+.lib h2,.pane h2{
+  font-family:var(--fs-disp);font-size:14px;letter-spacing:.1em;font-weight:700;
+  margin:22px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--rule);
+}
+.item{
+  display:flex;gap:10px;align-items:flex-start;
+  padding:10px 0;border-bottom:1px dotted var(--rule);
+}
+.item.sel{background:var(--surface)}
+.item input[type=checkbox]{margin-top:5px;width:17px;height:17px;accent-color:var(--ink)}
+.item .txt{flex:1;min-width:0}
+.item .t{font-family:var(--fs-lat);font-size:16px;font-weight:600;line-height:1.3}
+.item .s{font-size:11px;color:var(--ink-soft);letter-spacing:.03em}
+.draftbadge{display:inline-block;font-size:10px;letter-spacing:.06em;color:var(--ink-soft);border:1px solid var(--rule);border-radius:999px;padding:1px 7px;vertical-align:1px}
+.item .detail{margin-top:6px;padding:8px 10px;background:var(--surface);border:1px solid var(--rule);border-radius:4px;font-size:12.5px;line-height:1.6}
+.item .detail div{margin-bottom:4px}
+.item .detail div:last-child{margin-bottom:0}
+.item .detail b{font-weight:700;letter-spacing:.04em}
+.item .acts{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+.slotno{
+  font-family:var(--fs-lat);font-size:12px;color:var(--ink);font-weight:600;
+  min-width:16px;text-align:right;padding-top:4px;
+}
+.empty{color:var(--ink-soft);font-size:13px;padding:18px 0;line-height:1.8}
+
+/* ---------- preview side ---------- */
+.stage{padding:20px;overflow-x:auto}
+.stage-head{
+  display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:12px;
+}
+.stage-head .lab{font-family:var(--fs-disp);font-size:14px;letter-spacing:.1em;font-weight:700}
+.stage-head .meta{font-size:12px;color:var(--ink-soft)}
+.warnbox{
+  border-left:3px solid var(--ink);background:var(--surface);color:var(--ink);
+  padding:8px 12px;font-size:12px;line-height:1.6;margin-bottom:12px;font-weight:700;
+}
+.scaler{transform-origin:top left}
+.sheet{
+  width:210mm;height:297mm;background:#fff;position:relative;
+  box-shadow:0 1px 0 var(--rule),0 8px 30px rgba(24,34,44,.13);
+  margin-bottom:14mm;
+  --fs:7pt;
+}
+.grid{
+  display:grid;height:100%;width:100%;
+  justify-content:center;align-content:center;
+}
+.card{position:relative;overflow:hidden;border-color:var(--card-border,#14181c);background:var(--card-bg,transparent)}
+.card .inner{
+  position:relative;z-index:1;width:100%;height:100%;
+  padding:3.2mm 3.4mm;overflow:hidden;
+  color:var(--card-text,#161b20);
+}
+.card.solid{border-width:.3mm;border-style:solid}
+.card.dash{border-width:.3mm;border-style:dashed}
+.card.none{border:0}
+.eyebrow{
+  font-size:var(--fs);letter-spacing:.02em;color:inherit;opacity:.72;
+  display:flex;gap:.6em;align-items:baseline;line-height:1.3;
+  border-bottom:.2mm solid var(--rule);padding-bottom:.6mm;margin-bottom:1.2mm;
+}
+.eyebrow .vol{white-space:nowrap}
+.eyebrow .ser{font-family:var(--fs-lat);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card h3{
+  margin:0 0 1mm;font-family:var(--fs-lat);font-weight:600;
+  font-size:calc(var(--fs) * 1.55);line-height:1.15;text-align:center;
+  color:inherit;
+}
+.card h3 .ja{display:block;font-family:var(--fs-disp);font-size:var(--fs);
+  font-weight:500;margin-top:.6mm;letter-spacing:.02em}
+.origtitle{
+  margin:0 0 1mm;font-family:var(--fs-lat);font-weight:600;
+  font-size:calc(var(--fs) * 1.4);line-height:1.2;text-align:center;color:inherit;
+}
+.jatitle{
+  margin:0 0 1.2mm;font-family:var(--fs-disp);font-weight:500;
+  font-size:calc(var(--fs) * .82);line-height:1.3;text-align:center;color:inherit;opacity:.9;
+}
+.jalabel{
+  font-size:calc(var(--fs) * .68);font-weight:700;letter-spacing:.1em;
+  opacity:.75;margin-right:.5em;
+}
+.lbl{
+  font-size:var(--fs);font-weight:700;color:inherit;opacity:.85;
+  letter-spacing:.1em;margin-bottom:.4mm;
+}
+.syn{
+  margin:0 0 1mm;font-size:var(--fs);line-height:1.52;text-align:justify;color:inherit;
+}
+.volbig{
+  margin:2mm 0 0;text-align:center;color:inherit;font-family:var(--fs-disp);
+  font-weight:700;font-size:calc(var(--fs) * 2.1);line-height:1.4;letter-spacing:.04em;
+}
+.foot{margin-top:1.2mm;border-top:.2mm solid currentColor;opacity:.9;padding-top:.8mm}
+.foot div{font-size:var(--fs);line-height:1.45;color:inherit;opacity:.85}
+.foot .cred{font-style:italic}
+.card.bad{outline:.6mm dashed var(--ink);outline-offset:-.6mm}
+.sheetfoot{
+  position:absolute;left:0;right:0;bottom:6mm;text-align:center;
+  font-size:6.5pt;color:#98a09a;letter-spacing:.08em;
+}
+
+/* ---------- dialogs / misc ---------- */
+.stickybar{
+  position:fixed;left:0;right:0;bottom:0;z-index:30;
+  display:flex;gap:10px;justify-content:center;
+  padding:10px 14px;background:rgba(238,240,236,.95);
+  border-top:1px solid var(--rule);backdrop-filter:blur(6px);
+}
+@media (min-width:901px){.stickybar{display:none}}
+.toast{
+  position:fixed;left:50%;bottom:76px;transform:translateX(-50%);
+  background:var(--ink);color:var(--paper);padding:9px 18px;border-radius:2px;
+  font-size:13px;z-index:50;opacity:0;pointer-events:none;transition:opacity .25s;
+}
+.toast.on{opacity:1}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ---------- print ---------- */
+@page{size:A4;margin:0}
+@media print{
+  body{background:#fff}
+  .no-print{display:none!important}
+  .layout{display:block}
+  .stage{padding:0;overflow:visible}
+  .scaler{transform:none!important}
+  .sheet{
+    box-shadow:none;margin:0;
+    page-break-after:always;break-after:page;
+  }
+  .sheet:last-child{page-break-after:auto;break-after:auto}
+  .card.bad{outline:0}
+}
+</style>
+</head>
+<body>
+
+<header class="bar no-print">
+  <h1>あらすじふせん</h1>
+  <span class="sub">A4に6枚／71mm角／付箋に貼る前提</span>
+  <span class="spacer"></span>
+  <button class="btn ghost" id="sampleBtn">見本を6冊入れる</button>
+  <button class="btn ghost" id="exportBtn">書き出し</button>
+  <button class="btn ghost" id="importBtn">読み込み</button>
+  <input type="file" id="importFile" accept="application/json" hidden>
+  <button class="btn primary" id="printBtn">印刷する</button>
+</header>
+
+<div class="layout">
+  <!-- ============ 左：入力 ============ -->
+  <section class="panel no-print">
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" aria-selected="true" data-pane="p-add">1冊ずつ入れる</button>
+      <button class="tab" role="tab" aria-selected="false" data-pane="p-paste">まとめて貼る</button>
+      <button class="tab" role="tab" aria-selected="false" data-pane="p-set">用紙の設定</button>
+    </div>
+
+    <!-- 1冊ずつ -->
+    <div class="pane on" id="p-add">
+      <div class="field">
+        <label for="f-series">シリーズ名（なければ空欄）</label>
+        <input type="text" id="f-series" placeholder="The Atlas trilogy">
+      </div>
+      <div class="field">
+        <label for="f-vol">巻の表記</label>
+        <input type="text" id="f-vol" placeholder="本編全3巻・第2巻">
+      </div>
+      <div class="field">
+        <label for="f-title">タイトル（原題）</label>
+        <input type="text" id="f-title" placeholder="The Atlas Paradox">
+      </div>
+      <div class="field">
+        <label for="f-titleja">邦題・副題（任意）</label>
+        <input type="text" id="f-titleja" placeholder="">
+      </div>
+      <div class="field">
+        <label for="f-titleja2">邦題2つ目（改題・新訳などがある場合のみ）</label>
+        <input type="text" id="f-titleja2" placeholder="">
+      </div>
+      <div class="field">
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer">
+          <input type="checkbox" id="f-jamark" style="width:16px;height:16px;accent-color:var(--ink)">
+          <span>邦訳はあるが、正式なタイトルではなくカタカナ化・直訳のみ（原題の横に※を付ける）</span>
+        </label>
+      </div>
+      <div class="field">
+        <label for="f-syn">あらすじ</label>
+        <textarea id="f-syn" rows="6"></textarea>
+        <div class="count" id="synCount">0字</div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="f-author">作者</label>
+          <input type="text" id="f-author" placeholder="Olivie Blake">
+        </div>
+        <div class="field">
+          <label for="f-nat">国籍</label>
+          <input type="text" id="f-nat" placeholder="アメリカ">
+        </div>
+      </div>
+      <div class="field">
+        <label for="f-year">出版年（任意）</label>
+        <input type="text" id="f-year" inputmode="numeric" placeholder="2022">
+      </div>
+      <div class="field">
+        <label for="f-japub">邦訳刊行（任意・出版社／訳者／邦訳年など）</label>
+        <input type="text" id="f-japub" placeholder="早川書房（佐竹史子訳、2009年）">
+      </div>
+      <div class="field">
+        <label for="f-level">英語の難易度（任意）</label>
+        <select id="f-level">
+          <option value="">指定しない</option>
+          <option value="1">★☆☆☆☆（やさしい）</option>
+          <option value="2">★★☆☆☆</option>
+          <option value="3">★★★☆☆（ふつう）</option>
+          <option value="4">★★★★☆</option>
+          <option value="5">★★★★★（難しい）</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="f-cred">実績（受賞・ベストセラーなど）</label>
+        <input type="text" id="f-cred" placeholder="NYTベストセラー『The Atlas Six』に続く三部作">
+      </div>
+      <div class="row">
+        <button class="btn primary" id="saveBook">この本を登録</button>
+        <button class="btn ghost" id="clearForm">入力を消す</button>
+      </div>
+      <input type="hidden" id="editId">
+    </div>
+
+    <!-- まとめて貼る -->
+    <div class="pane" id="p-paste">
+      <p class="hint">
+        私（Claude）に本の情報をまとめてもらうときは、まず「依頼文をコピー」を押して、そのままチャットに貼ってください。
+        返ってきた文章をこの欄に貼って「読み取って追加」で、何冊でも一度に入ります。
+      </p>
+      <button class="btn ghost" id="copyPrompt" style="margin-bottom:12px">依頼文をコピー</button>
+      <div class="field">
+        <label for="pasteBox">受け取った文章を貼る</label>
+        <textarea id="pasteBox" rows="12" placeholder="シリーズ: …&#10;巻: …&#10;タイトル: …&#10;あらすじ: …&#10;作者: …&#10;国籍: …&#10;実績: …&#10;---&#10;（2冊目）"></textarea>
+      </div>
+      <button class="btn primary" id="parseBtn">読み取って追加</button>
+    </div>
+
+    <!-- 設定 -->
+    <div class="pane" id="p-set">
+      <div class="row">
+        <div class="field"><label for="s-w">枠の横幅 mm</label><input type="text" id="s-w" inputmode="decimal"></div>
+        <div class="field"><label for="s-h">枠の高さ mm</label><input type="text" id="s-h" inputmode="decimal"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="s-cols">横に並べる数</label><input type="text" id="s-cols" inputmode="numeric"></div>
+        <div class="field"><label for="s-rows">縦に並べる数</label><input type="text" id="s-rows" inputmode="numeric"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="s-gx">枠の左右の間隔 mm</label><input type="text" id="s-gx" inputmode="decimal"></div>
+        <div class="field"><label for="s-gy">枠の上下の間隔 mm</label><input type="text" id="s-gy" inputmode="decimal"></div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="s-fs">文字の大きさ</label>
+          <select id="s-fs">
+            <option value="auto">自動（文字量に合わせて目一杯に・既定）</option>
+            <option value="6">固定：小さい 6pt</option>
+            <option value="7">固定：ふつう 7pt</option>
+            <option value="8">固定：大きい 8pt</option>
+            <option value="9">固定：とても大きい 9pt</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="s-border">切り取り線</label>
+          <select id="s-border">
+            <option value="solid">実線</option>
+            <option value="dash">破線</option>
+            <option value="none">なし</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="s-font">字体（既定はフラット・ゴシック）</label>
+        <select id="s-font">
+          <option value="flat">フラット・ゴシック（既定）</option>
+          <option value="elegant">上品セリフ（英字タイトル映え）</option>
+          <option value="condensed">モダン・コンデンス（英字タイトル映え）</option>
+          <option value="pop">ポップ・サンセリフ（英字タイトル映え）</option>
+          <option value="classic">クラシック文芸（和文明朝×英字セリフ）</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label><input type="checkbox" id="s-coloron"> 色を使う（既定はオフ＝黒枠・白地・黒字）</label>
+      </div>
+      <div id="colorFields" hidden>
+        <div class="row">
+          <div class="field"><label for="s-textcolor">文字の色</label><input type="color" id="s-textcolor"></div>
+          <div class="field"><label for="s-bordercolor">枠の色</label><input type="color" id="s-bordercolor"></div>
+        </div>
+        <div class="field" style="max-width:calc(50% - 5px)">
+          <label for="s-bg">背景全面の色</label>
+          <input type="color" id="s-bg">
+        </div>
+      </div>
+      <p class="hint">
+        印刷するときは <strong>A4／倍率100％（実際のサイズ）／余白なし</strong> にしてください。
+        「用紙に合わせる」になっていると寸法がずれます。
+      </p>
+      <button class="btn ghost" id="resetSet">最初の設定に戻す</button>
+    </div>
+
+    <!-- 蔵書一覧 -->
+    <div class="lib">
+      <h2 style="display:flex;align-items:baseline;justify-content:space-between;gap:10px">
+        <span>登録した本（<span id="libCount">0冊</span>）</span>
+        <button class="btn ghost tiny" id="clearAllBtn" style="border:0;text-decoration:underline;padding:0;color:var(--ink-soft)">全部消す</button>
+      </h2>
+      <div id="libList"></div>
+    </div>
+  </section>
+
+  <!-- ============ 右：刷り上がり ============ -->
+  <section class="stage" id="stage">
+    <div class="stage-head no-print">
+      <span class="lab">刷り上がり</span>
+      <span class="meta" id="stageMeta"></span>
+    </div>
+    <div id="warnSlot"></div>
+    <div class="scaler" id="scaler"></div>
+  </section>
+</div>
+
+<div class="stickybar no-print">
+  <button class="btn ghost" id="printBtn2">印刷する</button>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+
+const KEY = "bookcards:v2";
+const DEFAULTS = {
+  w:71, h:71, cols:2, rows:3, gx:14, gy:10, fs:"auto", border:"solid",
+  font:"flat", colorOn:false, textColor:"#161b20", borderColor:"#14181c", bgColor:"#ffffff"
+};
+const FONT_PRESETS = {
+  flat:      { disp:"'Zen Kaku Gothic New',system-ui,sans-serif", lat:"'Jost',system-ui,sans-serif" },
+  elegant:   { disp:"'Zen Kaku Gothic New',system-ui,sans-serif", lat:"'Playfair Display',Georgia,serif" },
+  condensed: { disp:"'Zen Kaku Gothic New',system-ui,sans-serif", lat:"'Bebas Neue',system-ui,sans-serif" },
+  pop:       { disp:"'Zen Kaku Gothic New',system-ui,sans-serif", lat:"'Poppins',system-ui,sans-serif" },
+  classic:   { disp:"'Shippori Mincho B1',serif", lat:"'EB Garamond',Georgia,serif" }
+};
+let state = { books: [], settings: { ...DEFAULTS } };
+let memoryOnly = false;
+
+/* ---------- 保存 ---------- */
+/* Claudeの画面内の保存機能をまず試し、使えない・失敗した場合は
+   必ずブラウザのlocalStorageに切り替える。GitHub Pagesなど普通の
+   Webサイトとして開いたときはlocalStorageだけが使われる。
+   両方だめなときだけ memoryOnly（閉じると消える）にする。 */
+async function load(){
+  let loaded = false;
+  if(typeof window.storage !== "undefined"){
+    try{
+      const r = await window.storage.get(KEY);
+      if(r && r.value){
+        const d = JSON.parse(r.value);
+        state.books = Array.isArray(d.books) ? d.books : [];
+        state.settings = { ...DEFAULTS, ...(d.settings||{}) };
+      }
+      loaded = true; // 呼び出し自体が成功したので、この経路は使える
+    }catch(e){ /* 使えなかったのでlocalStorageを試す */ }
+  }
+  if(!loaded){
+    try{
+      const raw = localStorage.getItem(KEY);
+      if(raw){
+        const d = JSON.parse(raw);
+        state.books = Array.isArray(d.books) ? d.books : [];
+        state.settings = { ...DEFAULTS, ...(d.settings||{}) };
+      }
+    }catch(e){ memoryOnly = true; }
+  }
+}
+let saveTimer = null;
+function save(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(async ()=>{
+    let ok = false;
+    if(typeof window.storage !== "undefined"){
+      try{
+        const r = await window.storage.set(KEY, JSON.stringify(state));
+        ok = !!r;
+      }catch(e){ /* 使えなかったのでlocalStorageを試す */ }
+    }
+    if(!ok){
+      try{ localStorage.setItem(KEY, JSON.stringify(state)); ok = true; }
+      catch(e){ memoryOnly = true; }
+    }
+  }, 250);
+}
+
+/* ---------- 小道具 ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s==null?"":s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const num = (v,d) => { const n = parseFloat(v); return isFinite(n) && n>0 ? n : d; };
+function toast(msg){
+  const t = $("#toast"); t.textContent = msg; t.classList.add("on");
+  setTimeout(()=>t.classList.remove("on"), 2200);
+}
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+
+/* ---------- タブ ---------- */
+document.querySelectorAll(".tab").forEach(tab=>{
+  tab.addEventListener("click", ()=>{
+    document.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-selected", String(t===tab)));
+    document.querySelectorAll(".pane").forEach(p=>p.classList.toggle("on", p.id===tab.dataset.pane));
+  });
+});
+
+/* ---------- 入力フォーム ---------- */
+const F = {
+  series:"#f-series", vol:"#f-vol", title:"#f-title", titleja:"#f-titleja", titleja2:"#f-titleja2",
+  syn:"#f-syn", author:"#f-author", nat:"#f-nat", year:"#f-year", level:"#f-level", cred:"#f-cred", japub:"#f-japub"
+};
+function readForm(){
+  const o = {};
+  for(const k in F) o[k] = $(F[k]).value.trim();
+  o.jamark = $("#f-jamark").checked;
+  return o;
+}
+function fillForm(b){
+  for(const k in F) $(F[k]).value = b && b[k] ? b[k] : "";
+  $("#f-jamark").checked = !!(b && b.jamark);
+  $("#editId").value = b ? b.id : "";
+  $("#saveBook").textContent = b ? "この本を更新" : "この本を登録";
+  updateCount();
+}
+function updateCount(){
+  const n = $("#f-syn").value.length;
+  $("#synCount").textContent = n + "字（自動で目一杯の大きさに調整されます／目安は1〜2文）";
+}
+$("#f-syn").addEventListener("input", updateCount);
+
+$("#saveBook").addEventListener("click", ()=>{
+  const o = readForm();
+  if(!o.title){ toast("タイトルを入れてください"); $("#f-title").focus(); return; }
+  const id = $("#editId").value;
+  if(id){
+    const b = state.books.find(x=>x.id===id);
+    if(b) Object.assign(b, o);
+    toast("更新しました");
+  }else{
+    state.books.push({ id:uid(), use:true, ...o });
+    toast("登録しました");
+  }
+  fillForm(null); save(); render();
+});
+$("#clearForm").addEventListener("click", ()=>fillForm(null));
+
+/* ---------- まとめて貼る ---------- */
+const PROMPT = `次の本のカード用データを、下の形式そのままで出してください。説明や前置きは書かないでください。
+
+シリーズ: （シリーズ名。単独作なら空欄）
+巻: （例：本編全3巻・第2巻。単独作なら空欄）
+タイトル: （原題）
+邦題: （邦訳があれば。なければ空欄）
+あらすじ: （日本語で、改行なしの1段落。ネタバレは結末の直前まで）
+作者: （原語表記）
+国籍: （日本語で。例：アメリカ）
+実績: （受賞歴やベストセラー実績。なければ空欄）
+
+2冊目からは、あいだに --- だけの行を入れて続けてください。
+
+対象の本：
+`;
+$("#copyPrompt").addEventListener("click", async ()=>{
+  try{ await navigator.clipboard.writeText(PROMPT); toast("依頼文をコピーしました"); }
+  catch(e){ $("#pasteBox").value = PROMPT; toast("コピーできないので下の欄に出しました"); }
+});
+
+const KEYMAP = {
+  "シリーズ":"series","シリーズ名":"series","series":"series",
+  "巻":"vol","巻数":"vol","巻表記":"vol",
+  "タイトル":"title","原題":"title","title":"title",
+  "邦題":"titleja","副題":"titleja",
+  "あらすじ":"syn","内容":"syn","概要":"syn",
+  "作者":"author","著者":"author","author":"author",
+  "国籍":"nat","作者の国籍":"nat",
+  "実績":"cred","受賞":"cred","受賞歴":"cred"
+};
+// syn と cred は「見出しの無い続きの行」をそのまま連結してよい項目（長文が複数行に分かれることがあるため）。
+// それ以外（タイトルや作者など）は1行で完結する項目なので、続く見出しなし行は実績（cred）へ流す。
+const CONTINUABLE = new Set(["syn", "cred"]);
+// 行頭の絵文字・記号（📅🏆🎬など）を見出し判定の前に取り除く
+const EMOJI_STRIP_RE = /^[\s#*・\-]*[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2190}-\u{21FF}\u{2B00}-\u{2BFF}\uFE0F]*\s*/u;
+
+function parseBlocks(text){
+  const out = [];
+  text.split(/^\s*[-–—=]{3,}\s*$/m).forEach(raw=>{
+    if(!raw.trim()) return;
+    const o = {};
+    let last = null;
+    const looseLines = []; // まだどの項目にも属していない、見出しの無い行
+
+    raw.split(/\r?\n/).forEach(rawLine=>{
+      const line = rawLine.trim();
+      if(!line){ last = null; return; } // 空行をまたいだら「続きの行」扱いをやめる
+      const stripped = line.replace(EMOJI_STRIP_RE, "");
+      const m = stripped.match(/^([^:：]{1,12})[:：]\s*(.*)$/);
+      if(m && KEYMAP[m[1].trim()]){
+        last = KEYMAP[m[1].trim()];
+        o[last] = (o[last] ? o[last] + " " : "") + m[2].trim();
+      }else if(last && CONTINUABLE.has(last)){
+        o[last] += " " + line;
+      }else if(last){
+        // タイトルや作者など、続きが来る想定のない項目の次の行は実績にまとめる
+        o.cred = (o.cred ? o.cred + " ／ " : "") + line;
+      }else{
+        looseLines.push(line);
+      }
+    });
+
+    // タイトルの見出しが無かった場合、見出しなしの最初の行をタイトルとして使う
+    if(!o.title && looseLines.length){
+      o.title = looseLines.shift();
+    }
+    // あらすじの見出しが無かった場合、残った見出しなし行のうち一番長いものをあらすじとして使う
+    if(!o.syn && looseLines.length){
+      let idx = 0;
+      looseLines.forEach((l, i) => { if(l.length > looseLines[idx].length) idx = i; });
+      if(looseLines[idx].length >= 15){
+        o.syn = looseLines[idx];
+        looseLines.splice(idx, 1);
+      }
+    }
+    // それでも余った見出しなし行は実績にまとめて詰め込む
+    if(looseLines.length){
+      o.cred = [o.cred, ...looseLines].filter(Boolean).join(" ／ ");
+    }
+
+    if(o.title) out.push(o);
+  });
+  return out;
+}
+
+// 📅👤🇯🇵🎬🏆📝 の絵文字ラベル形式専用パーサー。
+// タイトルと項目の間に空行があっても、区切り線があってもなくても、絵文字を目印に正しく1冊ずつ分ける。
+const FIELD_EMOJIS = { "📅": "cred", "👤": "author", "🇯🇵": "titleja", "🎬": "cred", "🏆": "cred", "📝": "syn" };
+const stripLabel = (s) => {
+  const m = s.match(/^[^:：]{1,14}[:：]\s*(.*)$/);
+  return (m ? m[1] : s).trim();
+};
+function parseRichBlocks(text){
+  const out = [];
+  let cur = null, inFields = false;
+  const flush = () => { if(cur && cur.title) out.push(cur); cur = null; inFields = false; };
+  text.split(/\r?\n/).forEach(raw=>{
+    const line = raw.trim();
+    if(!line || /^[─\-—=]{3,}$/.test(line)) return;
+    const emoji = Object.keys(FIELD_EMOJIS).find(e => line.startsWith(e));
+    if(emoji){
+      if(!cur) cur = { title:"", series:"", vol:"", titleja:"", syn:"", author:"", nat:"", credParts:[] };
+      const key = FIELD_EMOJIS[emoji];
+      const val = stripLabel(line.slice(emoji.length));
+      if(key === "cred") cur.credParts.push(val);
+      else if(key === "author"){
+        const m = val.match(/^(.*?)[（(]([^）)]+)[）)]\s*$/);
+        if(m){ cur.author = m[1].trim(); cur.nat = m[2].trim(); }
+        else cur.author = val;
+      }else if(key === "titleja"){
+        cur.titleja = (val === "未邦訳") ? "" : val.replace(/[『』]/g,"");
+      }else{
+        cur[key] = (cur[key] ? cur[key] + " " : "") + val;
+      }
+      inFields = true;
+    }else if(!cur || inFields){
+      flush();
+      cur = { title: line, series:"", vol:"", titleja:"", syn:"", author:"", nat:"", credParts:[] };
+      inFields = false;
+    }else{
+      cur.title = (cur.title + " " + line).trim();
+    }
+  });
+  flush();
+  return out.map(b => ({
+    title: b.title, series: b.series, vol: b.vol, titleja: b.titleja, syn: b.syn,
+    author: b.author, nat: b.nat, cred: b.credParts.join(" ／ "),
+  }));
+}
+
+// 「ジャンル」「賞」「ベストセラー」「邦訳」のような見出し＋箇条書き形式に対応するパーサー。
+// タイトルは、日本語を含まない短い行（英語の書名）を目印に判定する。
+const NOTES_SECTION_MAP = {
+  "あらすじ": "syn", "ジャンル": "genre", "賞": "cred", "受賞": "cred",
+  "ベストセラー": "cred", "映画化": "cred", "邦訳": "trans",
+  "知名度": "cred", "英語レベル": "cred",
+};
+const JP_CHAR_RE = /[\u3040-\u30FF\u4E00-\u9FFF]/;
+const NOTES_BULLET_RE = /^[\*•\-⭐★☆]+\s*/;
+const NOTES_EXCLUDE_RE = /^特に|^なし$|^大きな.*(受賞歴はありません|受賞していない)/;
+function looksLikeEnglishTitle(line){
+  if(JP_CHAR_RE.test(line)) return false;
+  if(NOTES_BULLET_RE.test(line)) return false;
+  if(!line.length || line.length > 90) return false;
+  return true;
+}
+function parseNotesBlocks(text){
+  const out = [];
+  let cur = null, section = null;
+  const flush = () => {
+    if(cur && cur.title){
+      const genreText = cur.genre.length ? cur.genre.join("・") + "。" : "";
+      out.push({
+        title: cur.title, titleja: cur.titleja,
+        syn: (genreText + cur.synParts.join("")).trim(),
+        cred: cur.credParts.filter(Boolean).join(" ／ "),
+      });
+    }
+    cur = null; section = null;
+  };
+  text.split(/\r?\n/).forEach(rawLine=>{
+    const line = rawLine.trim();
+    if(!line) return;
+    if(/^⸻+$/.test(line) || /^[─\-—=]{3,}$/.test(line)) return;
+    if(NOTES_SECTION_MAP[line]){ if(cur) section = NOTES_SECTION_MAP[line]; return; }
+    const bulletMatch = NOTES_BULLET_RE.test(line);
+    const content = bulletMatch ? line.replace(NOTES_BULLET_RE, "").trim() : line;
+    const cleaned = content.replace(EMOJI_STRIP_RE, "");
+    if(!bulletMatch && looksLikeEnglishTitle(line)){
+      if(cur) flush();
+      cur = { title: line, titleja:"", genre:[], synParts:[], credParts:[] };
+      section = null;
+      return;
+    }
+    if(!cur) return;
+    if(section === "syn" || section === null){ if(cleaned) cur.synParts.push(cleaned); }
+    else if(section === "genre"){ if(cleaned) cur.genre.push(cleaned); }
+    else if(section === "cred"){ if(cleaned && !NOTES_EXCLUDE_RE.test(cleaned)) cur.credParts.push(cleaned); }
+    else if(section === "trans"){
+      const m = cleaned.match(/『([^』]+)』(?:[（(]([^）)]+)[）)])?/);
+      if(m){ cur.titleja = m[1]; if(m[2]) cur.credParts.push(`${m[2]}より邦訳刊行`); }
+    }
+  });
+  flush();
+  return out;
+}
+
+$("#parseBtn").addEventListener("click", ()=>{
+  const raw = $("#pasteBox").value;
+  const hasEmoji = Object.keys(FIELD_EMOJIS).some(e => raw.includes(e));
+  const hasNotesHeaders = Object.keys(NOTES_SECTION_MAP).some(h => new RegExp("^"+h+"\\s*$", "m").test(raw));
+  const found = hasNotesHeaders ? parseNotesBlocks(raw) : (hasEmoji ? parseRichBlocks(raw) : parseBlocks(raw));
+  if(!found.length){ toast("読み取れませんでした。本の情報が入っているか確認してください"); return; }
+  found.forEach(o=>state.books.push({ id:uid(), use:true, series:"",vol:"",titleja:"",syn:"",author:"",nat:"",year:"",level:"",cred:"", ...o }));
+  $("#pasteBox").value = "";
+  save(); render();
+  toast(found.length + "冊を追加しました");
+});
+
+/* ---------- 設定 ---------- */
+const S = { w:"#s-w", h:"#s-h", cols:"#s-cols", rows:"#s-rows", gx:"#s-gx", gy:"#s-gy",
+            fs:"#s-fs", border:"#s-border", font:"#s-font" };
+function settingsToForm(){
+  for(const k in S) $(S[k]).value = state.settings[k];
+  $("#s-coloron").checked = !!state.settings.colorOn;
+  $("#s-textcolor").value = state.settings.textColor;
+  $("#s-bordercolor").value = state.settings.borderColor;
+  $("#s-bg").value = state.settings.bgColor;
+  $("#colorFields").hidden = !state.settings.colorOn;
+  applyFont();
+}
+function applyFont(){
+  const preset = FONT_PRESETS[state.settings.font] || FONT_PRESETS.flat;
+  document.documentElement.style.setProperty("--fs-disp", preset.disp);
+  document.documentElement.style.setProperty("--fs-lat", preset.lat);
+}
+function formToSettings(){
+  const s = state.settings;
+  s.w = num($("#s-w").value, DEFAULTS.w);
+  s.h = num($("#s-h").value, DEFAULTS.h);
+  s.cols = Math.max(1, Math.round(num($("#s-cols").value, DEFAULTS.cols)));
+  s.rows = Math.max(1, Math.round(num($("#s-rows").value, DEFAULTS.rows)));
+  s.gx = num($("#s-gx").value, 0.01) ; if($("#s-gx").value.trim()==="0") s.gx = 0;
+  s.gy = num($("#s-gy").value, 0.01) ; if($("#s-gy").value.trim()==="0") s.gy = 0;
+  s.fs = $("#s-fs").value; // "auto" もしくは pt 数の文字列
+  s.border = $("#s-border").value;
+  s.font = $("#s-font").value;
+  s.colorOn = $("#s-coloron").checked;
+  s.textColor = $("#s-textcolor").value;
+  s.borderColor = $("#s-bordercolor").value;
+  s.bgColor = $("#s-bg").value;
+  $("#colorFields").hidden = !s.colorOn;
+  applyFont();
+  save(); render(); updateCount();
+}
+Object.values(S).forEach(sel=>$(sel).addEventListener("change", formToSettings));
+$("#s-coloron").addEventListener("change", formToSettings);
+["#s-textcolor","#s-bordercolor","#s-bg"].forEach(sel=>$(sel).addEventListener("input", formToSettings));
+$("#resetSet").addEventListener("click", ()=>{
+  state.settings = { ...DEFAULTS };
+  settingsToForm(); applyFont(); save(); render(); updateCount();
+  toast("設定を戻しました");
+});
+
+/* ---------- 一覧 ---------- */
+const expandedIds = new Set();
+function renderLib(){
+  const list = $("#libList");
+  const draftCount = state.books.filter(b => !b.syn).length;
+  $("#libCount").textContent = draftCount ? `${state.books.length}冊・うち${draftCount}冊書きかけ` : `${state.books.length}冊`;
+  if(!state.books.length){
+    list.innerHTML = '<p class="empty">まだ1冊も入っていません。<br>左上の「1冊ずつ入れる」か「まとめて貼る」から始めてください。</p>';
+    return;
+  }
+  let slot = 0;
+  list.innerHTML = state.books.map((b,i)=>{
+    const n = b.use ? ++slot : 0;
+    const open = expandedIds.has(b.id);
+    const isDraft = !b.syn;
+    const detail = open ? `<div class="detail">
+        ${b.titleja?`<div><b>邦題</b>　${esc(b.titleja)}${b.titleja2?`／${esc(b.titleja2)}`:""}</div>`:""}
+        ${b.jamark?`<div><b>※</b>　邦訳あり・正式タイトルなし（カタカナ化/直訳のみ）</div>`:""}
+        ${b.syn?`<div><b>あらすじ</b>　${esc(b.syn)}</div>`:""}
+        ${(b.author||b.nat)?`<div><b>作者・国籍</b>　${esc(b.author)}${b.nat?`（${esc(b.nat)}）`:""}</div>`:""}
+        ${b.year?`<div><b>出版年</b>　${esc(b.year)}年</div>`:""}
+        ${b.level?`<div><b>英語レベル</b>　${"★".repeat(+b.level)+"☆".repeat(5-(+b.level))}</div>`:""}
+        ${b.cred?`<div><b>実績</b>　${esc(b.cred)}</div>`:""}
+        ${b.japub?`<div><b>邦訳刊行</b>　${esc(b.japub)}</div>`:""}
+        ${!(b.titleja||b.syn||b.author||b.nat||b.year||b.level||b.cred||b.japub)?`<div class="empty" style="padding:6px 0">まだ何も入っていません</div>`:""}
+        <button class="btn ghost tiny" data-act="edit" data-i="${i}" style="margin-top:6px">編集する</button>
+      </div>` : "";
+    return `<div class="item ${b.use?"sel":""}">
+      <input type="checkbox" data-act="use" data-i="${i}" ${b.use?"checked":""} title="印刷する">
+      <span class="slotno">${n?n:"–"}</span>
+      <div class="txt">
+        <div class="t" data-act="toggle" data-i="${i}" style="cursor:pointer">${esc(b.title)}${isDraft?' <span class="draftbadge">書きかけ</span>':""} <span style="color:var(--ink-soft);font-size:11px">${open?"▲":"▼"}</span></div>
+        <div class="s">${esc([b.series,b.vol,b.author].filter(Boolean).join(" ／ ")) || "&nbsp;"}</div>
+        ${detail}
+      </div>
+      <div class="acts">
+        <button class="btn ghost tiny" data-act="up" data-i="${i}" title="上へ">↑</button>
+        <button class="btn ghost tiny" data-act="down" data-i="${i}" title="下へ">↓</button>
+        <button class="btn ghost tiny" data-act="edit" data-i="${i}">直す</button>
+        <button class="btn ghost tiny" data-act="del" data-i="${i}">消す</button>
+      </div>
+    </div>`;
+  }).join("");
+}
+$("#libList").addEventListener("click", e=>{
+  const el = e.target.closest("[data-act]"); if(!el) return;
+  const i = +el.dataset.i, a = el.dataset.act, bs = state.books;
+  if(a==="toggle"){
+    const id = bs[i].id;
+    if(expandedIds.has(id)) expandedIds.delete(id); else expandedIds.add(id);
+    renderLib();
+    return;
+  }
+  if(a==="use"){ bs[i].use = el.checked; }
+  else if(a==="up" && i>0){ [bs[i-1],bs[i]] = [bs[i],bs[i-1]]; }
+  else if(a==="down" && i<bs.length-1){ [bs[i+1],bs[i]] = [bs[i],bs[i+1]]; }
+  else if(a==="edit"){
+    fillForm(bs[i]);
+    document.querySelector('.tab[data-pane="p-add"]').click();
+    window.scrollTo({top:0,behavior:"smooth"});
+    return;
+  }
+  else if(a==="del"){
+    if(!confirm(`「${bs[i].title}」を消します。よろしいですか？`)) return;
+    bs.splice(i,1);
+  }
+  save(); render();
+});
+
+/* ---------- 刷り上がり ---------- */
+function volShort(vol){
+  if(!vol) return "";
+  const m = vol.match(/第\s*\d+\s*巻/) || vol.match(/\d+\s*巻/);
+  return m ? m[0].replace(/\s+/g,"") : vol;
+}
+function cardHTML(b, s){
+  const eyebrow = (b.series || b.vol)
+    ? `<div class="eyebrow"><span class="ser">${esc(b.series)}</span>${b.vol?`<span class="vol">${esc(b.vol)}</span>`:""}</div>` : "";
+  const jatitle = `<div class="jatitle">${b.titleja ? `<span class="jalabel">邦題</span>${esc(b.titleja)}${b.titleja2?`／${esc(b.titleja2)}`:""}` : "&nbsp;"}</div>`;
+  const origtitle = `<div class="origtitle">${esc(b.title)}${b.jamark?"　※":""}</div>`;
+  const who = [b.author, b.nat ? `（${b.nat}）` : ""].filter(Boolean).join("");
+  const stars = b.level ? "★".repeat(+b.level) + "☆".repeat(5-(+b.level)) : "";
+  const yearLine = b.year ? `${esc(b.year)}年` : "";
+  const credLine = b.cred ? esc(b.cred) : "";
+  const japubLine = b.japub ? esc(b.japub) : "";
+  const foot = (who || stars || yearLine || credLine || japubLine) ? `<div class="foot">
+      ${yearLine?`<div>出版年：${yearLine}</div>`:""}
+      ${who?`<div>作者・国籍：${esc(b.author)}${b.nat?`（${esc(b.nat)}）`:""}</div>`:""}
+      ${stars?`<div>英語レベル：${stars}</div>`:""}
+      ${credLine?`<div class="cred">${credLine}</div>`:""}
+      ${japubLine?`<div>${japubLine}</div>`:""}
+    </div>` : "";
+  const body = b.syn
+    ? `<p class="syn">${esc(b.syn)}</p>`
+    : (b.vol ? `<p class="volbig">${esc(volShort(b.vol))}</p>` : `<p class="syn"></p>`);
+  return `<div class="card ${s.border}" data-title="${esc(b.title)}" style="width:${s.w}mm;height:${s.h}mm">
+    <div class="inner">
+      ${eyebrow}
+      ${origtitle}
+      ${jatitle}
+      ${body}
+      ${foot}
+    </div>
+  </div>`;
+}
+function render(){
+  renderLib();
+  const s = state.settings;
+  const per = s.cols * s.rows;
+  const picked = state.books.filter(b=>b.use);
+  const pages = Math.max(1, Math.ceil(picked.length / per));
+  const scaler = $("#scaler");
+  const isAuto = s.fs === "auto";
+  const baseFs = isAuto ? 7 : parseFloat(s.fs);
+
+  let html = "";
+  const border = s.colorOn ? s.borderColor : "#14181c";
+  const text = s.colorOn ? s.textColor : "#161b20";
+  const bg = s.colorOn ? s.bgColor : "transparent";
+  for(let p=0; p<pages; p++){
+    const slice = picked.slice(p*per, (p+1)*per);
+    html += `<div class="sheet" style="--fs:${baseFs}pt;--card-border:${border};--card-text:${text};--card-bg:${bg}">
+      <div class="grid" style="grid-template-columns:repeat(${s.cols},${s.w}mm);column-gap:${s.gx}mm;row-gap:${s.gy}mm">
+        ${slice.map(b=>cardHTML(b,s)).join("")}
+      </div>
+      <div class="sheetfoot">印刷設定：A4／実際のサイズ 100%　枠：${s.w}mm × ${s.h}mm</div>
+    </div>`;
+  }
+  scaler.innerHTML = html;
+
+  $("#stageMeta").textContent = `${picked.length}枚 ／ A4 ${pages}ページ ／ 1ページ ${s.cols}列 × ${s.rows}段`;
+  fit();
+  requestAnimationFrame(()=>{
+    if(isAuto) autoFitCards();
+    checkOverflow();
+  });
+}
+
+function autoFitCards(){
+  document.querySelectorAll("#scaler .card").forEach(card=>{
+    const inner = card.querySelector(".inner");
+    const orig = card.querySelector(".origtitle");
+    if(orig) orig.style.display = ""; // 原題も最初から表示した状態でサイズを決める
+    let lo = 5, hi = 13, best = lo;
+    for(let i=0;i<7;i++){
+      const mid = (lo+hi)/2;
+      card.style.setProperty("--fs", mid.toFixed(2)+"pt");
+      const fits = inner.scrollHeight <= inner.clientHeight + 0.5;
+      if(fits){ best = mid; lo = mid; } else { hi = mid; }
+    }
+    card.style.setProperty("--fs", best.toFixed(2)+"pt");
+  });
+}
+
+function fit(){
+  const stage = $("#stage");
+  const avail = stage.clientWidth - 40;
+  const sheetPx = 210 * (96/25.4);
+  const k = Math.min(1, avail / sheetPx);
+  const sc = $("#scaler");
+  sc.style.transform = `scale(${k})`;
+  const sheets = sc.querySelectorAll(".sheet").length;
+  sc.style.height = (297 * (96/25.4) + 14*(96/25.4)) * sheets * k + "px";
+}
+window.addEventListener("resize", fit);
+
+function checkOverflow(){
+  const bad = [];
+  document.querySelectorAll("#scaler .card").forEach(card=>{
+    const inner = card.querySelector(".inner");
+    const over = inner.scrollHeight > inner.clientHeight + 1;
+    card.classList.toggle("bad", over);
+    if(over){
+      bad.push(card.dataset.title || "無題");
+    }
+  });
+  const slot = $("#warnSlot");
+  slot.innerHTML = bad.length
+    ? `<div class="warnbox no-print">文字がはみ出しています：${esc(bad.join("／"))}<br>
+       あらすじを短くするか、「用紙の設定」で本文を小さくしてください。</div>`
+    : "";
+}
+
+/* ---------- 印刷・入出力 ---------- */
+function doPrint(){ window.print(); }
+$("#printBtn").addEventListener("click", doPrint);
+$("#printBtn2").addEventListener("click", doPrint);
+
+$("#exportBtn").addEventListener("click", ()=>{
+  const blob = new Blob([JSON.stringify(state,null,2)], {type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "あらすじカード.json";
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
+  toast("書き出しました");
+});
+const SAMPLE_BOOKS = [
+  { series:"The Glass Orchard", vol:"本編全2巻・第1巻", title:"The Glass Orchard", titleja:"硝子の果樹園",
+    syn:"火事で果樹園を失った庭師ノラは、燃え跡から一本だけ育つガラスの木を見つける。実をつけるたび、村の誰かの記憶が一つ消えていくことに気づいた彼女は、木を切るか育て続けるかの選択を迫られる。",
+    author:"Isla Vance", nat:"イギリス", cred:"デビュー作にして英国幻想文学賞候補" },
+  { series:"", vol:"", title:"Nine Winters in Reykjavik", titleja:"レイキャビクの九つの冬",
+    syn:"漁師の父を亡くした少年アルンは、毎年同じ日に届く差出人不明の手紙を頼りに、九年かけて父の過去をたどる。手紙の主が誰なのか、最後の一通で明かされる静かな家族小説。",
+    author:"Björn Eiríksson", nat:"アイスランド", cred:"現地紙で年間ベストブック選出" },
+  { series:"The Cartographer's Daughters", vol:"全3巻・第2巻", title:"The Salt Meridian", titleja:"塩の子午線",
+    syn:"地図製作者の姉妹は、父が遺した未完成の海図を完成させるため、それぞれ別の航路で同じ島を目指す。二人の描く地図が食い違うたび、姉妹の間の古い確執も浮かび上がる。",
+    author:"Rosalind Ferro", nat:"イタリア", cred:"シリーズ第1巻が15か国語に翻訳" },
+  { series:"", vol:"", title:"The Last Bookbinder of Prague", titleja:"プラハ最後の製本師",
+    syn:"戦後、焼け残った本を集めて製本し直す老職人のもとに、身元不明の少女が弟子入りする。少女が持ち込む本にはすべて同じページが破り取られていた。",
+    author:"Klára Nováková", nat:"チェコ", cred:"" },
+  { series:"Salt and Starlight", vol:"本編全2巻・第2巻", title:"Starlight, Withheld", titleja:"隠された星明かり",
+    syn:"灯台守を辞めた元船長が、消えた恋人を探して最後の航海に出る完結編。星を読む技術だけを頼りに進む海で、彼が本当に探していたものが少しずつ形を変えていく。",
+    author:"Maren Solberg", nat:"ノルウェー", cred:"北欧文学賞最終候補" },
+  { series:"", vol:"", title:"The Quiet Hour", titleja:"静かな時間",
+    syn:"図書館の閉館後、一時間だけ本と話せる司書見習いの物語。ある晩、誰にも借りられたことのない一冊の本が、彼女に助けを求めてくる。",
+    author:"Ingrid Aas", nat:"ノルウェー", cred:"" }
+];
+$("#sampleBtn").addEventListener("click", ()=>{
+  if(state.books.length && !confirm("いま登録している本はそのままに、見本6冊を追加します。よろしいですか？")) return;
+  SAMPLE_BOOKS.forEach(o=>state.books.push({ id:uid(), use:true, ...o }));
+  save(); render(); updateCount();
+  toast("見本6冊を追加しました");
+});
+$("#clearAllBtn").addEventListener("click", ()=>{
+  if(!state.books.length) return;
+  if(!confirm(`登録している${state.books.length}冊を全部消します。よろしいですか？`)) return;
+  state.books = [];
+  save(); render(); updateCount();
+  toast("全部消しました");
+});
+$("#importBtn").addEventListener("click", ()=>$("#importFile").click());
+$("#importFile").addEventListener("change", e=>{
+  const f = e.target.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = ()=>{
+    try{
+      const d = JSON.parse(r.result);
+      if(!Array.isArray(d.books)) throw new Error("形式が違います");
+      state.books = d.books.map(b=>({ id:b.id||uid(), use:b.use!==false, ...b }));
+      state.settings = { ...DEFAULTS, ...(d.settings||{}) };
+      settingsToForm(); save(); render(); updateCount();
+      toast(state.books.length + "冊を読み込みました");
+    }catch(err){ toast("読み込めませんでした：" + err.message); }
+  };
+  r.readAsText(f);
+  e.target.value = "";
+});
+
+/* ---------- プレビュー用データ（Claudeが埋め込み・常にこれを表示） ---------- */
+const PREVIEW_SEED = {
+  books: [{"id": "helunivrs01", "use": true, "series": "", "vol": "", "titleja": "ハロー、ここにいるよ", "syn": "児童文学。内向的な少年ヴァージルが、自称霊能者の少女カオリ、耳の聞こえない少女ヴァレンシア、いじめっ子チェットと共に、ある夏の一日で予想外に交錯する友情の物語。", "author": "Erin Entrada Kelly", "nat": "アメリカ（フィリピン系）", "year": "2017", "cred": "2018年ニューベリー賞受賞 ／ 2019年ドイツ児童文学賞（独語版）／ Netflix実写映画化決定 ／ 作者は2025年ニューベリー賞受賞『The First State of Being』、2021年ニューベリー賞オナー『We Dream of Space』などの著者", "japub": "評論社（武富博子訳）", "title": "Hello, Universe", "level": 2}, {"id": "starfish02", "use": true, "series": "", "vol": "", "titleja": "", "syn": "YA寄り児童文学。体が大きいことを理由に家族や学校で傷つけられてきた少女エリーが、自分らしさを取り戻していく物語。", "author": "Lisa Fipps", "nat": "アメリカ", "year": "2021", "cred": "2022年プリンツ賞オナー ／ 複数の州読書賞受賞", "japub": "", "title": "Starfish", "level": 2}, {"id": "blended03", "use": true, "series": "", "vol": "", "titleja": "キャラメル色のわたし", "syn": "児童文学。両親の離婚後、2つの家を行き来する11歳の少女が、家族の問題だけでなく人種差別にも直面しながら、自分の居場所を探っていく物語。", "author": "Sharon M. Draper", "nat": "アメリカ", "year": "2018", "cred": "", "japub": "鈴木出版（横山和江訳）", "title": "Blended", "level": 2}, {"id": "kirakira04", "use": true, "series": "", "vol": "", "titleja": "きらきら", "syn": "児童文学。1950年代アメリカ南部で暮らす日系アメリカ人の姉妹の深い絆を描く物語。姉の病気を通して、家族の愛と希望を知っていく。", "author": "Cynthia Kadohata", "nat": "アメリカ", "year": "2004", "cred": "2005年ニューベリー賞受賞", "japub": "白水社（代田亜香子訳）", "title": "Kira-Kira", "level": 2}, {"id": "yourvoice05", "use": true, "series": "", "vol": "", "titleja": "", "syn": "YA小説。恋人の統合失調症と向き合う高校生の少女が、愛と現実の狭間で揺れる物語。精神疾患を題材にしており、繊細な描写が含まれる。", "author": "Leah Scheier", "nat": "アメリカ", "year": "2015", "cred": "", "japub": "", "title": "Your Voice Is All I Hear", "level": 3}, {"id": "maybeafox06", "use": true, "series": "", "vol": "", "titleja": "ホイッパーウィル川の伝説", "syn": "児童文学・ファンタジー。姉を事故で亡くした少女が、不思議な子ギツネとの出会いを通して悲しみを乗り越えていく物語。", "author": "Kathi Appelt・Alison McGhee", "nat": "アメリカ", "year": "2016", "cred": "", "japub": "あすなろ書房（吉井知代子訳）", "title": "Maybe a Fox", "level": 2}, {"id": "joandlaurie07", "use": true, "series": "", "vol": "", "titleja": "", "syn": "YA歴史ロマンス。『若草物語』の「もしジョーがローリーと結ばれていたら」を描くリテリング作品。", "author": "Margaret Stohl・Melissa de la Cruz", "nat": "アメリカ", "year": "2020", "cred": "", "japub": "", "title": "Jo & Laurie", "level": 3}, {"id": "secretbees08", "use": true, "series": "", "vol": "", "titleja": "リリィ、はちみつ色の夏", "syn": "文学小説。1964年のアメリカ南部、幼い頃に亡くなった母の秘密を知るため、14歳の少女リリーは黒人女性たちが営む養蜂場を訪ねる。そこで出会った人々との暮らしを通して、愛と喪失、人種差別、そして自分自身について学んでいく。世界で600万部以上読まれた代表作。", "author": "Sue Monk Kidd", "nat": "アメリカ", "year": "2002", "cred": "ニューヨーク・タイムズ・ベストセラー（2年半以上ランクイン）／ 2008年映画化（邦題『リリィ、はちみつ色の秘密』、クイーン・ラティファ、ダコタ・ファニング出演）", "japub": "世界文化社（小川高義訳、2005年）", "title": "The Secret Life of Bees", "level": 3}, {"id": "grotlyn09", "use": true, "series": "", "vol": "", "titleja": "", "syn": "絵本（ピクチャーブック）。夜な夜な家々に忍び込んでは物を盗んでいくという、正体不明の生き物「グロトリン」の存在を巡る、韻を踏んだリズミカルな文章と迫力ある絵で描く一冊。街の人々を怯えさせながら、警察官の下着まで盗んでしまうユーモラスな展開も。対象年齢3〜6歳。", "author": "Benji Davies", "nat": "イギリス", "year": "2017", "cred": "", "japub": "", "title": "The Grotlyn", "level": 1}, {"id": "audreyhep10", "use": true, "series": "", "vol": "", "titleja": "", "syn": "伝記・英語多読（Penguin Readers）。ベルギーに生まれ第二次世界大戦を経験したオードリー・ヘプバーンが、女優として世界的スターになり、晩年はユニセフ親善大使として活動するまでを、やさしい英語でまとめた一冊。英語レベルの目安はLevel 2（CEFR A2前後）。", "author": "Chris Rice", "nat": "イギリス", "year": "2000", "cred": "", "japub": "", "title": "Audrey Hepburn", "level": 1}, {"id": "missperegrine11", "use": true, "series": "", "vol": "", "titleja": "ハヤブサが守る家", "titleja2": "ミス・ペレグリンと奇妙なこどもたち", "syn": "YAダークファンタジー。祖父の死をきっかけに、16歳のジェイコブは離島にある古い孤児院を訪れる。そこには空を飛べる少女や透明になれる少年など、不思議な力を持つ子どもたちが暮らしていたが、彼らは恐ろしい怪物に狙われていた。本物のアンティーク写真を随所に使った独特の作風で知られ、シリーズ累計は数百万部。", "author": "Ransom Riggs", "nat": "アメリカ", "year": "2011", "cred": "ニューヨーク・タイムズ・ベストセラー（70週以上ランクイン）／ 2016年映画化（監督：ティム・バートン）", "japub": "2013年 東京創元社（山田順子訳、邦題『ハヤブサが守る家』）／ 2016年 潮出版社の新訳文庫版（金原瑞人・大谷真弓訳、邦題『ミス・ペレグリンと奇妙なこどもたち』に改題）", "title": "Miss Peregrine's Home for Peculiar Children", "level": 3}, {"id": "reachedsam12", "use": true, "series": "", "vol": "", "titleja": "", "syn": "YA恋愛小説。恋人サムを事故で亡くした高校生ジュリーが、悲しみに耐えられず、もうつながらないはずのサムの携帯電話にかけると、なぜか本人が出る。現実には会えない二人が電話だけで話し続ける、切ない青春小説。BookTok発の世界的ヒット作。", "author": "Dustin Thao", "nat": "アメリカ（ベトナム系）", "year": "2021", "cred": "ニューヨーク・タイムズ／USAトゥデイ・ベストセラー ／ 世界20か国以上で翻訳", "japub": "", "title": "You've Reached Sam", "level": 3}, {"id": "secretgarden13", "use": true, "series": "", "vol": "", "titleja": "秘密の花園", "syn": "児童文学の古典。両親を亡くした気難しい少女メアリーが、イギリスの屋敷で長年閉ざされていた「秘密の花園」の鍵を見つけ、いとこのコリンや友人ディコンと共に庭をよみがえらせていく中で、子どもたちの心と体も少しずつ変わっていく。100年以上読み継がれる名作。著者は『小公女』の作者でもある。", "author": "Frances Hodgson Burnett", "nat": "イギリス（後にアメリカに帰化）", "year": "1911", "cred": "", "japub": "岩波少年文庫（山内玲子訳）・教文館（脇明子訳）・福音館書店・新潮文庫など複数社より刊行", "title": "The Secret Garden", "level": 4}, {"id": "chasingharry14", "use": true, "series": "", "vol": "", "titleja": "ハリー・ウィンストンを探して", "syn": "女性向け小説・官能。ニューヨークで暮らす30代目前の親友3人が、「1年間、自分の人生を変える挑戦をしよう」と誓う。理想の恋人を探す女性、気ままな恋愛をやめられない女性、完璧に見える結婚生活に悩む女性、それぞれの一年を描く。『プラダを着た悪魔』の著者による作品。", "author": "Lauren Weisberger", "nat": "アメリカ", "year": "2008", "cred": "", "japub": "早川書房（佐竹史子訳、イソラ文庫、2009年）", "title": "Chasing Harry Winston", "level": 3}, {"id": "everyoneworth15", "use": true, "series": "", "vol": "", "titleja": "パーティプランナー：一流セレブの集めかた", "syn": "女性向け小説・お仕事小説。仕事に疲れた主人公ベティが、超有名PR会社へ転職し、セレブやモデル、実業家が集まるニューヨークの華やかな社交界に飛び込んでいく。理想の仕事や恋愛を手にしたように見えても、その裏にはプレッシャーや駆け引きがあり、自分らしい幸せとは何かを見つめ直していく物語。", "author": "Lauren Weisberger", "nat": "アメリカ", "year": "2005", "cred": "『プラダを着た悪魔』の著者による2作目", "japub": "早川書房（佐竹史子訳、2006年）", "title": "Everyone Worth Knowing", "level": 3}, {"id": "thespy16", "use": true, "series": "", "vol": "", "titleja": "ザ・スパイ", "syn": "歴史小説・伝記小説。第一次世界大戦中、「史上最も有名な女スパイ」と呼ばれたマタ・ハリの人生を描く。死刑を目前にした彼女が、自らの人生を振り返る手紙という形式で物語が進む。本当にスパイだったのか、それとも時代に翻弄された一人の女性だったのか——愛、自由、名声、そして裏切りを描いた作品。", "author": "Paulo Coelho", "nat": "ブラジル", "year": "2016（原題『A Espiã』、ポルトガル語）", "cred": "", "japub": "KADOKAWA（木下眞穂訳、角川文庫、2018年）", "title": "The Spy", "level": 3}, {"id": "insideoutback17", "use": true, "series": "", "vol": "", "titleja": "はじまりのとき", "syn": "児童文学（Middle Grade）・詩小説（Verse Novel）。1975年、ベトナム戦争末期。10歳の少女ハーは、サイゴン陥落により家族とともに祖国を離れ、難民としてアメリカへ渡る。新しい学校では英語が話せず、いじめや文化の違いに苦しみながらも、少しずつ新しい生活に馴染み、自分の居場所を見つけていく。作者自身の難民体験をもとに書かれた、全編が短い詩のような形式の作品。", "author": "Thanhhà Lai", "nat": "アメリカ（ベトナム系）", "year": "2011", "cred": "全米図書賞児童文学部門受賞 ／ 2012年ニューベリー賞オナー ／ ニューヨーク・タイムズ・ベストセラー", "japub": "鈴木出版（代田亜香子訳、2014年）", "title": "Inside Out & Back Again", "level": 3}, {"id": "monstercalls18", "use": true, "series": "", "vol": "", "titleja": "怪物はささやく", "syn": "YA・児童文学・ダークファンタジー。13歳の少年コナーの母親は重い病気を患っている。ある夜から毎晩、巨大なイチイの木の怪物が現れ、コナーに3つの物語を語る。そして最後に「4つ目の物語は、お前自身が語る番だ」と告げる。怪物との対話を通して、コナーは母への愛、不安、怒り、そして自分の本当の気持ちと向き合っていく。作家シヴォーン・ダウドが病気で亡くなる前に残したアイデアを、パトリック・ネスが引き継いで完成させた作品。", "author": "Patrick Ness（原案：Siobhan Dowd）", "nat": "アメリカ（イギリス在住）", "year": "2011", "cred": "カーネギー賞・ケイト・グリーナウェイ賞ダブル受賞 ／ ニューヨーク・タイムズ・ベストセラー ／ 2016年映画化", "japub": "あすなろ書房（池田真紀子訳、2011年）、のち東京創元社文庫版（2017年）", "title": "A Monster Calls", "level": 2}, {"id": "onmysticlake19", "use": true, "series": "", "vol": "", "titleja": "", "syn": "ヒューマンドラマ。夫から突然離婚を切り出されたアニーは、失意の中で故郷のミスティック・レイクへ戻る。そこで高校時代の恋人ニックと再会するが、彼の妻は重い病気を患い、幼い娘は母を失う不安を抱えていた。アニーは家族を支えるうちに、自分自身の人生と本当の幸せを見つめ直していく。", "author": "Kristin Hannah", "nat": "アメリカ", "year": "2000", "cred": "全米ベストセラー", "japub": "", "title": "On Mystic Lake", "level": 3}, {"id": "greatalone20", "use": true, "series": "", "vol": "", "titleja": "", "syn": "歴史小説・成長小説・サバイバル。1974年、ベトナム帰還兵の父と家族は、アラスカの大自然へ移住する。しかし冬が深まるにつれて父の心は次第に壊れていき、家庭内の緊張が激しくなる。娘レニは、美しくも過酷なアラスカで、生き抜く力と初恋、そして自由を求めて成長していく。", "author": "Kristin Hannah", "nat": "アメリカ", "year": "2018", "cred": "ニューヨーク・タイムズ・ベストセラー ／ Goodreads Choice Awards最優秀歴史小説賞", "japub": "", "title": "The Great Alone", "level": 4}, {"id": "brokenheart21", "use": true, "series": "Once Upon a Broken Heart", "vol": "本編全3巻・第1巻", "titleja": "", "syn": "YA・ファンタジーロマンス・おとぎ話。エヴァンジェリンは恋する相手を取り戻すため、「運命（Fate）」と呼ばれる不死の存在の一人、ハートの王子（ジャックス）と契約を結ぶ。しかしその願いは予想外の方向へ進み、エヴァンジェリンは呪い、魔法、王家の陰謀に巻き込まれていく。ロマンスとおとぎ話が融合した、美しく切ないファンタジー。", "author": "Stephanie Garber", "nat": "アメリカ", "year": "2021", "cred": "サンデー・タイムズ／ニューヨーク・タイムズ・ベストセラー ／ BookTokで世界的大ヒット", "japub": "", "title": "Once Upon a Broken Heart", "level": 3}, {"id": "balladnever21b", "use": true, "series": "Once Upon a Broken Heart", "vol": "本編全3巻・第2巻", "titleja": "", "syn": "", "author": "", "nat": "", "year": "2022", "cred": "", "japub": "", "title": "The Ballad of Never After", "level": ""}, {"id": "cursetruelove21c", "use": true, "series": "Once Upon a Broken Heart", "vol": "本編全3巻・第3巻", "titleja": "", "syn": "", "author": "", "nat": "", "year": "2023", "cred": "", "japub": "", "title": "A Curse for True Love", "level": ""}, {"id": "atlassix22", "use": true, "series": "The Atlas Six", "vol": "本編全3巻・第1巻", "titleja": "", "jamark": true, "syn": "大人向けダークアカデミア・ファンタジー。世界屈指の魔術師6人が、秘密結社アレクサンドリア協会への加入資格をめぐって争う。頭脳と魔法を武器にした心理戦の裏側には、歪んだ関係、裏切り、官能、そして暴力が渦巻く。子ども向けの学園ファンタジーではなく、大人向けのダークな人間ドラマ。", "author": "Olivie Blake", "nat": "アメリカ", "year": "自費出版2020年→商業出版（Tor Books）2021年", "cred": "ニューヨーク・タイムズ・ベストセラー ／ BookTokで話題となり自費出版から大手出版社での再刊に至った異例のヒット作", "japub": "早川書房（佐田千織訳、ハヤカワ文庫FT、2023年）", "title": "The Atlas Six", "level": 4}, {"id": "atlasparadox22b", "use": true, "series": "The Atlas Six", "vol": "本編全3巻・第2巻", "titleja": "", "syn": "", "author": "", "nat": "", "year": "2022", "cred": "", "japub": "", "title": "The Atlas Paradox", "level": ""}, {"id": "atlascomplex22c", "use": true, "series": "The Atlas Six", "vol": "本編全3巻・第3巻", "titleja": "", "syn": "", "author": "", "nat": "", "year": "2024", "cred": "", "japub": "", "title": "The Atlas Complex", "level": ""}, {"id": "innamorata23", "use": true, "series": "House of Teeth", "vol": "全2巻・第1巻", "titleja": "", "syn": "大人向けゴシックファンタジー。かつて死者が蘇る島で、死霊術を操る七つの名家が栄えていた。征服者に滅ぼされたその一族「House of Teeth」の生き残りである少女アグネスは、7年間沈黙を貫いてきたが、いとこの結婚を利用して一族の秘術を取り戻す使命を負っている。復讐と禁断の想いの間で引き裂かれていく、退廃的で血なまぐさいゴシック・ロマンス。", "author": "Ava Reid", "nat": "アメリカ", "year": "2026", "cred": "『A Study in Drowning』『Lady Macbeth』などのニューヨーク・タイムズ・ベストセラー作家による新作 ／ 刊行直後からBookTokやゴシックファンタジー読者の間で話題", "japub": "", "title": "Innamorata", "level": 4}, {"id": "luster24", "use": true, "series": "", "vol": "", "titleja": "", "syn": "文学小説。23歳の黒人女性エディは、仕事も人生もうまくいかない中、既婚男性エリックとの関係をきっかけに、彼の家族との奇妙な同居生活へ足を踏み入れる。恋愛、人種、格差、孤独を通して、自分の居場所を模索していく、鋭くも滑稽な現代文学。官能的な場面も多い。", "author": "Raven Leilani", "nat": "アメリカ", "year": "2020", "cred": "全米批評家協会ジョン・レナード賞、カーカス賞、Center for Fiction First Novel Prize、ディラン・トマス賞、VCUキャベル新人賞など受賞 ／ ニューヨーク・タイムズ・ベストセラー ／ オバマ元大統領の2020年愛読書に選出", "japub": "", "title": "Luster", "level": 4}, {"id": "itendswithus25", "use": true, "series": "", "vol": "", "titleja": "世界の終わり、愛のはじまり", "titleja2": "イット・エンズ・ウィズ・アス ふたりで終わらせる", "syn": "現代恋愛・ヒューマンドラマ。花屋を開いたリリーは、魅力的な脳神経外科医ライルと恋に落ちる。しかし彼との生活は次第に家庭内暴力の現実を映し出し、リリーは人生最大の決断を迫られる。", "author": "Colleen Hoover", "nat": "アメリカ", "year": "2016", "cred": "BookTok最大級のヒット作の一つで世界数千万部を売り上げる代表作 ／ 2016年Goodreads Choice Awardsベスト・ロマンス賞受賞 ／ 2024年映画化（主演：ブレイク・ライヴリー）", "japub": "二見書房より邦訳刊行:「世界の終わり、愛のはじまり」（相山夏奏訳、2020年）、のち改訳版「イット・エンズ・ウィズ・アス ふたりで終わらせる」（2023年）", "title": "It Ends with Us", "level": 3}, {"id": "itstartswithus25b", "use": true, "series": "", "vol": "", "titleja": "イット・スターツ・ウィズ・アス ふたりから始める", "syn": "現代恋愛・ヒューマンドラマ。『It Ends with Us』の続編。前作の結末から続く物語で、離婚したライルと娘の共同養育を始めたリリーは、街で初恋の相手アトラスと再会する。今度はアトラスの視点も交えながら、過去のトラウマからの回復と、ライルの干渉を乗り越えて新しい関係を築いていく二人を描く。", "author": "Colleen Hoover", "nat": "アメリカ", "year": "2022", "cred": "発売当日だけで80万部を売り上げ、サイモン&シュスター史上最多の予約数を記録 ／ ニューヨーク・タイムズ・ベストセラー1位", "japub": "二見書房より邦訳刊行（相山夏奏訳）", "title": "It Starts with Us", "level": 3}, {"id": "tin26", "use": true, "series": "", "vol": "", "titleja": "", "syn": "児童文学・SF・冒険。ロボットが当たり前になった世界で、少年クリストファーとロボットのティンが冒険に出る。友情と「人間らしさとは何か」を描く児童SF。", "author": "Pádraig Kenny", "nat": "アイルランド", "year": "2018", "cred": "CILIPカーネギー賞候補 ／ Waterstones Children's Book of the Month選出", "japub": "", "title": "Tin", "level": 2}, {"id": "dragonflypool27", "use": true, "series": "", "vol": "", "titleja": "", "syn": "児童文学・歴史・冒険。寄宿学校の少女タリーは、ダンス大会で訪れたヨーロッパで王子と出会う。第二次世界大戦直前、友情と勇気を描く歴史冒険小説。", "author": "Eva Ibbotson", "nat": "イギリス（オーストリア生まれ）", "year": "2008", "cred": "『Journey to the River Sea』『The Star of Kazan』などで知られる児童文学作家による作品", "japub": "", "title": "The Dragonfly Pool", "level": 3}, {"id": "saintdeath28", "use": true, "series": "", "vol": "", "titleja": "", "syn": "YA・クライム・社会派。メキシコ国境で犯罪組織に巻き込まれた少年が、生き残るため危険な世界へ踏み込む。死と信仰、貧困を描くダークな青春小説。", "author": "Marcus Sedgwick", "nat": "イギリス", "year": "2016", "cred": "2018年CILIPカーネギー賞候補 ／ 著者はプリンツ賞受賞歴のある作家", "japub": "", "title": "Saint Death", "level": 3}, {"id": "starofkazan29", "use": true, "series": "", "vol": "", "titleja": "", "syn": "児童文学・歴史・ファンタジー風。ウィーンで召使いとして育った少女アネリースが、自分の出生の秘密を知る。家族・友情・恋を描く、おとぎ話のような成長物語。", "author": "Eva Ibbotson", "nat": "イギリス（オーストリア生まれ）", "year": "2004", "cred": "2004年ネスレ児童図書賞シルバー賞受賞 ／ 同年CILIPカーネギー賞候補", "japub": "", "title": "The Star of Kazan", "level": 3}, {"id": "pagefrommylife30", "use": true, "series": "", "vol": "", "titleja": "", "syn": "エッセイ・アンソロジー。アイルランドのラジオ番組「Ray D'Arcy Show」に寄せられた、一般の人々の人生の一場面を集めた150編のエッセイ集。笑える話、泣ける話、家族・恋愛・人生など、本当にあった短い物語が詰まっている。", "author": "Ray D'Arcy（編）", "nat": "アイルランド", "year": "2020", "cred": "コロナ禍にRTÉラジオ1のリスナーから寄せられた2,500編以上の投稿から150編を厳選 ／ アイルランドで話題となったチャリティー本", "japub": "", "title": "A Page from My Life", "level": 3}, {"id": "bridgeterabithia31", "use": true, "series": "", "vol": "", "titleja": "テラビシアにかける橋", "syn": "児童文学の名作。孤独な少年ジェスは転校生レスリーと親友になり、森の奥に二人だけの王国「テラビシア」を作る。想像力に満ちた冒険を通して成長するが、ある出来事がジェスの人生を大きく変える。", "author": "Katherine Paterson", "nat": "アメリカ", "year": "1977", "cred": "1978年ニューベリー賞受賞 ／ 世界24か国語に翻訳、500万部以上を売り上げる児童文学の名作中の名作 ／ 2007年映画化（日本公開2008年）", "japub": "偕成社より邦訳刊行", "title": "Bridge to Terabithia", "level": 3}, {"id": "exhalation32", "use": true, "series": "", "vol": "", "titleja": "息吹", "syn": "SF短編集。AI、時間、記憶、自由意志、人間とは何かをテーマにした9編。派手なアクションではなく、「もしこういう世界なら？」を深く考えさせられる知的SF。表題作はヒューゴー賞・ローカス賞など受賞。", "author": "Ted Chiang", "nat": "アメリカ", "year": "2019", "cred": "ニューヨーク・タイムズ紙2019年ベスト10ブック ／ タイム誌2019年必読書リスト選出 ／ 前短編集『あなたの人生の物語』（映画『メッセージ』原作）から17年ぶりの作品集", "japub": "早川書房より邦訳刊行（大森望訳、2019年）", "title": "Exhalation", "level": 4}, {"id": "girlwhodrankmoon33", "use": true, "series": "", "vol": "", "titleja": "月の光を飲んだ少女", "syn": "児童ファンタジー。毎年赤ん坊を魔女に捧げる村で、一人の赤ん坊が誤って「月の魔法」を授かり育てられる。少女は自分の力と村に隠された真実を知り、運命に立ち向かう。", "author": "Kelly Barnhill", "nat": "アメリカ", "year": "2016", "cred": "2017年ニューベリー賞受賞", "japub": "評論社より邦訳刊行（佐藤見果夢訳、2019年）", "title": "The Girl Who Drank the Moon", "level": 3}, {"id": "handmaidstale34", "use": true, "series": "", "vol": "", "titleja": "侍女の物語", "syn": "ディストピア文学・バイオレンス。環境破壊と独裁政治によって女性の権利が奪われた近未来国家ギレアデで、子どもを産むためだけに生かされる「侍女」の人生を描く。主人公オブフレッドは、自由を失った世界で静かに抵抗し、生き延びようとする。国家による抑圧と統制を容赦なく描いた作品。", "author": "Margaret Atwood", "nat": "カナダ", "year": "1985", "cred": "カナダ総督文学賞受賞 ／『1984』『すばらしい新世界』と並ぶディストピア文学の最高傑作の一つ ／ 1990年映画化 ／ 2017〜2025年Huluドラマ化（エミー賞・ゴールデングローブ賞受賞）", "japub": "早川書房より邦訳刊行（斎藤英治訳、ハヤカワepi文庫）", "title": "The Handmaid's Tale", "level": 4}, {"id": "testaments34b", "use": true, "series": "The Handmaid's Tale", "vol": "続編", "titleja": "誓願", "syn": "『侍女の物語』の35年越しの続篇。ギレアデ体制に綻びが見えはじめた頃、政治の中枢にのぼり詰めた小母リディア、司令官の家で育ったアグネス、カナダの娘デイジー、3人の異なる視点から国の激動を描く。", "author": "Margaret Atwood", "nat": "カナダ", "year": "2019", "cred": "ブッカー賞受賞（アトウッド2度目の受賞）／ Huluでドラマ化進行中", "japub": "早川書房より邦訳刊行（鴻巣友季子訳）", "title": "The Testaments", "level": 4}, {"id": "mockingbird35", "use": true, "series": "", "vol": "", "titleja": "アラバマ物語", "syn": "1930年代アメリカ南部。少女スカウトの目を通して、人種差別と正義、成長を描く名作。父アティカスが黒人男性の弁護を引き受けたことで、町の偏見と向き合うことになる。", "author": "Harper Lee", "nat": "アメリカ", "year": "1960", "cred": "ピューリッツァー賞受賞 ／ 20世紀アメリカ文学を代表する傑作 ／ 1962年映画化（主演グレゴリー・ペック、アカデミー賞3部門受賞）／ ブロードウェイでも舞台化", "japub": "暮しの手帖社より邦訳刊行（菊池重三郎訳）", "title": "To Kill a Mockingbird", "level": 3}, {"id": "pobbydingan36", "use": true, "series": "", "vol": "", "titleja": "ポビーとディンガン", "syn": "児童文学。少女ケリーアンには、ポビーとディンガンという「見えない友達」がいた。二人が姿を消したことで、家族や町全体が少女の想像力と向き合うことになる。100ページほどで読める、幻想的で優しい物語。", "author": "Ben Rice", "nat": "オーストラリア", "year": "2000", "cred": "2005年映画化（邦題『ポビーとディンガン』、原題：Opal Dream）", "japub": "アーティストハウスより邦訳刊行（雨海弘美訳、2000年）", "title": "Pobby and Dingan", "level": 2}, {"id": "alchemised37", "use": true, "series": "", "vol": "", "titleja": "", "jamark": false, "syn": "大人向けダークファンタジー・ロマンス。錬金術と死霊術が支配する戦後の世界で、記憶を失った女性ヘレナと、彼女の過去を暴こうとする謎めいた男の運命が交差する。歪んだ関係、そして戦争・拷問・レイプを含む重厚で過激な長編。読む前に公式サイトの content warning の確認を強く推奨される作品。", "author": "SenLinYu", "nat": "アメリカ", "year": "2025", "cred": "全米ベストセラー1位 ／ 2025年Goodreads Choice Awards最優秀デビュー小説賞受賞 ／ 映画化権をLegendary社が取得（製作は未着手）／ 人気二次創作小説『Manacled』を原型に、世界観を完全オリジナルに書き直した商業デビュー作", "japub": "", "title": "Alchemised", "level": 4}, {"id": "boybackclass38", "use": true, "series": "", "vol": "", "titleja": "5000キロ逃げてきたアーメット", "syn": "児童文学。難民の少年アーメットが小学校に転校してきて、クラスの子どもたちが彼を助けようとする物語。", "author": "Onjali Q. Raúf", "nat": "イギリス", "year": "2018", "cred": "ニューヨーク・タイムズ・ベストセラー ／ 2019年ウォーターストーンズ児童図書賞・ブルーピーター賞受賞 ／ 2020年さくら賞（日本）受賞 ／ 映画化決定・製作進行中（ヴァネッサ・レッドグレイヴ、フリーダ・ピントー、ジェイソン・アイザックス出演）", "japub": "Gakkenより邦訳刊行（久保陽子訳）", "title": "The Boy at the Back of the Class", "level": 2}, {"id": "findme39", "use": true, "series": "Call Me by Your Name", "vol": "続編", "titleja": "Find Me", "syn": "『君の名前で僕を呼んで』の続編。北イタリアで過ごした十七歳の夏から数年後、才能あるピアニストになったエリオ、ひとり身になった父サミュエル、結婚して大学教授になったオリヴァー。それぞれの再会と新たな出会いを描く。", "author": "André Aciman", "nat": "アメリカ（エジプト・アレクサンドリア生まれ）", "year": "2019", "cred": "ニューヨーク・タイムズ・ベストセラー ／ 前作『君の名前で僕を呼んで』は2017年映画化・アカデミー賞脚色賞受賞。本作の映画化は今のところ実現していない", "japub": "オークラ出版より邦訳刊行（市ノ瀬美麗訳、2020年）", "title": "Find Me", "level": 3}, {"id": "shatterme40", "use": true, "series": "Shatter Me", "vol": "本編全6巻・第1巻", "titleja": "シャッター・ミー 炎の手を持つ少女", "syn": "YAディストピア・ロマンス。触れた相手を死に至らしめる力を持つ少女ジュリエットは、環境破壊で荒廃した世界を支配する独裁体制に幽閉されていた。彼女の力を利用しようとする体制と、唯一心を許せる青年アダムとの間で揺れ動く。", "author": "Tahereh Mafi", "nat": "アメリカ", "year": "2011", "cred": "ニューヨーク・タイムズ・ベストセラー ／ BookTokで世界的大ヒット ／ テレビドラマ化権取得（ABC Signature Studios）", "japub": "潮出版社より邦訳刊行（金原瑞人・大谷真弓訳、潮文庫、2019年〜）", "title": "Shatter Me", "level": 3}, {"id": "unravelme40b", "use": true, "series": "Shatter Me", "vol": "本編全6巻・第2巻", "titleja": "", "syn": "", "author": "", "nat": "", "year": "2013", "cred": "", "japub": "", "title": "Unravel Me", "level": ""}, {"id": "igniteme40c", "use": true, "series": "Shatter Me", "vol": "本編全6巻・第3巻", "titleja": "", "syn": "", "author": "", "nat": "", "year": "2014", "cred": "", "japub": "", "title": "Ignite Me", "level": ""}, {"id": "restoreme40d", "use": true, "series": "Shatter Me", "vol": "本編全6巻・第4巻", "titleja": "", "syn": "", "author": "", "nat": "", "year": "2018", "cred": "", "japub": "", "title": "Restore Me", "level": ""}, {"id": "defyme40e", "use": true, "series": "Shatter Me", "vol": "本編全6巻・第5巻", "titleja": "", "syn": "", "author": "", "nat": "", "year": "2019", "cred": "", "japub": "", "title": "Defy Me", "level": ""}, {"id": "imagineme40f", "use": true, "series": "Shatter Me", "vol": "本編全6巻・第6巻", "titleja": "", "syn": "", "author": "", "nat": "", "year": "2020", "cred": "", "japub": "", "title": "Imagine Me", "level": ""}, {"id": "destroyme40g", "use": true, "series": "Shatter Me", "vol": "外伝ノヴェラ（ワーナー視点・短編）", "titleja": "", "syn": "", "author": "", "nat": "", "year": "2012", "cred": "", "japub": "", "title": "Destroy Me", "level": ""}, {"id": "fractureme40h", "use": true, "series": "Shatter Me", "vol": "外伝ノヴェラ（アダム視点・短編）", "titleja": "", "syn": "", "author": "", "nat": "", "year": "2013", "cred": "", "japub": "", "title": "Fracture Me", "level": ""}, {"id": "shadowme40i", "use": true, "series": "Shatter Me", "vol": "外伝ノヴェラ（ケンジ視点・短編）", "titleja": "", "syn": "", "author": "", "nat": "", "year": "2019", "cred": "", "japub": "", "title": "Shadow Me", "level": ""}, {"id": "revealme40j", "use": true, "series": "Shatter Me", "vol": "外伝ノヴェラ（ケンジ視点・短編）", "titleja": "", "syn": "", "author": "", "nat": "", "year": "2019", "cred": "", "japub": "", "title": "Reveal Me", "level": ""}, {"id": "believeme40k", "use": true, "series": "Shatter Me", "vol": "外伝ノヴェラ（エピローグ的短編）", "titleja": "", "syn": "", "author": "", "nat": "", "year": "2020", "cred": "", "japub": "", "title": "Believe Me", "level": ""}, {"id": "valeryk41", "use": true, "series": "", "vol": "", "titleja": "", "syn": "歴史小説。1963年、ソ連の秘密都市を舞台にした冷戦下のミステリー。シベリアの収容所から核研究施設に移送された元核物理学者ヴァレリーは、放射能汚染の謎と、監視役のKGB将校との間に芽生える禁じられた感情に向き合っていく。実際の出来事に着想を得た作品。", "author": "Natasha Pulley", "nat": "イギリス", "year": "2022", "cred": "サンデー・タイムズ2022年ベストブック選出 ／ Wilbur Smith Adventure Writing Prize候補", "japub": "", "title": "The Half Life of Valery K", "level": 4}, {"id": "santorinibookshop42", "use": true, "series": "", "vol": "", "titleja": "", "syn": "女性向け小説・お仕事小説。書店スカウトの職を失った夢見がちな女性エヴィは、祖母が引き継いだギリシャ・サントリーニ島の小さな本屋を手伝うことに。書店を守るため、地主の孫と「偽装恋愛」を演じることになるが……。", "author": "Rebecca Raisin", "nat": "オーストラリア", "year": "2024", "cred": "『リトル・ヴェニス・ブックショップ』などで知られる癒やし系ロマンス作家による作品", "japub": "", "title": "Summer at the Santorini Bookshop", "level": 3}, {"id": "laststories43", "use": true, "series": "", "vol": "", "titleja": "ラスト・ストーリーズ", "syn": "短編集。ウィリアム・トレヴァーが2016年に亡くなる直前まで書き続けた最後の10編を収めた遺作短編集。再会した家庭教師と教え子、死んだと思っていた母が生きていたことを知る少女、生徒の盗みを見逃す代わりにその才能を受け入れるピアノ教師など、静かで抑制された筆致で人間の心の深層を描く。", "author": "William Trevor", "nat": "アイルランド", "year": "2018", "cred": "ニューヨーク・タイムズ紙notable book選出 ／ 「英語で書かれた短編小説の巨匠」と評される著者の遺作", "japub": "国書刊行会より邦訳刊行（栩木伸明訳、ウィリアム・トレヴァー・コレクション）", "title": "Last Stories", "level": 4}, {"id": "oxfordirish44", "use": true, "series": "", "vol": "", "titleja": "", "syn": "アンソロジー。ウィリアム・トレヴァー編。アイルランドの口承民話から、ジェイムズ・ジョイス、エリザベス・ボウエンら近現代の名手まで、45編を収めたアイルランド短編小説の決定版アンソロジー。", "author": "William Trevor（編）", "nat": "アイルランド", "year": "1989", "cred": "アイルランド短編小説の歴史を網羅する決定版アンソロジーとして高く評価される", "japub": "", "title": "The Oxford Book of Irish Short Stories", "level": 4}, {"id": "loveandsummer45", "use": true, "series": "", "vol": "", "titleja": "恋と夏", "syn": "文学小説。アイルランドの小さな町ラスモイ。夫の悲劇的な過去を知りながら静かに暮らす孤児の女性エリーは、アイルランドを離れる準備をしていた写真家フロリアンと出会う。ひと夏の間に育まれる、危うく後戻りできない愛の物語。", "author": "William Trevor", "nat": "アイルランド", "year": "2009", "cred": "ブッカー賞ロングリスト選出", "japub": "国書刊行会より邦訳刊行（谷垣暁美訳、ウィリアム・トレヴァー・コレクション）", "title": "Love and Summer", "level": 4}, {"id": "bonecollector46", "use": true, "series": "Lincoln Rhyme", "vol": "シリーズ第1作", "titleja": "ボーン・コレクター", "syn": "ミステリー・サスペンス。事故で首から下が麻痺した元NY市警科学捜査官リンカーン・ライムが、彼の目・鼻・手足となる若手女性警官アメリア・サックスとともに、被害者の骨を収集する連続殺人鬼を追う。犯人はニューヨークの古い地下インフラや歴史に精通し、被害者を生きたまま拘束して骨だけを残して殺す。緻密な科学捜査と驚愕のどんでん返しで知られるシリーズ第1作。", "author": "Jeffery Deaver", "nat": "アメリカ", "year": "1997", "cred": "ニューヨーク・タイムズ・ベストセラー ／ 1999年映画化（邦題『ボーン・コレクター』、デンゼル・ワシントン、アンジェリーナ・ジョリー出演）", "japub": "文藝春秋より邦訳刊行（池田真紀子訳、文春文庫）", "title": "The Bone Collector", "level": 3}, {"id": "coffindancer47", "use": true, "series": "Lincoln Rhyme", "vol": "シリーズ第2作", "titleja": "コフィン・ダンサー", "syn": "ミステリー・サスペンス。FBIの重要証人が航空機事故に見せかけて殺害される。犯人は「棺の前で踊る男(コフィン・ダンサー)」と呼ばれる伝説の殺し屋で、変装・偽装・陽動を駆使して足取りを消し、警察の裏をかき続ける。過去にライムの部下を手にかけたこの男との、知略を尽くした再戦を描く。", "author": "Jeffery Deaver", "nat": "アメリカ", "year": "1998", "cred": "犯人の手口：変装と偽装工作を極めた「消える殺し屋」／ 作者・ファンからシリーズ屈指の傑作と評される", "japub": "文藝春秋より邦訳刊行（池田真紀子訳、文春文庫）", "title": "The Coffin Dancer", "level": 4}, {"id": "skincollector48", "use": true, "series": "Lincoln Rhyme", "vol": "シリーズ第11作", "titleja": "スキン・コレクター", "syn": "謎の文字の刺青を毒針で刻まれた死体が発見される。犯人はライムの著書を精読して現場に証拠を残さず、かつて世間を騒がせた〈ボーン・コレクター〉の手口を模倣するように、ニューヨークの地下で殺人を繰り返していた。", "author": "Jeffery Deaver", "nat": "アメリカ", "year": "2014", "cred": "犯人の手口：毒針の刺青で被害者を殺し、暗号めいたタトゥーを予告として残す ／「このミステリーがすごい！」海外編第1位", "japub": "文藝春秋より邦訳刊行（池田真紀子訳、文春文庫）", "title": "The Skin Collector", "level": 3}, {"id": "steelkiss49", "use": true, "series": "Lincoln Rhyme", "vol": "シリーズ第12作", "titleja": "スティール・キス", "syn": "デパートのエスカレーターが突然暴走し、乗客が死亡する事故が発生。調べると事故は機械を凶器に変えた殺人だったことが判明する。IoT化が進む現代社会に潜む「モノ」の危険を描くテクノスリラー。", "author": "Jeffery Deaver", "nat": "アメリカ", "year": "2016", "cred": "犯人の手口：IoT化された身の回りの「モノ」(エスカレーター、家電など)をハッキングして凶器に変える", "japub": "文藝春秋より邦訳刊行（池田真紀子訳、2017年）", "title": "The Steel Kiss", "level": 3}, {"id": "cuttingedge50", "use": true, "series": "Lincoln Rhyme", "vol": "シリーズ第14作", "titleja": "カッティング・エッジ", "syn": "マンハッタンの宝飾店で経営者と客の男女3人が惨殺される。金庫のダイヤモンドは無事だったが、現場には500万ドルという値札の入った封筒が残されていた。婚約したカップルへの異常な執着を見せる犯人「プロミサー」を、ライムたちが追う。『ボーン・コレクター』路線への原点回帰作と評される。", "author": "Jeffery Deaver", "nat": "アメリカ", "year": "2018", "cred": "犯人の手口：婚約したカップルとダイヤモンドに対する異常な執着を見せる「プロミサー」", "japub": "文藝春秋より邦訳刊行（池田真紀子訳、文春文庫）", "title": "The Cutting Edge", "level": 3}, {"id": "midnightlock51", "use": true, "series": "Lincoln Rhyme", "vol": "シリーズ第15作", "titleja": "真夜中の密室", "syn": "州議会議員補欠選挙を控えたニューヨークで、厳重に施錠されたはずの高級アパートへの不可解な侵入事件が発生する。住人に被害はなく、犯人は鍵を開ける技術を逆に「施錠すること」に使って立ち去っていた。〈ロックスミス（解錠師）〉を名乗る愉快犯の真の目的とは。", "author": "Jeffery Deaver", "nat": "アメリカ", "year": "2022", "cred": "犯人の手口：施錠を専門とする「解錠師(ロックスミス)」。物を盗むのではなく、逆に密室に閉じ込めて立ち去る ／ 邦題は原題の直訳「ミッドナイト・ロック」ではなく「真夜中の密室」", "japub": "文藝春秋より邦訳刊行（池田真紀子訳）※邦題は原題の直訳「ミッドナイト・ロック」ではなく「真夜中の密室」", "title": "The Midnight Lock", "level": 3}, {"id": "octoberlist52", "use": true, "series": "", "vol": "", "titleja": "オクトーバー・リスト", "syn": "ノンシリーズ長編。誘拐された娘の身代金として「秘密のリスト」の引き渡しを要求された母ガブリエラ。物語は最終章から始まり、章を追うごとに時間が逆行し、最後の2章で全ての真相が明らかになるという前人未踏の“逆行ミステリー”。", "author": "Jeffery Deaver", "nat": "アメリカ", "year": "2013", "cred": "ミステリー史上初とされる、最終章から始まり時間を遡っていく“逆行”構成が話題に", "japub": "文藝春秋より邦訳刊行（土屋晃訳、文春文庫、2021年）", "title": "The October List", "level": 3}, {"id": "nevergame53", "use": true, "series": "Colter Shaw", "vol": "シリーズ第1作", "titleja": "ネヴァー・ゲーム", "syn": "懸賞金ハンターのコルター・ショウを主人公にした新シリーズ第1作。失踪した女子大生の捜索を依頼されたショウは、事件の背後に人気ビデオゲームを模した連続誘拐計画が隠されていることに気づいていく。", "author": "Jeffery Deaver", "nat": "アメリカ", "year": "2019", "cred": "犯人の手口：人気ビデオゲームのルールを模した連続誘拐計画", "japub": "文藝春秋より邦訳刊行（池田真紀子訳、文春文庫、2023年）", "title": "The Never Game", "level": 3}],
+  settings: {"w": 71, "h": 71, "cols": 2, "rows": 3, "gx": 14, "gy": 10, "fs": "auto", "border": "solid", "font": "flat", "colorOn": false, "textColor": "#161b20", "borderColor": "#14181c", "bgColor": "#ffffff"}
+};
+
+/* ---------- 起動（プレビュー版：保存データは無視して必ず上のデータを表示） ---------- */
+(async ()=>{
+  state.books = PREVIEW_SEED.books.map(b=>({ id:b.id||uid(), use:b.use!==false, ...b }));
+  state.settings = { ...DEFAULTS, ...PREVIEW_SEED.settings };
+  settingsToForm();
+  render();
+  updateCount();
+  if(memoryOnly) toast("この画面では保存が効きません。書き出しでバックアップしてください");
+  // 字体（Webフォント）の読み込みが完了してから、自動文字サイズを計算し直す。
+  // 先に仮のフォントで計算してしまうと、本物のフォントに差し替わった瞬間に
+  // 行の高さがずれて文字が重なって見えることがあるため。
+  if(document.fonts && document.fonts.ready){
+    document.fonts.ready.then(()=>render());
+  }
+})();
+</script>
+</body>
+</html>
