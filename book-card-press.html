@@ -187,6 +187,10 @@ button{cursor:pointer}
 .syn{
   margin:0 0 1mm;font-size:var(--fs);line-height:1.52;text-align:justify;color:inherit;
 }
+.volbig{
+  margin:2mm 0 0;text-align:center;color:inherit;font-family:var(--fs-disp);
+  font-weight:700;font-size:calc(var(--fs) * 2.1);line-height:1.4;letter-spacing:.04em;
+}
 .foot{margin-top:1.2mm;border-top:.2mm solid currentColor;opacity:.9;padding-top:.8mm}
 .foot div{font-size:var(--fs);line-height:1.45;color:inherit;opacity:.85}
 .foot .cred{font-style:italic}
@@ -236,6 +240,7 @@ button{cursor:pointer}
   <span class="sub">A4に6枚／71mm角／付箋に貼る前提</span>
   <span class="spacer"></span>
   <button class="btn ghost" id="sampleBtn">見本を6冊入れる</button>
+  <button class="btn ghost" id="clearUseBtn">全チェックを外す</button>
   <button class="btn ghost" id="exportBtn">書き出し</button>
   <button class="btn ghost" id="importBtn">読み込み</button>
   <input type="file" id="importFile" accept="application/json" hidden>
@@ -270,6 +275,16 @@ button{cursor:pointer}
         <input type="text" id="f-titleja" placeholder="">
       </div>
       <div class="field">
+        <label for="f-titleja2">邦題2つ目（改題・新訳などがある場合のみ）</label>
+        <input type="text" id="f-titleja2" placeholder="">
+      </div>
+      <div class="field">
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer">
+          <input type="checkbox" id="f-jamark" style="width:16px;height:16px;accent-color:var(--ink)">
+          <span>邦訳はあるが、正式なタイトルではなくカタカナ化・直訳のみ（原題の横に※を付ける）</span>
+        </label>
+      </div>
+      <div class="field">
         <label for="f-syn">あらすじ</label>
         <textarea id="f-syn" rows="6"></textarea>
         <div class="count" id="synCount">0字</div>
@@ -287,6 +302,21 @@ button{cursor:pointer}
       <div class="field">
         <label for="f-year">出版年（任意）</label>
         <input type="text" id="f-year" inputmode="numeric" placeholder="2022">
+      </div>
+      <div class="field">
+        <label for="f-japub">邦訳刊行（任意・出版社／訳者／邦訳年など）</label>
+        <input type="text" id="f-japub" placeholder="早川書房（佐竹史子訳、2009年）">
+      </div>
+      <div class="field">
+        <label for="f-level">英語の難易度（任意）</label>
+        <select id="f-level">
+          <option value="">指定しない</option>
+          <option value="1">★☆☆☆☆（やさしい）</option>
+          <option value="2">★★☆☆☆</option>
+          <option value="3">★★★☆☆（ふつう）</option>
+          <option value="4">★★★★☆</option>
+          <option value="5">★★★★★（難しい）</option>
+        </select>
       </div>
       <div class="field">
         <label for="f-cred">実績（受賞・ベストセラーなど）</label>
@@ -490,16 +520,18 @@ document.querySelectorAll(".tab").forEach(tab=>{
 
 /* ---------- 入力フォーム ---------- */
 const F = {
-  series:"#f-series", vol:"#f-vol", title:"#f-title", titleja:"#f-titleja",
-  syn:"#f-syn", author:"#f-author", nat:"#f-nat", year:"#f-year", cred:"#f-cred"
+  series:"#f-series", vol:"#f-vol", title:"#f-title", titleja:"#f-titleja", titleja2:"#f-titleja2",
+  syn:"#f-syn", author:"#f-author", nat:"#f-nat", year:"#f-year", level:"#f-level", cred:"#f-cred", japub:"#f-japub"
 };
 function readForm(){
   const o = {};
   for(const k in F) o[k] = $(F[k]).value.trim();
+  o.jamark = $("#f-jamark").checked;
   return o;
 }
 function fillForm(b){
   for(const k in F) $(F[k]).value = b && b[k] ? b[k] : "";
+  $("#f-jamark").checked = !!(b && b.jamark);
   $("#editId").value = b ? b.id : "";
   $("#saveBook").textContent = b ? "この本を更新" : "この本を登録";
   updateCount();
@@ -720,7 +752,7 @@ $("#parseBtn").addEventListener("click", ()=>{
   const hasNotesHeaders = Object.keys(NOTES_SECTION_MAP).some(h => new RegExp("^"+h+"\\s*$", "m").test(raw));
   const found = hasNotesHeaders ? parseNotesBlocks(raw) : (hasEmoji ? parseRichBlocks(raw) : parseBlocks(raw));
   if(!found.length){ toast("読み取れませんでした。本の情報が入っているか確認してください"); return; }
-  found.forEach(o=>state.books.push({ id:uid(), use:true, series:"",vol:"",titleja:"",syn:"",author:"",nat:"",year:"",cred:"", ...o }));
+  found.forEach(o=>state.books.push({ id:uid(), use:true, series:"",vol:"",titleja:"",syn:"",author:"",nat:"",year:"",level:"",cred:"", ...o }));
   $("#pasteBox").value = "";
   save(); render();
   toast(found.length + "冊を追加しました");
@@ -787,12 +819,15 @@ function renderLib(){
     const open = expandedIds.has(b.id);
     const isDraft = !b.syn;
     const detail = open ? `<div class="detail">
-        ${b.titleja?`<div><b>邦題</b>　${esc(b.titleja)}</div>`:""}
+        ${b.titleja?`<div><b>邦題</b>　${esc(b.titleja)}${b.titleja2?`／${esc(b.titleja2)}`:""}</div>`:""}
+        ${b.jamark?`<div><b>※</b>　邦訳あり・正式タイトルなし（カタカナ化/直訳のみ）</div>`:""}
         ${b.syn?`<div><b>あらすじ</b>　${esc(b.syn)}</div>`:""}
         ${(b.author||b.nat)?`<div><b>作者・国籍</b>　${esc(b.author)}${b.nat?`（${esc(b.nat)}）`:""}</div>`:""}
         ${b.year?`<div><b>出版年</b>　${esc(b.year)}年</div>`:""}
+        ${b.level?`<div><b>英語レベル</b>　${"★".repeat(+b.level)+"☆".repeat(5-(+b.level))}</div>`:""}
         ${b.cred?`<div><b>実績</b>　${esc(b.cred)}</div>`:""}
-        ${!(b.titleja||b.syn||b.author||b.nat||b.year||b.cred)?`<div class="empty" style="padding:6px 0">まだ何も入っていません</div>`:""}
+        ${b.japub?`<div><b>邦訳刊行</b>　${esc(b.japub)}</div>`:""}
+        ${!(b.titleja||b.syn||b.author||b.nat||b.year||b.level||b.cred||b.japub)?`<div class="empty" style="padding:6px 0">まだ何も入っていません</div>`:""}
         <button class="btn ghost tiny" data-act="edit" data-i="${i}" style="margin-top:6px">編集する</button>
       </div>` : "";
     return `<div class="item ${b.use?"sel":""}">
@@ -838,23 +873,37 @@ $("#libList").addEventListener("click", e=>{
 });
 
 /* ---------- 刷り上がり ---------- */
+function volShort(vol){
+  if(!vol) return "";
+  const m = vol.match(/第\s*\d+\s*巻/) || vol.match(/\d+\s*巻/);
+  return m ? m[0].replace(/\s+/g,"") : vol;
+}
 function cardHTML(b, s){
   const eyebrow = (b.series || b.vol)
     ? `<div class="eyebrow"><span class="ser">${esc(b.series)}</span>${b.vol?`<span class="vol">${esc(b.vol)}</span>`:""}</div>` : "";
-  const jatitle = `<div class="jatitle">${b.titleja ? `<span class="jalabel">邦題</span>${esc(b.titleja)}` : "&nbsp;"}</div>`;
-  const origtitle = `<div class="origtitle">${esc(b.title)}</div>`;
+  const jatitle = `<div class="jatitle">${b.titleja ? `<span class="jalabel">邦題</span>${esc(b.titleja)}${b.titleja2?`／${esc(b.titleja2)}`:""}` : "&nbsp;"}</div>`;
+  const origtitle = `<div class="origtitle">${esc(b.title)}${b.jamark?"　※":""}</div>`;
   const who = [b.author, b.nat ? `（${b.nat}）` : ""].filter(Boolean).join("");
-  const credLine = [b.year ? `${esc(b.year)}年` : "", esc(b.cred)].filter(Boolean).join(" ／ ");
-  const foot = (who || credLine) ? `<div class="foot">
+  const stars = b.level ? "★".repeat(+b.level) + "☆".repeat(5-(+b.level)) : "";
+  const yearLine = b.year ? `${esc(b.year)}年` : "";
+  const credLine = b.cred ? esc(b.cred) : "";
+  const japubLine = b.japub ? esc(b.japub) : "";
+  const foot = (who || stars || yearLine || credLine || japubLine) ? `<div class="foot">
+      ${yearLine?`<div>出版年：${yearLine}</div>`:""}
       ${who?`<div>作者・国籍：${esc(b.author)}${b.nat?`（${esc(b.nat)}）`:""}</div>`:""}
-      ${credLine?`<div class="cred">実績：${credLine}</div>`:""}
+      ${stars?`<div>英語レベル：${stars}</div>`:""}
+      ${credLine?`<div class="cred">${credLine}</div>`:""}
+      ${japubLine?`<div>${japubLine}</div>`:""}
     </div>` : "";
+  const body = b.syn
+    ? `<p class="syn">${esc(b.syn)}</p>`
+    : (b.vol ? `<p class="volbig">${esc(volShort(b.vol))}</p>` : `<p class="syn"></p>`);
   return `<div class="card ${s.border}" data-title="${esc(b.title)}" style="width:${s.w}mm;height:${s.h}mm">
     <div class="inner">
       ${eyebrow}
       ${origtitle}
       ${jatitle}
-      ${b.syn?`<p class="syn">${esc(b.syn)}</p>`:`<p class="syn"></p>`}
+      ${body}
       ${foot}
     </div>
   </div>`;
@@ -976,6 +1025,12 @@ $("#sampleBtn").addEventListener("click", ()=>{
   SAMPLE_BOOKS.forEach(o=>state.books.push({ id:uid(), use:true, ...o }));
   save(); render(); updateCount();
   toast("見本6冊を追加しました");
+});
+$("#clearUseBtn").addEventListener("click", ()=>{
+  if(!state.books.length) return;
+  state.books.forEach(b=> b.use = false);
+  save(); render(); updateCount();
+  toast("全冊のチェックを外しました");
 });
 $("#clearAllBtn").addEventListener("click", ()=>{
   if(!state.books.length) return;
