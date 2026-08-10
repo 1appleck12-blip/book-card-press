@@ -2,7 +2,7 @@
   "books": [
     {
       "id": "helunivrs01",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "ハロー、ここにいるよ",
@@ -17,7 +17,7 @@
     },
     {
       "id": "starfish02",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -32,7 +32,7 @@
     },
     {
       "id": "blended03",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "キャラメル色のわたし",
@@ -47,7 +47,7 @@
     },
     {
       "id": "kirakira04",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "きらきら",
@@ -62,7 +62,7 @@
     },
     {
       "id": "yourvoice05",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -77,7 +77,7 @@
     },
     {
       "id": "maybeafox06",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "ホイッパーウィル川の伝説",
@@ -92,7 +92,7 @@
     },
     {
       "id": "joandlaurie07",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -107,7 +107,7 @@
     },
     {
       "id": "secretbees08",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "リリィ、はちみつ色の夏",
@@ -122,7 +122,7 @@
     },
     {
       "id": "grotlyn09",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -137,7 +137,7 @@
     },
     {
       "id": "audreyhep10",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -152,7 +152,7 @@
     },
     {
       "id": "missperegrine11",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "ハヤブサが守る家",
@@ -168,7 +168,7 @@
     },
     {
       "id": "reachedsam12",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -183,7 +183,7 @@
     },
     {
       "id": "secretgarden13",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "秘密の花園",
@@ -198,7 +198,7 @@
     },
     {
       "id": "chasingharry14",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "ハリー・ウィンストンを探して",
@@ -213,7 +213,7 @@
     },
     {
       "id": "everyoneworth15",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "パーティプランナー：一流セレブの集めかた",
@@ -228,7 +228,7 @@
     },
     {
       "id": "thespy16",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "ザ・スパイ",
@@ -243,7 +243,7 @@
     },
     {
       "id": "insideoutback17",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "はじまりのとき",
@@ -258,7 +258,7 @@
     },
     {
       "id": "monstercalls18",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "怪物はささやく",
@@ -273,7 +273,7 @@
     },
     {
       "id": "onmysticlake19",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -288,7 +288,7 @@
     },
     {
       "id": "greatalone20",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -303,7 +303,7 @@
     },
     {
       "id": "brokenheart21",
-      "use": true,
+      "use": false,
       "series": "Once Upon a Broken Heart",
       "vol": "本編全3巻・第1巻",
       "titleja": "",
@@ -318,7 +318,7 @@
     },
     {
       "id": "balladnever21b",
-      "use": true,
+      "use": false,
       "series": "Once Upon a Broken Heart",
       "vol": "本編全3巻・第2巻",
       "titleja": "",
@@ -333,7 +333,7 @@
     },
     {
       "id": "cursetruelove21c",
-      "use": true,
+      "use": false,
       "series": "Once Upon a Broken Heart",
       "vol": "本編全3巻・第3巻",
       "titleja": "",
@@ -348,7 +348,7 @@
     },
     {
       "id": "atlassix22",
-      "use": true,
+      "use": false,
       "series": "The Atlas Six",
       "vol": "本編全3巻・第1巻",
       "titleja": "",
@@ -364,7 +364,7 @@
     },
     {
       "id": "atlasparadox22b",
-      "use": true,
+      "use": false,
       "series": "The Atlas Six",
       "vol": "本編全3巻・第2巻",
       "titleja": "",
@@ -379,7 +379,7 @@
     },
     {
       "id": "atlascomplex22c",
-      "use": true,
+      "use": false,
       "series": "The Atlas Six",
       "vol": "本編全3巻・第3巻",
       "titleja": "",
@@ -394,7 +394,7 @@
     },
     {
       "id": "innamorata23",
-      "use": true,
+      "use": false,
       "series": "House of Teeth",
       "vol": "全2巻・第1巻",
       "titleja": "",
@@ -409,7 +409,7 @@
     },
     {
       "id": "luster24",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -440,7 +440,7 @@
     },
     {
       "id": "itstartswithus25b",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "イット・スターツ・ウィズ・アス ふたりから始める",
@@ -455,7 +455,7 @@
     },
     {
       "id": "tin26",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -470,7 +470,7 @@
     },
     {
       "id": "dragonflypool27",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -485,7 +485,7 @@
     },
     {
       "id": "saintdeath28",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -500,7 +500,7 @@
     },
     {
       "id": "starofkazan29",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -515,7 +515,7 @@
     },
     {
       "id": "pagefrommylife30",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -530,7 +530,7 @@
     },
     {
       "id": "bridgeterabithia31",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "テラビシアにかける橋",
@@ -545,7 +545,7 @@
     },
     {
       "id": "exhalation32",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "息吹",
@@ -560,7 +560,7 @@
     },
     {
       "id": "girlwhodrankmoon33",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "月の光を飲んだ少女",
@@ -575,7 +575,7 @@
     },
     {
       "id": "handmaidstale34",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "侍女の物語",
@@ -590,7 +590,7 @@
     },
     {
       "id": "testaments34b",
-      "use": true,
+      "use": false,
       "series": "The Handmaid's Tale",
       "vol": "続編",
       "titleja": "誓願",
@@ -605,7 +605,7 @@
     },
     {
       "id": "mockingbird35",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "アラバマ物語",
@@ -620,7 +620,7 @@
     },
     {
       "id": "pobbydingan36",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "ポビーとディンガン",
@@ -635,7 +635,7 @@
     },
     {
       "id": "alchemised37",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -651,7 +651,7 @@
     },
     {
       "id": "boybackclass38",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "5000キロ逃げてきたアーメット",
@@ -666,7 +666,7 @@
     },
     {
       "id": "findme39",
-      "use": true,
+      "use": false,
       "series": "Call Me by Your Name",
       "vol": "続編",
       "titleja": "Find Me",
@@ -681,7 +681,7 @@
     },
     {
       "id": "shatterme40",
-      "use": true,
+      "use": false,
       "series": "Shatter Me",
       "vol": "本編全6巻・第1巻",
       "titleja": "シャッター・ミー 炎の手を持つ少女",
@@ -696,7 +696,7 @@
     },
     {
       "id": "unravelme40b",
-      "use": true,
+      "use": false,
       "series": "Shatter Me",
       "vol": "本編全6巻・第2巻",
       "titleja": "",
@@ -711,7 +711,7 @@
     },
     {
       "id": "igniteme40c",
-      "use": true,
+      "use": false,
       "series": "Shatter Me",
       "vol": "本編全6巻・第3巻",
       "titleja": "",
@@ -726,7 +726,7 @@
     },
     {
       "id": "restoreme40d",
-      "use": true,
+      "use": false,
       "series": "Shatter Me",
       "vol": "本編全6巻・第4巻",
       "titleja": "",
@@ -741,7 +741,7 @@
     },
     {
       "id": "defyme40e",
-      "use": true,
+      "use": false,
       "series": "Shatter Me",
       "vol": "本編全6巻・第5巻",
       "titleja": "",
@@ -756,7 +756,7 @@
     },
     {
       "id": "imagineme40f",
-      "use": true,
+      "use": false,
       "series": "Shatter Me",
       "vol": "本編全6巻・第6巻",
       "titleja": "",
@@ -771,7 +771,7 @@
     },
     {
       "id": "destroyme40g",
-      "use": true,
+      "use": false,
       "series": "Shatter Me",
       "vol": "外伝ノヴェラ（ワーナー視点・短編）",
       "titleja": "",
@@ -786,7 +786,7 @@
     },
     {
       "id": "fractureme40h",
-      "use": true,
+      "use": false,
       "series": "Shatter Me",
       "vol": "外伝ノヴェラ（アダム視点・短編）",
       "titleja": "",
@@ -801,7 +801,7 @@
     },
     {
       "id": "shadowme40i",
-      "use": true,
+      "use": false,
       "series": "Shatter Me",
       "vol": "外伝ノヴェラ（ケンジ視点・短編）",
       "titleja": "",
@@ -816,7 +816,7 @@
     },
     {
       "id": "revealme40j",
-      "use": true,
+      "use": false,
       "series": "Shatter Me",
       "vol": "外伝ノヴェラ（ケンジ視点・短編）",
       "titleja": "",
@@ -831,7 +831,7 @@
     },
     {
       "id": "believeme40k",
-      "use": true,
+      "use": false,
       "series": "Shatter Me",
       "vol": "外伝ノヴェラ（エピローグ的短編）",
       "titleja": "",
@@ -846,7 +846,7 @@
     },
     {
       "id": "valeryk41",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -861,7 +861,7 @@
     },
     {
       "id": "santorinibookshop42",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -876,7 +876,7 @@
     },
     {
       "id": "laststories43",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "ラスト・ストーリーズ",
@@ -891,7 +891,7 @@
     },
     {
       "id": "oxfordirish44",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -906,7 +906,7 @@
     },
     {
       "id": "loveandsummer45",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "恋と夏",
@@ -921,7 +921,7 @@
     },
     {
       "id": "bonecollector46",
-      "use": true,
+      "use": false,
       "series": "Lincoln Rhyme",
       "vol": "シリーズ第1作",
       "titleja": "ボーン・コレクター",
@@ -936,7 +936,7 @@
     },
     {
       "id": "coffindancer47",
-      "use": true,
+      "use": false,
       "series": "Lincoln Rhyme",
       "vol": "シリーズ第2作",
       "titleja": "コフィン・ダンサー",
@@ -951,7 +951,7 @@
     },
     {
       "id": "skincollector48",
-      "use": true,
+      "use": false,
       "series": "Lincoln Rhyme",
       "vol": "シリーズ第11作",
       "titleja": "スキン・コレクター",
@@ -966,7 +966,7 @@
     },
     {
       "id": "steelkiss49",
-      "use": true,
+      "use": false,
       "series": "Lincoln Rhyme",
       "vol": "シリーズ第12作",
       "titleja": "スティール・キス",
@@ -981,7 +981,7 @@
     },
     {
       "id": "cuttingedge50",
-      "use": true,
+      "use": false,
       "series": "Lincoln Rhyme",
       "vol": "シリーズ第14作",
       "titleja": "カッティング・エッジ",
@@ -996,7 +996,7 @@
     },
     {
       "id": "midnightlock51",
-      "use": true,
+      "use": false,
       "series": "Lincoln Rhyme",
       "vol": "シリーズ第15作",
       "titleja": "真夜中の密室",
@@ -1011,7 +1011,7 @@
     },
     {
       "id": "octoberlist52",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "オクトーバー・リスト",
@@ -1026,7 +1026,7 @@
     },
     {
       "id": "nevergame53",
-      "use": true,
+      "use": false,
       "series": "Colter Shaw",
       "vol": "シリーズ第1作",
       "titleja": "ネヴァー・ゲーム",
@@ -1041,7 +1041,7 @@
     },
     {
       "id": "chocolat54",
-      "use": true,
+      "use": false,
       "series": "Chocolat",
       "vol": "全4巻・第1巻",
       "titleja": "ショコラ",
@@ -1056,7 +1056,7 @@
     },
     {
       "id": "lollipopshoes55",
-      "use": true,
+      "use": false,
       "series": "Chocolat",
       "vol": "全4巻・第2巻",
       "titleja": "",
@@ -1071,7 +1071,7 @@
     },
     {
       "id": "strawberrythief56",
-      "use": true,
+      "use": false,
       "series": "Chocolat",
       "vol": "全4巻・第4巻（第3巻『Peaches for Monsieur le Curé』は本リスト未収録）",
       "titleja": "",
@@ -1082,6 +1082,51 @@
       "cred": "サンデー・タイムズ紙ベストセラー",
       "japub": "",
       "title": "The Strawberry Thief",
+      "level": 3
+    },
+    {
+      "id": "devilprada57",
+      "use": true,
+      "series": "The Devil Wears Prada",
+      "vol": "全2巻・第1巻",
+      "titleja": "プラダを着た悪魔",
+      "syn": "お仕事小説・チックリット。本当はジャーナリストを目指していた新卒のアンディは、ファッションには興味がないまま、キャリアの踏み台のつもりで憧れの出版社の面接を受け、伝説的なファッション誌編集長ミランダの個人アシスタントの職を得てしまう。理不尽な要求と過酷な労働環境に振り回されながら、自分が本当に大切にしたいものを見失いかけていく一年間を描く。",
+      "author": "Lauren Weisberger",
+      "nat": "アメリカ",
+      "year": "2003",
+      "cred": "ニューヨーク・タイムズ・ベストセラー（ハードカバー・ペーパーバック両方で半年以上ランクイン）／ 2006年映画化（メリル・ストリープ、アン・ハサウェイ出演、ストリープはゴールデングローブ賞受賞）／ 2026年に映画続編『プラダを着た悪魔2』公開予定",
+      "japub": "早川書房より邦訳刊行",
+      "title": "The Devil Wears Prada",
+      "level": 3
+    },
+    {
+      "id": "revengeprada58",
+      "use": true,
+      "series": "The Devil Wears Prada",
+      "vol": "全2巻・第2巻",
+      "titleja": "プラダを着た悪魔 リベンジ！",
+      "syn": "お仕事小説・チックリット。ランウェイ編集部を去って約10年。アンディは自ら立ち上げた高級結婚情報誌を成功させ、メディア会社の御曹司との結婚を控えていた。順風満帆に見えた矢先、あの悪魔のような元上司ミランダが再びアンディの前に現れる。",
+      "author": "Lauren Weisberger",
+      "nat": "アメリカ",
+      "year": "2013",
+      "cred": "",
+      "japub": "早川書房より邦訳刊行（佐竹史子訳）",
+      "title": "Revenge Wears Prada",
+      "level": 3
+    },
+    {
+      "id": "persepolis59",
+      "use": true,
+      "series": "",
+      "vol": "",
+      "titleja": "ペルセポリスI イランの少女マルジ",
+      "syn": "自伝・グラフィックノベル（バンド・デシネ）。1979年のイラン革命とイラン・イラク戦争を背景に、テヘランで暮らす上流階級出身の少女マルジの6歳から14歳までを描く。学校でのヴェール着用義務化、政治犯の解放と弾圧、亡命する友人たち――激動の時代の中、自由と自尊心を尊ぶ家庭に育ったマルジは、社会風刺とブラックユーモアを交えながら、自分らしさを失わず成長していく。",
+      "author": "Marjane Satrapi",
+      "nat": "フランス（イラン・ラシュト生まれ）",
+      "year": "2000年〜2003年（フランスで全4巻、日本では全2巻に再編）",
+      "cred": "2004年アレックス賞受賞 ／ 2004年ハーベイ賞受賞 ／ 全2巻中の第2巻にあたる原書第2巻は2002年アングレーム国際漫画祭最優秀脚本賞受賞 ／ 2007年アニメ映画化（著者自身が共同監督、カンヌ国際映画祭審査員賞受賞、アカデミー賞長編アニメーション映画賞ノミネート）／ 12か国語に翻訳・30か国以上で出版 ※著者マルジャン・サトラピは2026年6月、56歳で死去",
+      "japub": "バジリコより邦訳刊行（園田恵子訳、2005年）",
+      "title": "Persepolis: The Story of a Childhood",
       "level": 3
     }
   ],
