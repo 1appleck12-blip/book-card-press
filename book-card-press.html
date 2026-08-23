@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>あらすじふせん</title>
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Shippori+Mincho+B1:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Jost:wght@400;500;600&family=Playfair+Display:wght@500;600;700&family=Bebas+Neue&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
@@ -415,6 +416,9 @@ button{cursor:pointer}
         <span>登録した本（<span id="libCount">0冊</span>）</span>
         <button class="btn ghost tiny" id="clearAllBtn" style="border:0;text-decoration:underline;padding:0;color:var(--ink-soft)">全部消す</button>
       </h2>
+      <div class="field" style="margin-bottom:8px">
+        <input type="text" id="libSearch" placeholder="🔍 タイトル・邦題・作者で検索" style="width:100%;box-sizing:border-box">
+      </div>
       <div id="libList"></div>
     </div>
   </section>
@@ -805,6 +809,7 @@ $("#resetSet").addEventListener("click", ()=>{
 
 /* ---------- 一覧 ---------- */
 const expandedIds = new Set();
+let libSearchQuery = "";
 function renderLib(){
   const list = $("#libList");
   const draftCount = state.books.filter(b => !b.syn).length;
@@ -813,9 +818,16 @@ function renderLib(){
     list.innerHTML = '<p class="empty">まだ1冊も入っていません。<br>左上の「1冊ずつ入れる」か「まとめて貼る」から始めてください。</p>';
     return;
   }
+  const q = libSearchQuery.trim().toLowerCase();
   let slot = 0;
+  let shown = 0;
   list.innerHTML = state.books.map((b,i)=>{
     const n = b.use ? ++slot : 0;
+    if(q){
+      const hay = [b.title,b.titleja,b.titleja2,b.author,b.series].filter(Boolean).join(" ").toLowerCase();
+      if(!hay.includes(q)) return "";
+    }
+    shown++;
     const open = expandedIds.has(b.id);
     const isDraft = !b.syn;
     const detail = open ? `<div class="detail">
@@ -846,7 +858,14 @@ function renderLib(){
       </div>
     </div>`;
   }).join("");
+  if(q && shown===0){
+    list.innerHTML = `<p class="empty">「${esc(libSearchQuery)}」に一致する本が見つかりません。</p>`;
+  }
 }
+$("#libSearch").addEventListener("input", e=>{
+  libSearchQuery = e.target.value;
+  renderLib();
+});
 $("#libList").addEventListener("click", e=>{
   const el = e.target.closest("[data-act]"); if(!el) return;
   const i = +el.dataset.i, a = el.dataset.act, bs = state.books;
