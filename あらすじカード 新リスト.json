@@ -424,7 +424,7 @@
     },
     {
       "id": "itendswithus25",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "世界の終わり、愛のはじまり",
@@ -1086,7 +1086,7 @@
     },
     {
       "id": "devilprada57",
-      "use": true,
+      "use": false,
       "series": "The Devil Wears Prada",
       "vol": "全2巻・第1巻",
       "titleja": "プラダを着た悪魔",
@@ -1101,7 +1101,7 @@
     },
     {
       "id": "revengeprada58",
-      "use": true,
+      "use": false,
       "series": "The Devil Wears Prada",
       "vol": "全2巻・第2巻",
       "titleja": "プラダを着た悪魔 リベンジ！",
@@ -1116,7 +1116,7 @@
     },
     {
       "id": "persepolis59",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "ペルセポリスI イランの少女マルジ",
@@ -1131,7 +1131,7 @@
     },
     {
       "id": "courtoftheair60",
-      "use": true,
+      "use": false,
       "series": "Jackelian",
       "vol": "全7巻・第1巻",
       "titleja": "",
@@ -1146,7 +1146,7 @@
     },
     {
       "id": "forricherpoorer61",
-      "use": true,
+      "use": false,
       "series": "Summer of Love",
       "vol": "全3巻・第1巻",
       "titleja": "",
@@ -1161,7 +1161,7 @@
     },
     {
       "id": "perfume62",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "香水 ある人殺しの物語",
@@ -1176,7 +1176,7 @@
     },
     {
       "id": "plathduffy63",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -1191,7 +1191,7 @@
     },
     {
       "id": "plathcollected64",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -1206,7 +1206,7 @@
     },
     {
       "id": "prophet65",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "預言者",
@@ -1221,7 +1221,7 @@
     },
     {
       "id": "shipwreckedsailor66",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "ある遭難者の物語",
@@ -1236,7 +1236,7 @@
     },
     {
       "id": "eatpraylove67",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "食べて、祈って、恋をして",
@@ -1251,7 +1251,7 @@
     },
     {
       "id": "committed68",
-      "use": true,
+      "use": false,
       "series": "Eat, Pray, Love",
       "vol": "続編",
       "titleja": "",
@@ -1266,7 +1266,7 @@
     },
     {
       "id": "peterrabbit69",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "ピーターラビットのおはなし（ピーターラビットの絵本シリーズ全23冊）",
@@ -1281,7 +1281,7 @@
     },
     {
       "id": "bw_phantom70",
-      "use": true,
+      "use": false,
       "series": "Oxford Bookworms Library",
       "vol": "Stage 1（400語レベル／総語数6,230語）",
       "titleja": "",
@@ -1296,7 +1296,7 @@
     },
     {
       "id": "bw_gracedarling71",
-      "use": true,
+      "use": false,
       "series": "Oxford Bookworms Library",
       "vol": "Stage 2（700語レベル／総語数6,685語）",
       "titleja": "",
@@ -1311,7 +1311,7 @@
     },
     {
       "id": "bw_lovestory72",
-      "use": true,
+      "use": false,
       "series": "Oxford Bookworms Library",
       "vol": "Stage 3（1,000語レベル／総語数8,755語）",
       "titleja": "",
@@ -1326,7 +1326,7 @@
     },
     {
       "id": "bw_newyorkers73",
-      "use": true,
+      "use": false,
       "series": "Oxford Bookworms Library",
       "vol": "Stage 2（700語レベル／総語数5,895語）",
       "titleja": "",
@@ -1341,7 +1341,7 @@
     },
     {
       "id": "bw_secretgarden74",
-      "use": true,
+      "use": false,
       "series": "Oxford Bookworms Library",
       "vol": "Stage 3（1,000語レベル／総語数10,715語）",
       "titleja": "",
@@ -1356,7 +1356,7 @@
     },
     {
       "id": "bw_monkeypaw75",
-      "use": true,
+      "use": false,
       "series": "Oxford Bookworms Library",
       "vol": "Stage 1（400語レベル／総語数4,830語）",
       "titleja": "",
@@ -1371,7 +1371,7 @@
     },
     {
       "id": "bw_canterville76",
-      "use": true,
+      "use": false,
       "series": "Oxford Bookworms Library",
       "vol": "Stage 2（700語レベル／総語数6,100語）",
       "titleja": "",
@@ -1386,7 +1386,7 @@
     },
     {
       "id": "bw_lesmis77",
-      "use": true,
+      "use": false,
       "series": "Oxford Bookworms Library",
       "vol": "Stage 1（400語レベル／総語数7,302語）",
       "titleja": "",
@@ -1401,7 +1401,7 @@
     },
     {
       "id": "bw_chemsecret78",
-      "use": true,
+      "use": false,
       "series": "Oxford Bookworms Library",
       "vol": "Stage 3（1,000語レベル／総語数10,150語）",
       "titleja": "",
@@ -1416,7 +1416,7 @@
     },
     {
       "id": "bw_bluecarbuncle79",
-      "use": true,
+      "use": false,
       "series": "Oxford Dominoes",
       "vol": "Level 1（400語レベル／総語数5,389語）",
       "titleja": "",
@@ -1431,7 +1431,7 @@
     },
     {
       "id": "bw_skyjack80",
-      "use": true,
+      "use": false,
       "series": "Oxford Bookworms Library",
       "vol": "Stage 3（1,000語レベル／総語数8,685語）",
       "titleja": "",
@@ -1446,7 +1446,7 @@
     },
     {
       "id": "pe_nottinghill81",
-      "use": true,
+      "use": false,
       "series": "Pearson English Readers",
       "vol": "Level 3（1,200語レベル／総語数約14,000語）",
       "titleja": "",
@@ -1461,7 +1461,7 @@
     },
     {
       "id": "pe_thering82",
-      "use": true,
+      "use": false,
       "series": "Pearson English Readers",
       "vol": "Level 3（1,200語レベル／総語数14,754語）",
       "titleja": "",
@@ -1476,7 +1476,7 @@
     },
     {
       "id": "bw_wizardofoz83",
-      "use": true,
+      "use": false,
       "series": "Oxford Bookworms Library",
       "vol": "Stage 1（400語レベル／総語数5,440語）",
       "titleja": "",
@@ -1491,7 +1491,7 @@
     },
     {
       "id": "bw_titanic84",
-      "use": true,
+      "use": false,
       "series": "Oxford Bookworms Factfiles",
       "vol": "Stage 1（400語レベル／総語数約5,600語）",
       "titleja": "",
@@ -1506,7 +1506,7 @@
     },
     {
       "id": "pe_billyelliot85",
-      "use": true,
+      "use": false,
       "series": "Pearson English Readers",
       "vol": "Level 3（1,200語レベル／総語数12,931語）",
       "titleja": "",
@@ -1521,7 +1521,7 @@
     },
     {
       "id": "blackbeauty86",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "黒馬物語",
@@ -1536,7 +1536,7 @@
     },
     {
       "id": "keeperlostthings87",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -1551,7 +1551,7 @@
     },
     {
       "id": "puffinjoke88",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -1566,7 +1566,7 @@
     },
     {
       "id": "allyourperfects89",
-      "use": true,
+      "use": false,
       "series": "Hopeless",
       "vol": "第3作（単独で読める）",
       "titleja": "",
@@ -1581,7 +1581,7 @@
     },
     {
       "id": "lettersyoungmuslim90",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -1596,7 +1596,7 @@
     },
     {
       "id": "greatblueyonder91",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "青空のむこう",
@@ -1611,7 +1611,7 @@
     },
     {
       "id": "pr_barcelona92",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "Penguin Readers Level 1 Beginner（約300見出し語）",
       "titleja": "",
@@ -1626,7 +1626,7 @@
     },
     {
       "id": "pr_crown93",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "Penguin Readers Level 1 Beginner（約300見出し語）",
       "titleja": "",
@@ -1641,7 +1641,7 @@
     },
     {
       "id": "pr_girlmeetsboy94",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "Penguin Readers Level 1 Beginner（約300見出し語）",
       "titleja": "",
@@ -1656,7 +1656,7 @@
     },
     {
       "id": "pr_giftmagi95",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "Penguin Readers Level 1 Beginner（約300見出し語）",
       "titleja": "",
@@ -1671,7 +1671,7 @@
     },
     {
       "id": "pr_princewilliam96",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "Penguin Readers Level 1 Beginner（約300見出し語）",
       "titleja": "",
@@ -1686,7 +1686,7 @@
     },
     {
       "id": "pr_phonerings97",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "Penguin Readers Level 1 Beginner（約300見出し語）",
       "titleja": "",
@@ -1701,7 +1701,7 @@
     },
     {
       "id": "pr_sixsketches98",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "Penguin Readers Level 1 Beginner（約300見出し語／総語数約2,077語）",
       "titleja": "",
@@ -1716,7 +1716,7 @@
     },
     {
       "id": "pr_wrongman99",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "Penguin Readers Level 1 Beginner（約300見出し語）",
       "titleja": "",
@@ -1731,7 +1731,7 @@
     },
     {
       "id": "wrinkleintime100",
-      "use": true,
+      "use": false,
       "series": "Time Quintet",
       "vol": "全5巻・第1巻",
       "titleja": "五次元世界のぼうけん",
@@ -1747,7 +1747,7 @@
     },
     {
       "id": "sallyredshoes101",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -1762,7 +1762,7 @@
     },
     {
       "id": "lostbookshop102",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -1777,7 +1777,7 @@
     },
     {
       "id": "storycollector103",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -1788,6 +1788,22 @@
       "cred": "『The Lost Bookshop』の世界的ヒット後、Evie Woods名義で再刊され広く読まれるようになった作品",
       "japub": "",
       "title": "The Story Collector",
+      "level": 4
+    },
+    {
+      "id": "greatgatsby104",
+      "use": true,
+      "series": "",
+      "vol": "",
+      "titleja": "グレート・ギャツビー",
+      "titleja2": "華麗なるギャツビー",
+      "syn": "古典文学・人間ドラマ・悲恋。1920年代、ニューヨーク郊外に越してきた青年ニックは、毎夜豪華なパーティーを開く謎めいた大富豪ギャツビーと出会う。富と名声を手にした彼がひたすら求めているのは、かつて愛した女性デイジーだった。きらびやかな社交界の裏にある孤独と執着、富では取り戻せない過去、そして「アメリカン・ドリーム」の幻想を描く物語。",
+      "author": "F. Scott Fitzgerald",
+      "nat": "アメリカ",
+      "year": "1925",
+      "cred": "現在では20世紀アメリカ文学を代表する名作とされる ／ 何度も映画・ドラマ化。特に有名なのはレオナルド・ディカプリオ主演、バズ・ラーマン監督の映画『華麗なるギャツビー』（2013年）",
+      "japub": "野崎孝訳『グレート・ギャツビー』（新潮文庫）、小川高義訳『グレート・ギャッツビー』（光文社古典新訳文庫）、村上春樹訳『グレート・ギャツビー』（村上春樹翻訳ライブラリー）など多数",
+      "title": "The Great Gatsby",
       "level": 4
     }
   ],
