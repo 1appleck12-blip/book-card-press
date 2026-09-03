@@ -417,7 +417,7 @@ button{cursor:pointer}
         <button class="btn ghost tiny" id="clearAllBtn" style="border:0;text-decoration:underline;padding:0;color:var(--ink-soft)">全部消す</button>
       </h2>
       <div class="field" style="margin-bottom:8px">
-        <input type="text" id="libSearch" placeholder="🔍 タイトル・邦題・作者で検索" style="width:100%;box-sizing:border-box">
+        <input type="text" id="libSearch" placeholder="🔍 タイトル・作者・あらすじ・実績で検索(例:心理描写、官能、BookTok)" style="width:100%;box-sizing:border-box">
       </div>
       <div id="libList"></div>
     </div>
@@ -824,7 +824,7 @@ function renderLib(){
   list.innerHTML = state.books.map((b,i)=>{
     const n = b.use ? ++slot : 0;
     if(q){
-      const hay = [b.title,b.titleja,b.titleja2,b.author,b.series].filter(Boolean).join(" ").toLowerCase();
+      const hay = [b.title,b.titleja,b.titleja2,b.author,b.series,b.syn,b.cred,b.japub].filter(Boolean).join(" ").toLowerCase();
       if(!hay.includes(q)) return "";
     }
     shown++;
