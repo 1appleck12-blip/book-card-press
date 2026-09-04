@@ -1792,7 +1792,7 @@
     },
     {
       "id": "greatgatsby104",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "グレート・ギャツビー",
@@ -1808,7 +1808,7 @@
     },
     {
       "id": "felixeverafter105",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "フィリックスエヴァーアフター",
@@ -1823,7 +1823,7 @@
     },
     {
       "id": "whatisnintendo106",
-      "use": true,
+      "use": false,
       "series": "Who HQ",
       "vol": "What Was? シリーズ",
       "titleja": "",
@@ -1838,7 +1838,7 @@
     },
     {
       "id": "anneofgreengables107",
-      "use": true,
+      "use": false,
       "series": "Anne of Green Gables",
       "vol": "全10巻・第1巻",
       "titleja": "赤毛のアン",
@@ -1853,7 +1853,7 @@
     },
     {
       "id": "bookoflostthings108",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "失われたものたちの本",
@@ -1868,7 +1868,7 @@
     },
     {
       "id": "songofmeandyou109",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -1883,7 +1883,7 @@
     },
     {
       "id": "darkroadmercy110",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -1898,7 +1898,7 @@
     },
     {
       "id": "thecrucible111",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "るつぼ",
@@ -1913,7 +1913,7 @@
     },
     {
       "id": "fifthseason112",
-      "use": true,
+      "use": false,
       "series": "The Broken Earth",
       "vol": "全3巻・第1巻",
       "titleja": "第五の季節",
@@ -1928,7 +1928,7 @@
     },
     {
       "id": "obeliskgate113",
-      "use": true,
+      "use": false,
       "series": "The Broken Earth",
       "vol": "全3巻・第2巻",
       "titleja": "オベリスクの門",
@@ -1943,7 +1943,7 @@
     },
     {
       "id": "stonesky114",
-      "use": true,
+      "use": false,
       "series": "The Broken Earth",
       "vol": "全3巻・第3巻",
       "titleja": "輝石の空",
@@ -1958,7 +1958,7 @@
     },
     {
       "id": "onthecomeup115",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "オン・ザ・カム・アップ いま、這いあがるとき",
@@ -1973,7 +1973,7 @@
     },
     {
       "id": "slated116",
-      "use": true,
+      "use": false,
       "series": "Slated",
       "vol": "全3巻・第1巻",
       "titleja": "",
@@ -1988,7 +1988,7 @@
     },
     {
       "id": "saturday117",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "土曜日",
@@ -2003,7 +2003,7 @@
     },
     {
       "id": "stilllife118",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -2018,7 +2018,7 @@
     },
     {
       "id": "lifeofpi119",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "パイの物語",
@@ -2033,7 +2033,7 @@
     },
     {
       "id": "queenbloody120",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -2048,7 +2048,7 @@
     },
     {
       "id": "thepower121",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "パワー",
@@ -2063,7 +2063,7 @@
     },
     {
       "id": "callmebyyourname122",
-      "use": true,
+      "use": false,
       "series": "Call Me by Your Name",
       "vol": "全2巻・第1巻",
       "titleja": "君の名前で僕を呼んで",
@@ -2078,7 +2078,7 @@
     },
     {
       "id": "verylargeexpanse123",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -2093,7 +2093,7 @@
     },
     {
       "id": "ourchemicalhearts124",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -2108,7 +2108,7 @@
     },
     {
       "id": "augsburg125",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -2123,7 +2123,7 @@
     },
     {
       "id": "codebook126",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "暗号解読",
@@ -2138,7 +2138,7 @@
     },
     {
       "id": "remindersofhim127",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "リマインダーズ・オブ・ヒム あなたの遺したもの",
@@ -2153,7 +2153,7 @@
     },
     {
       "id": "girlinpieces128",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -2168,7 +2168,7 @@
     },
     {
       "id": "tillytimemachine129",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -2183,7 +2183,7 @@
     },
     {
       "id": "philippafisher130",
-      "use": true,
+      "use": false,
       "series": "Philippa Fisher",
       "vol": "全2巻・第1巻",
       "titleja": "",
@@ -2198,7 +2198,7 @@
     },
     {
       "id": "lionabovedoor131",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -2213,7 +2213,7 @@
     },
     {
       "id": "awkwardlovestory132",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -2228,7 +2228,7 @@
     },
     {
       "id": "shininggirls133",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "シャイニング・ガール",
@@ -2243,7 +2243,7 @@
     },
     {
       "id": "earthlings134",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "地球星人",
@@ -2258,7 +2258,7 @@
     },
     {
       "id": "truthofthings135",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -2273,7 +2273,7 @@
     },
     {
       "id": "girlheusedtoknow136",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -2288,7 +2288,7 @@
     },
     {
       "id": "boyingirlsbathroom137",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -2303,7 +2303,7 @@
     },
     {
       "id": "wonder138",
-      "use": true,
+      "use": false,
       "series": "Wonder",
       "vol": "",
       "titleja": "ワンダー",
@@ -2318,7 +2318,7 @@
     },
     {
       "id": "auggieandme139",
-      "use": true,
+      "use": false,
       "series": "Wonder",
       "vol": "続編（オギー以外の3人の視点）",
       "titleja": "もうひとつのワンダー",
@@ -2333,7 +2333,7 @@
     },
     {
       "id": "childsgardenverses140",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "ある子どもの詩の庭で",
@@ -2348,7 +2348,7 @@
     },
     {
       "id": "odyssey141",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -2363,7 +2363,7 @@
     },
     {
       "id": "longpetalsea142",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -2378,7 +2378,7 @@
     },
     {
       "id": "alwayslookingup143",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "いつも上を向いて 超楽観主義者の冒険",
@@ -2393,7 +2393,7 @@
     },
     {
       "id": "americanpie144",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -2408,7 +2408,7 @@
     },
     {
       "id": "englishfolktales145",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "IBCパブリッシング ラダーシリーズ Level 1",
       "titleja": "イギリス民話",
@@ -2423,7 +2423,7 @@
     },
     {
       "id": "franklyinlove146",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -2438,7 +2438,7 @@
     },
     {
       "id": "angelnitshill147",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -2453,7 +2453,7 @@
     },
     {
       "id": "papertowns148",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "ペーパータウン",
@@ -2468,7 +2468,7 @@
     },
     {
       "id": "ameliabedelia149",
-      "use": true,
+      "use": false,
       "series": "Amelia Bedelia（チャプターブック）",
       "vol": "シリーズ第10作",
       "titleja": "",
@@ -2483,7 +2483,7 @@
     },
     {
       "id": "verity150",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "ヴェリティ/真実",
@@ -2498,7 +2498,7 @@
     },
     {
       "id": "senseofending151",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "終わりの感覚",
@@ -2570,6 +2570,51 @@
       "japub": "早川書房より邦訳刊行（堀江里美訳、2017年）",
       "title": "The Girls",
       "level": 4
+    },
+    {
+      "id": "janeeyre156",
+      "use": true,
+      "series": "",
+      "vol": "",
+      "titleja": "ジェーン・エア",
+      "syn": "文学小説の古典。両親を亡くし、意地悪な叔母のもとで冷遇されて育った孤児ジェーン・エアは、厳格な寄宿学校ローウッドを経て、ソーンフィールド邸の家庭教師となる。屋敷の主人である謎めいた紳士ロチェスター氏との間に芽生える感情。しかし屋敷には、誰にも明かされない恐ろしい秘密が隠されていた。身分や容姿にとらわれず、自らの信念と誇りを貫くヒロインを描き、当時の社会に大きな衝撃を与えた作品。",
+      "author": "Charlotte Brontë",
+      "nat": "イギリス",
+      "year": "1847",
+      "cred": "刊行当初から大きな反響を呼んだベストセラー ／ 著者はエミリー・ブロンテ(『嵐が丘』)の姉、アン・ブロンテの姉にあたる、ブロンテ三姉妹の長女 ／ 映画・ドラマ化多数",
+      "japub": "新潮文庫（大久保康雄訳）、光文社古典新訳文庫（小尾芙佐訳）など複数の邦訳あり",
+      "title": "Jane Eyre",
+      "level": 4
+    },
+    {
+      "id": "goldenpavilion157",
+      "use": true,
+      "series": "",
+      "vol": "",
+      "titleja": "金閣寺",
+      "syn": "文学小説。重度の吃音症を抱え、幼い頃から父に金閣の美しさを聞かされて育った青年、溝口。禅寺の徒弟となり金閣寺での生活を始めた彼は、絶対的な美への憧れと執着に次第に取り憑かれていく。戦中・戦後の混乱を背景に、美への呪詛にも似た愛憎、生への劣等感が、硬質で精緻な文体で綴られる。1950年に実際に起きた金閣寺放火事件に着想を得た作品。",
+      "author": "Mishima Yukio（三島由紀夫）",
+      "nat": "日本",
+      "year": "1956年（英訳1959年）",
+      "cred": "1956年読売文学賞（小説部門）受賞 ／ 15万部のベストセラー、文庫版は累計361万部超のロングセラー ／ 近代日本文学を代表する傑作とされ、海外でも高く評価されている。イヴァン・モリスによる英訳『The Temple of the Golden Pavilion』(1959年)をはじめ世界各国語に翻訳され、著者はノーベル文学賞候補にもなった",
+      "japub": "新潮社より原作刊行（新潮文庫、日本語原作）",
+      "title": "The Temple of the Golden Pavilion",
+      "level": 4
+    },
+    {
+      "id": "eatme158",
+      "use": true,
+      "series": "",
+      "vol": "",
+      "titleja": "",
+      "syn": "大人向けコミック・エロティカ。シドニーのおしゃれなカフェやレストランに集まっては、恋愛や性生活の武勇伝を語り合う4人の女友達、ジュリア、シャンタル、ヘレン、フィリッパ。写真家、ファッション誌編集者、学者、小説家と、それぞれ全く違う人生を送る彼女たちが披露する赤裸々な体験談は、事実なのか、それとも脚色された作り話なのか。女性の視点からエロティカというジャンルを男性中心の書き手から取り戻すことを目指して書かれた、ユーモアとウィットに富む官能コメディ。",
+      "author": "Linda Jaivin",
+      "nat": "オーストラリア（アメリカ生まれ）",
+      "year": "1995",
+      "cred": "オーストラリア・アメリカ両国でベストセラー ／ フランス語版(『Mange-moi』)含め10か国語以上に翻訳 ／ 著者のデビュー小説",
+      "japub": "",
+      "title": "Eat Me",
+      "level": 3
     }
   ],
   "settings": {
