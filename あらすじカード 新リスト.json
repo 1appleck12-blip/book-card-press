@@ -2603,7 +2603,7 @@
     },
     {
       "id": "eatme158",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -2618,7 +2618,7 @@
     },
     {
       "id": "paradise159",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "楽園",
@@ -2633,7 +2633,7 @@
     },
     {
       "id": "pet160",
-      "use": true,
+      "use": false,
       "series": "Pet",
       "vol": "全2巻・第2巻（前日譚『Bitter』が先に位置する）",
       "titleja": "",
@@ -2648,7 +2648,7 @@
     },
     {
       "id": "songwalker161",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -2663,7 +2663,7 @@
     },
     {
       "id": "adalace1_162",
-      "use": true,
+      "use": false,
       "series": "Ada Lace Adventures",
       "vol": "全6巻・第1巻",
       "titleja": "",
@@ -2678,7 +2678,7 @@
     },
     {
       "id": "adalace2_163",
-      "use": true,
+      "use": false,
       "series": "Ada Lace Adventures",
       "vol": "全6巻・第2巻",
       "titleja": "",
@@ -2693,7 +2693,7 @@
     },
     {
       "id": "adalace3_164",
-      "use": true,
+      "use": false,
       "series": "Ada Lace Adventures",
       "vol": "全6巻・第3巻",
       "titleja": "",
@@ -2708,7 +2708,7 @@
     },
     {
       "id": "adalace4_165",
-      "use": true,
+      "use": false,
       "series": "Ada Lace Adventures",
       "vol": "全6巻・第4巻",
       "titleja": "",
@@ -2723,7 +2723,7 @@
     },
     {
       "id": "fortunatelymilk166",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -2738,7 +2738,7 @@
     },
     {
       "id": "withfireonhigh167",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -2753,7 +2753,7 @@
     },
     {
       "id": "childfinder168",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -2768,7 +2768,7 @@
     },
     {
       "id": "laurenpuppyfairy169",
-      "use": true,
+      "use": false,
       "series": "Rainbow Magic: The Pet Fairies",
       "vol": "全7巻・第4巻",
       "titleja": "",
@@ -2783,7 +2783,7 @@
     },
     {
       "id": "ayeshaatlast170",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -2798,7 +2798,7 @@
     },
     {
       "id": "partedearth171",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -2813,7 +2813,7 @@
     },
     {
       "id": "diaryofbaby172",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "もし、赤ちゃんが日記を書いたら",
@@ -2828,7 +2828,7 @@
     },
     {
       "id": "sheridesshotgun173",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -2843,7 +2843,7 @@
     },
     {
       "id": "williamsdoll174",
-      "use": true,
+      "use": false,
       "series": "",
       "vol": "",
       "titleja": "",
@@ -2858,7 +2858,7 @@
     },
     {
       "id": "olivia175",
-      "use": true,
+      "use": false,
       "series": "Olivia",
       "vol": "全多数巻・第1巻",
       "titleja": "オリビア",
@@ -2885,6 +2885,111 @@
       "japub": "",
       "title": "The Best Short Stories 2022",
       "level": 4
+    },
+    {
+      "id": "deathconjuror177",
+      "use": true,
+      "series": "Joseph Spector",
+      "vol": "全4巻・第1巻",
+      "titleja": "",
+      "syn": "ミステリー・密室もの。1936年、ロンドン。著名な精神科医アンセルム・リースが、施錠された自室で殺害されているのが発見される。犯人が誰にも見られずに逃げ出せたはずのない完全な密室状況で、凶器も証拠も見当たらない。捜査に行き詰まったスコットランド・ヤードのフリント警部は、引退した舞台奇術師ジョゼフ・スペクターに助言を求める。リース医師のもとに通っていた3人の患者A・B・Cにも疑いがかかる中、さらに「密室」のエレベーター内での第二の殺人が発生する。アガサ・クリスティやジョン・ディクスン・カーを彷彿とさせる、黄金時代本格ミステリーへのオマージュ。",
+      "author": "Tom Mead",
+      "nat": "イギリス",
+      "year": "2022",
+      "cred": "著者デビュー作 ／ Publishers Weekly・The Guardian「年間ベストミステリー」選出 ／ Capital Crime Award最優秀デビュー賞候補、Historical Writers' Association Debut Crown候補 ／ シリーズは10か国語以上に翻訳、映像化も進行中",
+      "japub": "",
+      "title": "Death and the Conjuror",
+      "level": 3
+    },
+    {
+      "id": "worldsworstchildren1_178",
+      "use": true,
+      "series": "The World's Worst Children",
+      "vol": "全3巻・第1巻",
+      "titleja": "",
+      "syn": "児童文学・ユーモア短編集。テレビにくっついたまま離れられなくなり、ソファそのものになりかけている少女ソフィア・ソファ。校外学習でよだれのせいでとんでもない事態を引き起こす少年ドリブリング・ドリューなど、5人の恐ろしい男の子と5人の恐ろしい女の子、10編の「教訓話」を集めた短編集。人気キャラクター、ラジも特別出演する。ロアルド・ダールを彷彿とさせる、ブラックユーモアたっぷりのカラーイラスト付き作品。",
+      "author": "David Walliams",
+      "nat": "イギリス",
+      "year": "2016",
+      "cred": "著者は全世界5000万部超・55か国語に翻訳されるベストセラー児童文学作家",
+      "japub": "",
+      "title": "The World's Worst Children",
+      "level": 2
+    },
+    {
+      "id": "worldsworstchildren2_179",
+      "use": true,
+      "series": "The World's Worst Children",
+      "vol": "全3巻・第2巻",
+      "titleja": "",
+      "syn": "",
+      "author": "",
+      "nat": "",
+      "year": "2017",
+      "cred": "",
+      "japub": "",
+      "title": "The World's Worst Children 2",
+      "level": ""
+    },
+    {
+      "id": "worldsworstchildren3_180",
+      "use": true,
+      "series": "The World's Worst Children",
+      "vol": "全3巻・第3巻",
+      "titleja": "",
+      "syn": "",
+      "author": "",
+      "nat": "",
+      "year": "2018",
+      "cred": "",
+      "japub": "",
+      "title": "The World's Worst Children 3",
+      "level": ""
+    },
+    {
+      "id": "anyhumanheart181",
+      "use": true,
+      "series": "",
+      "vol": "",
+      "titleja": "",
+      "syn": "文学小説・生涯記録もの。作家、恋人、美術商、スパイ――波乱に満ちた人生を送った架空の人物ローガン・マウントスチュアートの、少年期から晩年に至るまでの日記を通して、20世紀という時代そのものを描き出す。第二次世界大戦下では英国海軍情報部でイアン・フレミングの下で働き、バハマではウィンザー公夫妻の不審な行動を監視し、スイスの捕虜収容所やロンドンでの困窮生活を経て、1970年代には過激派組織バーダー・マインホフ・グループに巻き込まれ、最後はマンハッタンの美術商として返り咲く。日記形式ならではの空白や矛盾、書き漏らしが、移ろいゆく自己という主題を際立たせる、著者の代表作の一つ。",
+      "author": "William Boyd",
+      "nat": "イギリス（ガーナ・アクラ生まれ）",
+      "year": "2002",
+      "cred": "著者はウィットブレッド賞最優秀新人賞、ジェイムズ・テイト・ブラック記念賞、ロサンゼルス・タイムズ・ブック賞など受賞歴多数 ／ 2010年イギリスでテレビドラマ化（主演：マシュー・マコノヒー、ジム・ブロードベント）",
+      "japub": "",
+      "title": "Any Human Heart",
+      "level": 4
+    },
+    {
+      "id": "witchsheart182",
+      "use": true,
+      "series": "",
+      "vol": "",
+      "titleja": "",
+      "syn": "大人向けファンタジー・北欧神話リテリング。北欧神話の中でわずかにしか語られない、ロキの妻にして「怪物たちの母」とされる女巨人アングルボザを主人公に据えた物語。未来を見通す力を持ちながらもオーディンへの協力を拒み、3度火あぶりにされた末に心臓を抉り取られたアングルボザは、それでも生き延び、世界の果ての森でひっそりと暮らしていた。トリックスターの神ロキが彼女の心臓を取り戻して現れたことをきっかけに、二人の間に深い愛が芽生える。ラグナロクで重要な役割を担う運命の子どもたちを産み、育てながら、オーディンの目から隠し続けようとするアングルボザの闘いを描く。マデリン・ミラー『キルケ』のファン向けとも評される、著者デビュー作。",
+      "author": "Genevieve Gornichec",
+      "nat": "アメリカ",
+      "year": "2021",
+      "cred": "全米ベストセラー ／ Publishers Weekly・Booklist両誌で星付きレビュー ／ 著者デビュー小説",
+      "japub": "",
+      "title": "The Witch's Heart",
+      "level": 3
+    },
+    {
+      "id": "taleofdespereaux183",
+      "use": true,
+      "series": "",
+      "vol": "",
+      "titleja": "ねずみの騎士デスペローの物語",
+      "syn": "児童文学・ファンタジー。生まれつき体が弱く、耳が異常に大きい小さなネズミ、デスペロー。ネズミらしく本をかじって食べることもできず、物語を読むことに夢中な変わり者として、ねずみの世界から追放されてしまう。人間のお姫さまピーに恋をしたデスペローは、彼女がねずみ社会に恨みを持つドブネズミに誘拐されたことを知り、暗く恐ろしいねずみたちの地下牢へと単身乗り込んでいく。光と闇、赦しと勇気、そして物語ることの力を描いた、著者2度目のニューベリー賞受賞作。",
+      "author": "Kate DiCamillo",
+      "nat": "アメリカ",
+      "year": "2003",
+      "cred": "2004年ニューベリー賞受賞 ／ 英語版50万部突破、20か国以上で翻訳 ／ 2008年映画化",
+      "japub": "ポプラ社より邦訳刊行（子安亜弥訳、ポプラ文学ポケット）",
+      "title": "The Tale of Despereaux",
+      "level": 3
     }
   ],
   "settings": {
